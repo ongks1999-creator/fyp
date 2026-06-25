@@ -2,6 +2,7 @@ import csv
 import ast
 from transformers import AutoTokenizer
 import torch
+from torch.utils.data import DataLoader, TensorDataset
 
 
 def create_training_pairs(corpus_csv_file_path, claims_train_csv_file_path) -> list[tuple[str, str, str]]:
@@ -64,12 +65,13 @@ def main(corpus_csv_file_path, claims_train_csv_file_path):
 
     # ensure claim evidence pair is consistently under 512
     encoded_pairs = tokenizer(claims, evidences, padding = True, truncation = True, return_tensors = "pt")
+    # tokenizer returns dic of tensors, 
+    # input_ids, attention_mask, token_type_ids are produced as defaults
+    dataset = TensorDataset(encoded_pairs["input_ids"], encoded_pairs["attention_mask"], encoded_pairs["token_type_ids"], torch.tensor(labels)) # all tensor form
+    data_loader = DataLoader(dataset, batch_size = 32, shuffle = True)
+
 
 
 if __name__ == "__main__":
     #corpus_csv_file_path = 
     #claims_train_csv_file_path = 
-
-    tokenizer = AutoTokenizer.from_pretrained("allenai/scibert_scivocab_uncased")
-    encode = tokenizer(["sky is blue"], ["sky is blue coloured"], padding = True, truncation = True, return_tensors = "pt")
-    print(encode)
