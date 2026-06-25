@@ -202,6 +202,34 @@ def filter_links(filepath) -> dict[str, set[str]]:
     
     return noise_domain_links
 
+def edit_links_file(filepath, noise_domain_links):
+    """
+    Remove noise links from the original extracted_links.csv file, creates the final version
+    """
+    with open(filepath, newline = '') as csvfile:
+        links_csv = csv.DictReader(csvfile)
+        links_csv = list(links_csv)
+    
+    new_entries = []
+    for entry in links_csv:
+        new_entry = {}
+        new_entry["source_id"] = entry["source_id"]
+        new_entry["magazine"] = entry["magazine"]
+        new_entry["date"] = entry["date"]
+        new_entry["external_urls"] = []
+        
+        external_links = ast.literal_eval(entry["external_urls"])
+        for link in external_links:
+            domain = urlparse(link).netloc
+            if domain not in noise_domain_links[entry["magazine"]]:
+                new_entry["external_urls"].append(link)
+        new_entries.append(new_entry)
+    
+    df = pd.DataFrame(new_entries)
+    df.to_csv("filtered_extracted_links.csv", index = False)
+    
+    return
+
 
 if __name__ == "__main__":
     
@@ -216,3 +244,4 @@ if __name__ == "__main__":
 
     external_links_filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/extracted_links.csv"
     noisy_links = filter_links(external_links_filepath)
+    edit_links_file(external_links_filepath, noisy_links)
