@@ -5,7 +5,8 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import precision_recall_fscore_support
-
+from sklearn.utils.class_weight import compute_class_weight
+import numpy as np
 
 def create_data_pairs(corpus_csv_file_path, claims_train_csv_file_path) -> list[tuple[str, str, str]]:
     # load both the corpus csv and claim train csv files
@@ -82,7 +83,7 @@ def validation(model, data_loader, device):
 
         precision, recall, f1, _ = precision_recall_fscore_support(truth_labels, predictions, average = "macro") # precision recall and f1 calculated for each class individually then averaged
         average_loss = total_loss / total_count
-    return precision, recall, f1, average_loss
+    return precision, recall, f1, average_loss, predictions, truth_labels
 
 def main(corpus_csv_file_path, claims_train_csv_file_path, claims_validation_csv_file_path):
 
@@ -102,6 +103,11 @@ def main(corpus_csv_file_path, claims_train_csv_file_path, claims_validation_csv
     training_evidences = [pair[1] for pair in training_pairs]
     training_labels_string = [pair[2] for pair in training_pairs]
     training_labels = [labels[label] for label in training_labels_string] # convert label from str to int
+
+    # "balanced" to ensure Support label lower weight due to higher count
+    label_weights = compute_class_weight(class_weight = "balanced", classes = np.array([0, 1, 2]), y = training_labels)
+    # convert to tensor float32 form for CE function
+    label_weights = torch.tensor(label_weights, dtype = torch.float).to(device)
 
     # ensure claim evidence pair is consistently under 512
     training_encoded_pairs = tokenizer(training_claims, training_evidences, padding = True, truncation = True, return_tensors = "pt")
@@ -125,7 +131,13 @@ def main(corpus_csv_file_path, claims_train_csv_file_path, claims_validation_csv
     # Training loop
     # lr and epoch based on original scibert paper
     optimizer = torch.optim.AdamW(model.parameters(), lr = 2e-5)
-    total_epochs = 4
+    loss_function = torch.nn.CrossEntropyLoss(weight = label_weights) # redefine to include weights
+
+    total_epochs = 20
+    early_stop_counter = 0
+    early_stop_limit = 2 # early stopping
+    best_validation_loss = float('inf')
+
     for epoch in range(total_epochs):
         model.train()
         for batch in training_data_loader:
@@ -139,20 +151,31 @@ def main(corpus_csv_file_path, claims_train_csv_file_path, claims_validation_csv
             # Forward pass through model, passing the batch data as inputs
             output = model(input_ids = input_ids, attention_mask = attention_mask, token_type_ids = token_type_ids, labels = batch_labels)
 
-            # Backprop
-            loss = output.loss
+            # Loss and Backprop
+            loss = loss_function(output.logits, batch_labels)
             loss.backward() 
             optimizer.step()
             optimizer.zero_grad()
 
-        precision, recall, f1, average_loss = validation(model, validation_data_loader, device)
+        precision, recall, f1, average_loss, _, _ = validation(model, validation_data_loader, device)
         print(f"Ran Epoch {epoch + 1} out of {total_epochs}. F1: {f1}, Precision: {precision}, Recall: {recall}, Average Loss: {average_loss}, Loss used for backprop: {loss.item()}")
+
         if f1 > best_f1:
             best_f1 = f1
             print(f"New best F1 score: {best_f1}. Saving current model and tokenizer")
             model.save_pretrained("/homes/ko25/Desktop/fyp/scibert_trained_model")
             tokenizer.save_pretrained("/homes/ko25/Desktop/fyp/scibert_trained_model")
 
+        # Early stopping
+        if average_loss < best_validation_loss:
+            best_validation_loss = average_loss
+            early_stop_counter = 0 # reset early stop limit
+
+        else:
+            early_stop_counter += 1
+            if early_stop_counter >= early_stop_limit:
+                print(f"Early stopping due to no improvement in validation loss. Current validation loss: {average_loss}")
+                break
 
 if __name__ == "__main__":
     corpus_csv_file_path = "/vol/bitbucket/ko25/scifact/corpus_train.csv"
