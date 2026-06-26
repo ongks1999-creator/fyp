@@ -74,7 +74,7 @@ def validation(model, data_loader, device):
             batch_labels = batch_labels.to(device)
 
             output = model(input_ids = input_ids, attention_mask = attention_mask, token_type_ids = token_type_ids, labels = batch_labels)
-            total_loss += output.loss.item() # int of loss value
+            total_loss += output.loss.item() * len(batch_labels) # loss is averaged over batch so need multiply with batch size
             prediction = output.logits.argmax(dim = -1) # the index with the largest logit value is the predicted label, along dim -1
             predictions.extend(prediction.cpu().tolist()) # convert tensor to list
             truth_labels.extend(batch_labels.cpu().tolist())
@@ -120,6 +120,7 @@ def main(corpus_csv_file_path, claims_train_csv_file_path, claims_validation_csv
     validation_encoded_pairs = tokenizer(validation_claims, validation_evidences, padding = True, truncation = True, return_tensors = "pt")
     validation_dataset = TensorDataset(validation_encoded_pairs["input_ids"], validation_encoded_pairs["attention_mask"], validation_encoded_pairs["token_type_ids"], torch.tensor(validation_labels))
     validation_data_loader = DataLoader(validation_dataset, batch_size = 32, shuffle = False) # validation no need shuffle
+    best_f1 = 0
 
     # Training loop
     # lr and epoch based on original scibert paper
@@ -146,9 +147,12 @@ def main(corpus_csv_file_path, claims_train_csv_file_path, claims_validation_csv
 
         precision, recall, f1, average_loss = validation(model, validation_data_loader, device)
         print(f"Ran Epoch {epoch + 1} out of {total_epochs}. F1: {f1}, Precision: {precision}, Recall: {recall}, Average Loss: {average_loss}, Loss used for backprop: {loss.item()}")
+        if f1 > best_f1:
+            best_f1 = f1
+            print(f"New best F1 score: {best_f1}. Saving current model and tokenizer")
+            model.save_pretrained("/homes/ko25/Desktop/fyp/scibert_trained_model")
+            tokenizer.save_pretrained("/homes/ko25/Desktop/fyp/scibert_trained_model")
 
-    model.save_pretrained("/homes/ko25/Desktop/fyp/scibert_trained_model")
-    tokenizer.save_pretrained("/homes/ko25/Desktop/fyp/scibert_trained_model")
 
 if __name__ == "__main__":
     corpus_csv_file_path = "/vol/bitbucket/ko25/scifact/corpus_train.csv"
