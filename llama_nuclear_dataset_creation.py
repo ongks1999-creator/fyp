@@ -94,18 +94,20 @@ def add_NEI_entry(claim_output: dict, chunks:list):
     for that extracted claim, we randomly select a chunk and used LLaMA to verify it there is sufficient information to verify that claim
     """
     label = None
-
+    retry_count = 0
     while label != "Not-Enough-Information":
 
         chunk = random.choice(chunks) # randomly pick a chunk from the chunks list and pair it with that input claim
         claim_text = claim_output["claim"]
         chunk_text = chunk["chunk"]
         prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} have enough information to verify the claim. Return ONLY a JSON object with exactly this key: \"label\" with value either \"Not-Enough-Information\" or \"Enough-Information\""
-
+        retry_count += 1
         output = call_llama_api(prompt) 
         label = output["label"]
         # additional validation check
         if label == "Not-Enough-Information":
+            if retry_count > 10:
+                break # take best attempt after 10 retries
             validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain and is NOT VERIFIABLE by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
             validation_output = call_llama_api(validation_prompt)
             if validation_output.get("validity") == "yes":
@@ -147,13 +149,16 @@ def create_dataset(sampled_magazine_chunks: dict, chunks: list):
         for i in range(25): 
             if i < 9:
                 dataset.append(add_support_entry(sampled_chunks[i]))
+                print("added support entry")
 
             elif i < 17:
                 dataset.append(add_contradict_entry(sampled_chunks[i]))
+                print("added contradict entry")
 
             else:
                 claim_output = claim_extraction_from_chunk(sampled_chunks[i])
                 dataset.append(add_NEI_entry(claim_output, chunks))
+                print("added NEI entry")
 
     df = pd.DataFrame(dataset)
     df.to_csv("finetune_dataset.csv", index = False)
