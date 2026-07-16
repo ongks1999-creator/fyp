@@ -20,22 +20,24 @@ def call_llama_api(prompt: str):
 
     while True:
 
-        response = requests.post("http://localhost:11434/api/generate", json = {"model": "llama3.2", "prompt": prompt, "stream": False})
+        response = requests.post("http://localhost:11434/api/generate", json = {"model": "llama3.2", "prompt": prompt, "stream": False, "format": "json"})
 
         result = response.json() # convert llama string output to dict
 
         try:
             output = json.loads(result["response"]) # value of response is in string format, convert to dict
-
+            # added to prevent keyerror due to case sensitivity, encountered for "company"
+            output = {key.lower(): value for key, value in output.items()} # standardise keys to lower case
             return output
 
         except json.JSONDecodeError as e:
             print(f"Error encountered: {e}.")
+            print(f"raw results: {result}")
 
 def claim_extraction_from_chunk(chunk: list):
 
     chunk_text = chunk["chunk"]
-    prompt = f"Extract an atomic claim from the following text: {chunk_text}. From this atomic claim, extract the company name. Return a JSON with fields: \"claim\" and \"company\". If there is no company mentioned in the claim, return a None under \"company\""
+    prompt = f"Extract an atomic claim from the following text: {chunk_text}. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a None under \"company\" For example, {{\"claim\": \"ABC plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
 
     claim_output = call_llama_api(prompt)
 
@@ -56,7 +58,7 @@ def add_contradict_entry(claim_output: dict, chunks: list):
     for chunk in chunks:
         claim_text = claim_output["claim"]
         chunk_text = chunk["chunk"]
-        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} support or refute the claim. Return a JSON with field: \"label\" with value either \"SUPPORT\" or \"CONTRADICT\""
+        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} support or refute the claim. Return ONLY a JSON object with exactly this key: \"label\" with value either \"SUPPORT\" or \"CONTRADICT\""
 
         output = call_llama_api(prompt)
 
@@ -75,7 +77,7 @@ def add_NEI_entry(claim_output: dict, chunks:list):
         chunk = random.choice(chunks) # randomly pick a chunk from the chunks list and pair it with that input claim
         claim_text = claim_output["claim"]
         chunk_text = chunk["chunk"]
-        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} have enough information to verify the claim. Return a JSON with field: \"label\" with value either \"Not-Enough-Information\" or \"Enough-Information\""
+        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} have enough information to verify the claim. Return ONLY a JSON object with exactly this key: \"label\" with value either \"Not-Enough-Information\" or \"Enough-Information\""
 
         output = call_llama_api(prompt) 
         label = output["label"]
