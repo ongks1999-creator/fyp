@@ -58,7 +58,7 @@ def add_contradict_entry(claim_output: dict, chunks: list):
     for chunk in chunks:
         claim_text = claim_output["claim"]
         chunk_text = chunk["chunk"]
-        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} support or refute the claim. Return ONLY a JSON object with exactly this key: \"label\" with value either \"SUPPORT\" or \"CONTRADICT\""
+        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} support or refute the claim. The evidence text must explicitly state information that directly disproves the claim to be given a \"CONTRADICT\" label. If the evidence is irrelevant to the claim, return \"NEI\" as the label. Return ONLY a JSON object with exactly this key: \"label\" with value either \"NEI\" or \"CONTRADICT\""
 
         output = call_llama_api(prompt)
 
