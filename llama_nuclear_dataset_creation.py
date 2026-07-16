@@ -60,7 +60,7 @@ def add_contradict_entry(chunk: dict):
     Using the chunk provided, we generate a claim that directly refutes the chunk
     """
     chunk_text = chunk["chunk"]
-    prompt = f"Given this text: {chunk_text} generate an atomic claim relating to the nuclear domain that directly REFUTES the text. The claim MUST be complete and verifiable. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a null value under \"company\" For example, the original text could be \"ABC plans to build 5 SMRs\" with the generated claim being {{\"claim\": \"ABC plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
+    prompt = f"Given this text: {chunk_text} generate an atomic claim relating to the nuclear domain that directly REFUTES the text. The claim MUST be complete and verifiable. Contradiction can be defined as either negation of a specific fact in the text or a modification of the specific fact within the text. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a null value under \"company\" For example, the original text could be \"ABC plans to build 5 SMRs\" with the generated claim being {{\"claim\": \"ABC plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
     while True:
         claim_output = call_llama_api(prompt)
 
