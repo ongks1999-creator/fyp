@@ -13,16 +13,31 @@ def read_chunk_csv(file_path: str):
         
     return chunks_csv
 
+def call_llama_api(prompt: str):
+    """
+    Encountered decode error, included error handling
+    """
+
+    while True:
+
+        response = requests.post("http://localhost:11434/api/generate", json = {"model": "llama3.2", "prompt": prompt, "stream": False})
+
+        result = response.json() # convert llama string output to dict
+
+        try:
+            output = json.loads(result["response"]) # value of response is in string format, convert to dict
+
+            return output
+
+        except json.JSONDecodeError as e:
+            print(f"Error encountered: {e}.")
+
 def claim_extraction_from_chunk(chunk: list):
 
     chunk_text = chunk["chunk"]
     prompt = f"Extract an atomic claim from the following text: {chunk_text}. From this atomic claim, extract the company name. Return a JSON with fields: \"claim\" and \"company\". If there is no company mentioned in the claim, return a None under \"company\""
-    # standardised API call for LLaMA 3.2
-    response = requests.post("http://localhost:11434/api/generate", json = {"model": "llama3.2", "prompt": prompt, "stream": False})
 
-    result = response.json() # convert llama string output to dict
-
-    claim_output = json.loads(result["response"]) # value of response is in string format, convert to dict
+    claim_output = call_llama_api(prompt)
 
     return claim_output # dict containing claim and company name
 
@@ -43,11 +58,7 @@ def add_contradict_entry(claim_output: dict, chunks: list):
         chunk_text = chunk["chunk"]
         prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} support or refute the claim. Return a JSON with field: \"Label\" with value either \"SUPPORT\" or \"CONTRADICT\""
 
-        response = requests.post("http://localhost:11434/api/generate", json = {"model": "llama3.2", "prompt": prompt, "stream": False})
-
-        result = response.json() # convert llama string output to dict
-
-        output = json.loads(result["response"]) # value of response is in string format, convert to dict
+        output = call_llama_api(prompt)
 
         if output["Label"] == "CONTRADICT":
 
@@ -66,12 +77,7 @@ def add_NEI_entry(claim_output: dict, chunks:list):
         chunk_text = chunk["chunk"]
         prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} have enough information to verify the claim. Return a JSON with field: \"Label\" with value either \"Not-Enough-Information\" or \"Enough-Information\""
 
-        response = requests.post("http://localhost:11434/api/generate", json = {"model": "llama3.2", "prompt": prompt, "stream": False})
-
-        result = response.json() # convert llama string output to dict
-
-        output = json.loads(result["response"]) # value of response is in string format, convert to dict
-
+        output = call_llama_api(prompt) 
         label = output["Label"]
 
     return {"source_id": chunk["source_id"], "magazine": chunk["magazine"], "company": claim_output["company"], "claim": claim_output["claim"], "chunk": chunk["chunk"], "label": "NEI"}
@@ -121,7 +127,7 @@ def create_dataset(sampled_magazine_chunks: dict, chunks: list):
     df.to_csv("finetune_dataset.csv", index = False)
 
 if __name__ == "__main__":
-    file_path = "pwdchunkdatset" # update
+    file_path = "/root/fyp/chunks.csv" # update
     chunks_csv = read_chunk_csv(file_path)
     sampled_magazine_chunks = sample_chunks(chunks_csv)
     create_dataset(sampled_magazine_chunks, chunks_csv)
