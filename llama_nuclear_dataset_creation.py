@@ -53,22 +53,22 @@ def add_support_entry(chunk: list):
     """
     claim_output = claim_extraction_from_chunk(chunk)
 
-    return {"source_id": chunk["source_id"], "magazine": chunk["magazine"], "company": claim_output["company"], "claim": claim_output["claim"], "chunk": chunk["chunk"], "label": "SUPPORT"}
+    return {"claim": claim_output["claim"], "company": claim_output["company"],"chunk": chunk["chunk"], "label": "SUPPORT"}
 
-def add_contradict_entry(claim_output: dict, chunks: list):
+def add_contradict_entry(chunk: dict):
     """
-    For that extracted claim, iterate through the rest of the chunks to find one that refutes it
+    Using the chunk provided, we generate a claim that directly refutes the chunk
     """
-    for chunk in chunks:
-        claim_text = claim_output["claim"]
-        chunk_text = chunk["chunk"]
-        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} support or refute the claim. The evidence text must explicitly state information that directly disproves the claim to be given a \"CONTRADICT\" label. If the evidence is irrelevant to the claim, return \"NEI\" as the label. Return ONLY a JSON object with exactly this key: \"label\" with value either \"NEI\" or \"CONTRADICT\""
+    chunk_text = chunk["chunk"]
+    prompt = f"Given this text: {chunk_text} generate an atomic claim relating to the nuclear domain that directly REFUTES the text. The claim MUST be complete and verifiable. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a null value under \"company\" For example, the original text could be \"ABC plans to build 5 SMRs\" with the generated claim being {{\"claim\": \"ABC plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
+    while True:
+        claim_output = call_llama_api(prompt)
 
-        output = call_llama_api(prompt)
+        if "claim" in claim_output and "company" in claim_output:
+            break
 
-        if output["label"] == "CONTRADICT":
 
-            return {"source_id": chunk["source_id"], "magazine": chunk["magazine"], "company": claim_output["company"], "claim": claim_output["claim"], "chunk": chunk["chunk"], "label": "CONTRADICT"}
+    return {"claim": claim_output["claim"], "company": claim_output["company"], "chunk": chunk["chunk"], "label": "CONTRADICT"}
 
 def add_NEI_entry(claim_output: dict, chunks:list):
     """
@@ -86,7 +86,7 @@ def add_NEI_entry(claim_output: dict, chunks:list):
         output = call_llama_api(prompt) 
         label = output["label"]
 
-    return {"source_id": chunk["source_id"], "magazine": chunk["magazine"], "company": claim_output["company"], "claim": claim_output["claim"], "chunk": chunk["chunk"], "label": "NEI"}
+    return {"claim": claim_output["claim"], "company": claim_output["company"], "chunk": chunk["chunk"], "label": "NEI"}
 
 def sample_chunks(chunks: list)-> dict:
     """
@@ -122,8 +122,7 @@ def create_dataset(sampled_magazine_chunks: dict, chunks: list):
                 dataset.append(add_support_entry(sampled_chunks[i]))
 
             elif i < 17:
-                claim_output = claim_extraction_from_chunk(sampled_chunks[i])
-                dataset.append(add_contradict_entry(claim_output, chunks))
+                dataset.append(add_contradict_entry(sampled_chunks[i]))
 
             else:
                 claim_output = claim_extraction_from_chunk(sampled_chunks[i])
