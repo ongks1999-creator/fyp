@@ -39,8 +39,11 @@ def claim_extraction_from_chunk(chunk: list):
     chunk_text = chunk["chunk"]
     # refined prompt to ensure nuclear claims are complete, and company name given a null for json format
     prompt = f"Extract an atomic claim relating to the nuclear domain from the following text: {chunk_text}. The claim MUST be complete and verifiable. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a null value under \"company\" For example, {{\"claim\": \"ABC plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
-
-    claim_output = call_llama_api(prompt)
+    while True:
+        claim_output = call_llama_api(prompt)
+        # ensures the key names are exactly what we want
+        if "claim" in claim_output and "company" in claim_output:
+            break
 
     return claim_output # dict containing claim and company name
 
