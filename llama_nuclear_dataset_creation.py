@@ -56,11 +56,11 @@ def add_contradict_entry(claim_output: dict, chunks: list):
     for chunk in chunks:
         claim_text = claim_output["claim"]
         chunk_text = chunk["chunk"]
-        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} support or refute the claim. Return a JSON with field: \"Label\" with value either \"SUPPORT\" or \"CONTRADICT\""
+        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} support or refute the claim. Return a JSON with field: \"label\" with value either \"SUPPORT\" or \"CONTRADICT\""
 
         output = call_llama_api(prompt)
 
-        if output["Label"] == "CONTRADICT":
+        if output["label"] == "CONTRADICT":
 
             return {"source_id": chunk["source_id"], "magazine": chunk["magazine"], "company": claim_output["company"], "claim": claim_output["claim"], "chunk": chunk["chunk"], "label": "CONTRADICT"}
 
@@ -75,10 +75,10 @@ def add_NEI_entry(claim_output: dict, chunks:list):
         chunk = random.choice(chunks) # randomly pick a chunk from the chunks list and pair it with that input claim
         claim_text = claim_output["claim"]
         chunk_text = chunk["chunk"]
-        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} have enough information to verify the claim. Return a JSON with field: \"Label\" with value either \"Not-Enough-Information\" or \"Enough-Information\""
+        prompt = f"Given the claim:{claim_text}, does this text: {chunk_text} have enough information to verify the claim. Return a JSON with field: \"label\" with value either \"Not-Enough-Information\" or \"Enough-Information\""
 
         output = call_llama_api(prompt) 
-        label = output["Label"]
+        label = output["label"]
 
     return {"source_id": chunk["source_id"], "magazine": chunk["magazine"], "company": claim_output["company"], "claim": claim_output["claim"], "chunk": chunk["chunk"], "label": "NEI"}
 
@@ -105,7 +105,7 @@ def create_dataset(sampled_magazine_chunks: dict, chunks: list):
     """
     Using sampled magazine chunks to create the dataset, this ensures the 100 claim entries are equally sampled entries from the four sources
     "chunks" is from the entire dataset, and is only used when the evidence is used to create contradict or NEI entries
-    To ensure the 100 entries are balanced for each 25 sampled chunks,
+    To ensure the 100 entries contain 25 sampled chunks for each magazine,
     9 are used to create SUPPORT entries, 8 for CONTRADICT entries, 8 for NEI
     """
     dataset = []
