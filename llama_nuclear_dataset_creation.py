@@ -43,7 +43,12 @@ def claim_extraction_from_chunk(chunk: list):
         claim_output = call_llama_api(prompt)
         # ensures the key names are exactly what we want
         if "claim" in claim_output and "company" in claim_output:
-            break
+            # validation step, by calling llama again to verify its output before adding that entry
+            claim_text = claim_output["claim"]
+            validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain and is supported by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
+            validation_output = call_llama_api(validation_prompt)
+            if validation_output.get("validity") == "yes": # to prevent llama from returning a key name that is different from "validity" then getting keyerror
+                break
 
     return claim_output # dict containing claim and company name
 
@@ -65,7 +70,11 @@ def add_contradict_entry(chunk: dict):
         claim_output = call_llama_api(prompt)
 
         if "claim" in claim_output and "company" in claim_output:
-            break
+            claim_text = claim_output["claim"]
+            validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain and is refuted by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
+            validation_output = call_llama_api(validation_prompt)
+            if validation_output.get("validity") == "yes":
+                break
 
 
     return {"claim": claim_output["claim"], "company": claim_output["company"], "chunk": chunk["chunk"], "label": "CONTRADICT"}
@@ -85,6 +94,14 @@ def add_NEI_entry(claim_output: dict, chunks:list):
 
         output = call_llama_api(prompt) 
         label = output["label"]
+        # additional validation check
+        if label == "Not-Enough-Information":
+            validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain and is NOT VERIFIABLE by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
+            validation_output = call_llama_api(validation_prompt)
+            if validation_output.get("validity") == "yes":
+                break
+            else:
+                label = None # reset label to stay within loop, since that entry is invalid
 
     return {"claim": claim_output["claim"], "company": claim_output["company"], "chunk": chunk["chunk"], "label": "NEI"}
 
