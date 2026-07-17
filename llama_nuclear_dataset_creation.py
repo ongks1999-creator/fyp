@@ -20,7 +20,7 @@ def call_llama_api(prompt: str):
 
     while True:
 
-        response = requests.post("http://localhost:11434/api/generate", json = {"model": "llama3.2", "prompt": prompt, "stream": False, "format": "json"})
+        response = requests.post("http://localhost:11434/api/generate", json = {"model": "llama3.1:8b", "prompt": prompt, "stream": False, "format": "json"})
 
         result = response.json() # convert llama string output to dict
 
@@ -38,7 +38,7 @@ def claim_extraction_from_chunk(chunk: list):
 
     chunk_text = chunk["chunk"]
     # refined prompt to ensure nuclear claims are complete, and company name given a null for json format
-    prompt = f"Extract an atomic claim relating to the nuclear domain from the following text: {chunk_text}. The claim MUST be complete and verifiable. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a null value under \"company\" For example, {{\"claim\": \"ABC plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
+    prompt = f"Extract an atomic claim relating to the maturity, deployment, or technicalities of Small Modular Reactors (SMRs) from the following text: {chunk_text}. If there is no information on SMRs available, extract information relating to the nuclear industry. The claim MUST be complete and verifiable. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a null value under \"company\" For example, {{\"claim\": \"ABC plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
     
     retry_count = 0
 
@@ -71,7 +71,7 @@ def add_contradict_entry(chunk: dict):
     Using the chunk provided, we generate a claim that directly refutes the chunk
     """
     chunk_text = chunk["chunk"]
-    prompt = f"Given this text: {chunk_text} generate an atomic claim relating to the nuclear domain that directly REFUTES the text. The claim MUST be complete and verifiable. Contradiction can be defined as either negation of a specific fact in the text or a modification of the specific fact within the text. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a null value under \"company\" For example, the original text could be \"ABC plans to build 5 SMRs\" with the generated claim being {{\"claim\": \"ABC plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
+    prompt = f"Given this text: {chunk_text}, if it contains information relating to the maturity, deployment, or technicalities of Small Modular Reactors (SMRs),generate an atomic claim that directly REFUTES the text. If the text does not contain any information on SMRs, generate a claim relating to the nuclear industry that directly refutes the text. The claim MUST be complete and verifiable. Contradiction can be defined as either negation of a specific fact in the text or a modification of the specific fact within the text. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a null value under \"company\" For example, the original text could be \"ABC plans to build 5 SMRs\" with the generated claim being {{\"claim\": \"ABC plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
     retry_count = 0
     while True:
         retry_count += 1
@@ -81,7 +81,7 @@ def add_contradict_entry(chunk: dict):
             if retry_count > 10:
                 break # take best attempt to prevent infinite loop
             claim_text = claim_output["claim"]
-            validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain and is refuted by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
+            validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain or on Small Modular Reactors, and is refuted by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
             validation_output = call_llama_api(validation_prompt)
             if validation_output.get("validity") == "yes":
                 break
@@ -108,7 +108,7 @@ def add_NEI_entry(claim_output: dict, chunks:list):
         if label == "Not-Enough-Information":
             if retry_count > 10:
                 break # take best attempt after 10 retries
-            validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain and is NOT VERIFIABLE by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
+            validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain or on Small Modular Reactors, and is NOT VERIFIABLE by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
             validation_output = call_llama_api(validation_prompt)
             if validation_output.get("validity") == "yes":
                 break
