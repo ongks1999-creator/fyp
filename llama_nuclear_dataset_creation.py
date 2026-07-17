@@ -83,7 +83,7 @@ def add_contradict_entry(chunk: dict):
                 print("retry limit reached, taking best attempt")
                 break # take best attempt to prevent infinite loop
             claim_text = claim_output["claim"]
-            validation_prompt = f"Does the following claim: {claim_text} directly refute the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
+            validation_prompt = f"Does the following claim: {claim_text} contradict the text: {chunk_text} in terms of negation of a fact or a modification of certain details in the text? Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
             validation_output = call_llama_api(validation_prompt)
             if validation_output.get("validity") == "yes":
                 break
