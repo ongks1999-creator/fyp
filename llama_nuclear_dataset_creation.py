@@ -52,7 +52,7 @@ def claim_extraction_from_chunk(chunk: list):
                 break # to prevent infinite loop, as it gets stuck on a particular claim, we take the best attempt after 10 retries
             # validation step, by calling llama again to verify its output before adding that entry
             claim_text = claim_output["claim"]
-            validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain and is supported by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
+            validation_prompt = f"Firstly, given the claim: {claim_text}, verify if it is related to the maturity, deployment, or technicalities of Small Modular Reactors (SMRs) or information related to the nuclear industry. Secondly, verify if the claim: {claim_text} is supported by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\". Where the presence of support gives a validity of \"yes\"."
             validation_output = call_llama_api(validation_prompt)
             if validation_output.get("validity") == "yes": # to prevent llama from returning a key name that is different from "validity" then getting keyerror
                 break
@@ -72,7 +72,7 @@ def add_contradict_entry(chunk: dict):
     Using the chunk provided, we generate a claim that directly refutes the chunk
     """
     chunk_text = chunk["chunk"]
-    prompt = f"Given this text: {chunk_text}, if it contains information relating to the maturity, deployment, or technicalities of Small Modular Reactors (SMRs),generate an atomic claim that directly REFUTES the text. If the text does not contain any information on SMRs, generate a claim relating to the nuclear industry that directly refutes the text. The claim MUST be complete and verifiable. Contradiction can be defined as either negation of a specific fact in the text or a modification of the specific fact within the text. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a null value under \"company\" For example, the original text could be \"ABC plans to build 5 SMRs\" with the generated claim being {{\"claim\": \"ABC plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
+    prompt = f"Given this text: {chunk_text}, if it contains information relating to the maturity, deployment, or technicalities of Small Modular Reactors (SMRs),generate an atomic claim that directly REFUTES the text. If the text does not contain any information on SMRs, generate a claim relating to the nuclear industry that directly refutes the text. ONLY use facts from the text: {chunk_text} to generate the claim. The claim MUST be complete and verifiable. Contradiction can be defined as either negation of a specific fact in the text or a modification of the specific fact within the text. From this atomic claim, extract the company name. Return ONLY a JSON object with ONLY these two keys: \"claim\" and \"company\". If there is no company mentioned in the claim, return a null value under \"company\" For example, the original text could be \"Westinghouse plans to build 5 SMRs\" with the generated claim being {{\"claim\": \"Westinghouse plans to build two new SMR reactors\", \"company\": \"ABC\"}}"
     retry_count = 0
     while True:
         retry_count += 1
@@ -83,7 +83,7 @@ def add_contradict_entry(chunk: dict):
                 print("retry limit reached, taking best attempt")
                 break # take best attempt to prevent infinite loop
             claim_text = claim_output["claim"]
-            validation_prompt = f"Does the following claim: {claim_text} contradict the text: {chunk_text} in terms of negation of a fact or a modification of certain details in the text? Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
+            validation_prompt = f"Does the following claim: {claim_text} contradict the text: {chunk_text} in terms of negation of a fact or a modification of certain details in the text? Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\". Where the presence of contradiction gives a validity of \"yes\". For example: claim: \"Westinghouse plans to build two new SMR reactors\" and text: \"Westinghouse plans to build four SMR reactors\" would be contradicting, and the validity would be \"yes\"."
             validation_output = call_llama_api(validation_prompt)
             if validation_output.get("validity") == "yes":
                 break
