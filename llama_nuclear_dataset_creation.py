@@ -48,6 +48,7 @@ def claim_extraction_from_chunk(chunk: list):
         # ensures the key names are exactly what we want
         if "claim" in claim_output and "company" in claim_output:
             if retry_count > 10:
+                print("retry limit reached, taking best attempt")
                 break # to prevent infinite loop, as it gets stuck on a particular claim, we take the best attempt after 10 retries
             # validation step, by calling llama again to verify its output before adding that entry
             claim_text = claim_output["claim"]
@@ -79,9 +80,10 @@ def add_contradict_entry(chunk: dict):
         
         if "claim" in claim_output and "company" in claim_output:
             if retry_count > 10:
+                print("retry limit reached, taking best attempt")
                 break # take best attempt to prevent infinite loop
             claim_text = claim_output["claim"]
-            validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain or on Small Modular Reactors, and is refuted by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
+            validation_prompt = f"Does the following claim: {claim_text} directly refute the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
             validation_output = call_llama_api(validation_prompt)
             if validation_output.get("validity") == "yes":
                 break
@@ -107,6 +109,7 @@ def add_NEI_entry(claim_output: dict, chunks:list):
         # additional validation check
         if label == "Not-Enough-Information":
             if retry_count > 10:
+                print("retry limit reached, taking best attempt")
                 break # take best attempt after 10 retries
             validation_prompt = f"Validate the following claim: {claim_text} and verify if it is related to the nuclear domain or on Small Modular Reactors, and is NOT VERIFIABLE by the text: {chunk_text}. Return ONLY a JSON object with exactly this key: \"validity\" with exactly the value \"yes\" or \"no\""
             validation_output = call_llama_api(validation_prompt)
