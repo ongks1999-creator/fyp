@@ -120,9 +120,10 @@ def add_NEI_entry(claim_output: dict, chunks:list):
 
     return {"claim": claim_output["claim"], "company": claim_output["company"], "chunk": chunk["chunk"], "label": "NEI"}
 
-def sample_chunks(chunks: list)-> dict:
+def sample_chunks(chunks: list, nuclear_keywords: list)-> dict:
     """
     Randomly sample 25 chunk entries from each of the four magazines
+    There is a keyword check to ensure all chunks are nuclear related, before we sample them
     Reddit is not used as the nature of the chunk text is informal and is not appropriate to create a 'gold standard' dataset
     """
 
@@ -134,7 +135,16 @@ def sample_chunks(chunks: list)-> dict:
 
     for magazine, chunks in magazine_chunks.items():
         random.shuffle(chunks)
-        sampled_chunks = random.sample(chunks, 25) # sample 25 chunks from each magazine
+        nuclear_chunks = []
+        for chunk in chunks:
+            for keyword in nuclear_keywords: # as long as any nuclear keyword is found in the text
+                # that chunk will be added into nuclear chunk list
+                # subsequently, sampling 25 entries from this list
+                # ensuring that we sample only nuclear related chunks from the magazines
+                if keyword.lower() in chunk["chunk"].lower(): # ensure all lower case
+                    nuclear_chunks.append(chunk)
+                    break
+        sampled_chunks = random.sample(nuclear_chunks, 25) # sample 25 chunks from each magazine
         sampled_magazine_chunks[magazine] = sampled_chunks
 
     return sampled_magazine_chunks
@@ -168,6 +178,64 @@ def create_dataset(sampled_magazine_chunks: dict, chunks: list):
 
 if __name__ == "__main__":
     file_path = "/root/fyp/chunks.csv" # update
+    # nuclear keywords using the same keyword list during the scifact data analysis
+    nuclear_keywords = ["nuclear reactor", "reactor", "fission reactor", "fusion reactor",
+    "nuclear power", "nuclear power plant", "nuclear energy",
+    "nuclear fuel", "fuel rod", "fuel rods", "fuel assembly",
+    "control rod", "control rods", "moderator", "coolant",
+    "reactor core", "core meltdown", "meltdown",
+    "pressurized water reactor", "PWR", "boiling water reactor", "BWR",
+    "fast breeder reactor", "breeder reactor", "small modular reactor", "SMR",
+    "thermal reactor", "fast reactor", "nuclear facility",
+    "containment vessel", "reactor vessel", "criticality",
+    "subcritical", "supercritical", "chain reaction", "nuclear fission", "fission", "nuclear fusion", "fusion",
+    "radioactive decay", "decay", "alpha decay", "beta decay",
+    "gamma decay", "electron capture", "neutron capture",
+    "proton emission", "neutron emission", "spontaneous fission",
+    "nuclear reaction", "transmutation", "activation",
+    "binding energy", "mass defect", "half-life", "half life",
+    "decay constant", "daughter isotope", "parent isotope",
+    "decay series", "decay chain", "radiation", "ionising radiation", "ionizing radiation",
+    "alpha radiation", "beta radiation", "gamma radiation",
+    "neutron radiation", "x-ray", "x rays", "gamma ray",
+    "gamma rays", "cosmic ray", "cosmic rays",
+    "background radiation", "radioactivity", "radioactive",
+    "irradiation", "radiation exposure", "radiation dose",
+    "absorbed dose", "equivalent dose", "effective dose",
+    "radiation poisoning", "radiation sickness",
+    "radiation shielding", "shielding", "ionisation", "ionization", "neutron", "neutrons", "proton", "protons",
+    "electron", "electrons", "positron", "positrons",
+    "alpha particle", "alpha particles", "beta particle", "beta particles",
+    "gamma photon", "photon", "photons", "nucleon", "nucleons",
+    "nuclide", "nuclides", "isotope", "isotopes",
+    "radioisotope", "radioisotopes", "radionuclide", "radionuclides", "uranium", "uranium-235", "uranium 235", "U-235", "U235",
+    "uranium-238", "uranium 238", "U-238", "U238",
+    "plutonium", "plutonium-239", "plutonium 239", "Pu-239", "Pu239",
+    "thorium", "thorium-232", "Th-232", "radium", "radon",
+    "polonium", "cesium", "caesium", "cesium-137", "caesium-137",
+    "Cs-137", "strontium-90", "Sr-90", "iodine-131", "I-131",
+    "tritium", "deuterium", "carbon-14", "C-14",
+    "cobalt-60", "Co-60", "americium", "americium-241", "Am-241",
+    "enriched uranium", "depleted uranium", "weapons-grade uranium",
+    "highly enriched uranium", "low enriched uranium",
+    "nuclear material", "radioactive material",
+    "fissile material", "fertile material", "nuclear weapon", "nuclear weapons", "atomic bomb", "hydrogen bomb",
+    "thermonuclear weapon", "nuclear warhead", "warhead",
+    "nuclear missile", "ballistic missile", "ICBM",
+    "nuclear test", "nuclear testing", "nuclear explosion",
+    "nuclear blast", "fallout", "radioactive fallout",
+    "nuclear proliferation", "non-proliferation",
+    "nuclear deterrence", "nuclear arsenal",
+    "nuclear disarmament", "nuclear arms", "nuclear arms race",
+    "critical mass", "dirty bomb", "radiological weapon", "nuclear waste", "radioactive waste", "spent fuel",
+    "spent nuclear fuel", "high-level waste", "low-level waste",
+    "intermediate-level waste", "waste repository",
+    "geological repository", "deep geological repository",
+    "radioactive contamination", "contamination", "decontamination",
+    "nuclear accident", "radiological accident", "reactor accident",
+    "Chernobyl", "Fukushima", "Three Mile Island",
+    "nuclear safety", "radiation safety", "radiation protection",
+    "dose limit", "exclusion zone", "evacuation zone"]
     chunks_csv = read_chunk_csv(file_path)
-    sampled_magazine_chunks = sample_chunks(chunks_csv)
+    sampled_magazine_chunks = sample_chunks(chunks_csv, nuclear_keywords)
     create_dataset(sampled_magazine_chunks, chunks_csv)
