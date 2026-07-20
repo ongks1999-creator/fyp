@@ -14,10 +14,13 @@ def filter_articles(post_data, comments_data):
     """
     Filter articles that contain "small modular reactor" or "smr" in title or body text
     If so, add the comments under that post to the overall text of the article
+    We do not add comments that are deleted or removed
     """
     filtered_data = []
     for entry in post_data:
         if "small modular reactor" in entry["title"].lower() or "small modular reactor" in entry["selftext"].lower() or "smr" in entry["title"].lower() or "smr" in entry["selftext"].lower():
+            if entry["selftext"] == "[deleted]" or entry["selftext"] == "[removed]":
+                continue
             new_entry = {}
             url = "https://reddit.com" + entry["permalink"] # since permalink does not have the reddit.com
             new_entry["source_id"] = create_source_id(url)
@@ -28,6 +31,8 @@ def filter_articles(post_data, comments_data):
             text = [entry["selftext"]]
             for comment in comments_data:
                 if comment["link_id"][3:] == entry["id"]:
+                    if comment["body"] == "[deleted]" or comment["body"] == "[removed]":
+                        continue
                     text.append(comment["body"]) # list of strings, for standardisation for paragraph extraction code
 
             new_entry["text"] = text
