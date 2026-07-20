@@ -28,7 +28,11 @@ def filter_articles(post_data, comments_data):
             new_entry["title"] = entry["title"]
             new_entry["magasine"] = "Reddit" # standardise to "magasine" for my paragraph extraction pipeline 
             new_entry["date"] = entry["created_utc"]
-            text = [entry["selftext"]]
+            if entry["selftext"]: # if post has text, then is added to overall text
+                text = [entry["selftext"]]
+            else:
+                text = []
+
             for comment in comments_data:
                 if comment["link_id"][3:] == entry["id"]:
                     if comment["body"] == "[deleted]" or comment["body"] == "[removed]":
