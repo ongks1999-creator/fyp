@@ -29,7 +29,8 @@ def filter_articles(post_data, comments_data):
             new_entry["magasine"] = "Reddit" # standardise to "magasine" for my paragraph extraction pipeline 
             new_entry["date"] = entry["created_utc"]
             if entry["selftext"]: # if post has text, then is added to overall text
-                text = [entry["selftext"]]
+                text = entry["selftext"].split("\n\n") # split based on reddits double newline, to shrink paragraph size
+                text = [paragraph.strip() for paragraph in text] # remove whitespaces
             else:
                 text = []
 
@@ -37,7 +38,9 @@ def filter_articles(post_data, comments_data):
                 if comment["link_id"][3:] == entry["id"]:
                     if comment["body"] == "[deleted]" or comment["body"] == "[removed]":
                         continue
-                    text.append(comment["body"]) # list of strings, for standardisation for paragraph extraction code
+                    comment_text = comment["body"].split("\n\n")
+                    comment_text = [paragraph.strip() for paragraph in comment_text]
+                    text.extend(comment_text) # list of strings, for standardisation for paragraph extraction code
 
             new_entry["text"] = text
 
