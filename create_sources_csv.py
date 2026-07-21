@@ -1,6 +1,8 @@
 import csv
 from collections import defaultdict
 import ast
+import json
+import pandas as pd
 
 floor = 0.5 # change if required
 
@@ -20,9 +22,10 @@ def recency_scoring(paragraph_csv_file_path: str)-> dict:
             if entry["source_id"] in verified_sources: # to prevent double counting for the same article
                 continue
             verified_sources.add(entry["source_id"])
-            # convert millisecond date to days
-            recency_dict[entry["magazine"]].append(int(entry["date"]) / 86400000) # appending dates of all articles for each source
-
+            if entry["magazine"] == "Reddit":
+                recency_dict[entry["magazine"]].append(int(entry["date"]) / 86400) # reddit timestamp in seconds, convert sec to days
+            else:   # for other sources 
+                recency_dict[entry["magazine"]].append(int(entry["date"]) / 86400000) # convert ms to days
 
         for key, value in recency_dict.items():
             recency_dict[key].sort() # sort dates in ascending order to find interval between articles
@@ -38,35 +41,83 @@ def recency_scoring(paragraph_csv_file_path: str)-> dict:
             average_recency = total_recency / (len(value) - 1) # divide by number of intervals
             recency_dict[key] = average_recency
 
-        # linear scaling from floor value to 1.0
-        min_recency = min(recency_dict.values())
-        max_recency = max(recency_dict.values())
-        for key, value in recency_dict.items():
-            # the smaller the recency value the higher the recency score, hence opposite formula to provenance
-            recency_dict[key] = floor + (1 - floor) * ((max_recency - value) / (max_recency - min_recency))
+    # linear scaling from floor value to 1.0
+    min_recency = min(recency_dict.values())
+    max_recency = max(recency_dict.values())
+    for key, value in recency_dict.items():
+        # the smaller the recency value the higher the recency score, hence opposite formula to provenance
+        recency_dict[key] = floor + (1 - floor) * ((max_recency - value) / (max_recency - min_recency))
 
-        return recency_dict
+    return recency_dict
 
-def provenance_scoring(filtered_extracted_links_csv_file_path: str)-> dict:
+def provenance_scoring(filtered_extracted_links_csv_file_path: str, filtered_reddit_articles_json_file_path: str)-> dict:
     """
     Provenance calculated based on number of external citations per article.
     It is linearly scaled from 0.5 to 1.0 (0.5 is floor value)
     """
+    provenance_dict = {}
+    visited_source_ids = set()
 
     with open(filtered_extracted_links_csv_file_path, newline = '') as csvfile:
         links_csv = csv.DictReader(csvfile)
         links_csv = list(links_csv)
-        provenance_dict = {}
-        visited_source_ids = set()
+
         for entry in links_csv:
             if entry["source_id"] in visited_source_ids: 
                 continue
             visited_source_ids.add(entry["source_id"])
             provenance_dict[entry["source_id"]] = len(ast.literal_eval(entry["external_urls"])) # convert string to list
 
-        max_provenance = max(provenance_dict.values()) # max is the highest number of external citations per article
-        min_provenance = min(provenance_dict.values())
-        for key, value in provenance_dict.items():
-            provenance_dict[key] = floor + (1 - floor) * ((value - min_provenance) / (max_provenance - min_provenance))
+    with open(filtered_reddit_articles_json_file_path) as file:
+        reddit_articles = json.load(file)
+        for entry in reddit_articles:
+            if entry["source_id"] in visited_source_ids: 
+                continue
+            visited_source_ids.add(entry["source_id"])
+            # external_links for reddit articles is already in a list
+            provenance_dict[entry["source_id"]] = len(entry["external_links"]) # convert string to list
+
+    max_provenance = max(provenance_dict.values()) # max is the highest number of external citations per article
+    min_provenance = min(provenance_dict.values())
+    for key, value in provenance_dict.items():
+        provenance_dict[key] = floor + (1 - floor) * ((value - min_provenance) / (max_provenance - min_provenance))
 
     return provenance_dict
+
+
+def main():
+    filtered_extracted_links_csv_file_path = "/homes/ko25/Desktop/fyp/filtered_extracted_links.csv"
+    filtered_reddit_articles_json_file_path = "/homes/ko25/Desktop/fyp/filtered_reddit_articles.json"
+
+    chunks_final_csv_file_path = "/homes/ko25/Desktop/fyp/chunks_final.csv"
+
+    recency_dict = recency_scoring(chunks_final_csv_file_path)
+    provenance_dict = provenance_scoring(filtered_extracted_links_csv_file_path, filtered_reddit_articles_json_file_path)
+    # iterate through the final chunk list that contain all source ids
+    with open(chunks_final_csv_file_path, newline = '') as csvfile:
+        entries_csv = csv.DictReader(csvfile)
+        entries = list(entries_csv)
+
+    sources = []
+    visited_source_ids = set()
+    for entry in entries:     
+        if entry["source_id"] in visited_source_ids: 
+            continue
+        source_entry = {}
+        visited_source_ids.add(entry["source_id"])
+        source_entry["source_id"] = entry["source_id"]
+        source_entry["url"] = entry["url"]
+        source_entry["title"] = entry["title"]
+        source_entry["magazine"] = entry["magazine"]
+        source_entry["date"] = entry["date"]
+        source_entry["recency_score"] = recency_dict[entry["magazine"]]
+        source_entry["provenance_score"] = provenance_dict[entry["source_id"]]
+        sources.append(source_entry)
+    
+    sources_df = pd.DataFrame(sources)
+    pd.DataFrame.to_csv(sources_df, "sources.csv", index = False)
+
+
+
+if __name__ == "__main__":
+    main()
