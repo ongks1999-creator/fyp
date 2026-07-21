@@ -1,5 +1,6 @@
 import json
 from chunk_index import url_normalisation, create_source_id
+import re
 
 def read_json_file(filepath: str) -> list:
 
@@ -42,7 +43,17 @@ def filter_articles(post_data, comments_data):
                     comment_text = [paragraph.strip() for paragraph in comment_text]
                     text.extend(comment_text) # list of strings, for standardisation for paragraph extraction code
 
+            regex_pattern = r'https?://\S+|www\.\S+' # regex pattern to find links
+            external_links = []
+            # text is list of strings
+            for txt in text:
+                # find all external links in each paragraph
+                external_links.extend(re.findall(regex_pattern, txt)) # external_links is a single list
+            # remove the link from the text
+            text = [re.sub(regex_pattern, "", txt) for txt in text]
             new_entry["text"] = text
+            new_entry["external_links"] = external_links
+
 
             filtered_data.append(new_entry)
 
