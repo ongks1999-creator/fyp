@@ -2,7 +2,7 @@ import csv
 import pandas as pd
 from transformers import AutoTokenizer
 
-tokenizer = AutoTokenizer.from_pretrained("allenai/scibert_scivocab_uncased")
+tokenizer = AutoTokenizer.from_pretrained("/homes/ko25/Desktop/fyp/scibert_finetuned_model")
 chunk_token_limit = 400
 
 def create_chunk_from_paragraph(paragraphs_csv_file_path) -> None:
@@ -64,9 +64,45 @@ def create_chunk_from_paragraph(paragraphs_csv_file_path) -> None:
                     chunk_list.append(create_chunk_entry(index_start, index_end))
                     next_start = index_end
                     break
+        
+        # Post-processing to ensure all chunks are under 400 tokens
+        # if exceed 400 tokens, chunks are split up
+
+        chunks_to_remove = []
+        chunks_to_extend = []
+
+        for chunk in chunk_list:
+            if chunk["token_count"] > chunk_token_limit:
+                new_chunks = []
+                num_splits = (chunk["token_count"] // chunk_token_limit) + 1
+                chunk_tokenised = tokenizer.tokenize(chunk["chunk"])
+                # split the chunks into 400 token blocks
+                for index in range(num_splits):
+                    # new chunk entry for each new smaller block
+                    new_chunk = {}
+                    chunk_id = chunk["chunk_id"]
+                    new_chunk["chunk_id"] = f"{chunk_id}_{index}" # customise chunk_id for those chunks getting splitted further
+                    new_chunk["source_id"] = chunk["source_id"]
+                    new_chunk["url"] = chunk["url"]
+                    new_chunk["title"] = chunk["title"]
+                    new_chunk["magazine"] = chunk["magazine"]
+                    new_chunk["date"] = chunk["date"]
+                    # split chunks in their tokenised form, based on 400 token blocks, then convert back to string
+                    new_chunk["chunk"] = tokenizer.convert_tokens_to_string(chunk_tokenised[index * chunk_token_limit: (index + 1) * chunk_token_limit])
+                    new_chunk["token_count"] = len(tokenizer.tokenize(new_chunk["chunk"]))
+                    new_chunks.append(new_chunk)
+                chunks_to_remove.append(chunk)
+                chunks_to_extend.extend(new_chunks)
+        
+        # removal of those oversized chunks and addition of the new chunks
+        for chunk in chunks_to_remove:
+            chunk_list.remove(chunk)
+
+        chunk_list.extend(chunks_to_extend)
 
         chunk_df = pd.DataFrame(chunk_list)
-        pd.DataFrame.to_csv(chunk_df, "chunks.csv", index = False)
+        #pd.DataFrame.to_csv(chunk_df, "chunks.csv", index = False)
+        pd.DataFrame.to_csv(chunk_df, "chunks_extra.csv", index = False)
     
     return
 
@@ -88,9 +124,9 @@ def verify_chunk_token_limit(chunk_csv_file_path, limit = chunk_token_limit) -> 
     return oversized_chunks
             
 if __name__ == "__main__":
-    filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/paragraphs.csv"
+    filepath = "/homes/ko25/Desktop/fyp/paragraphs_extra.csv"
     create_chunk_from_paragraph(filepath)
-    oversized_chunks = verify_chunk_token_limit("/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/chunks.csv")
+    oversized_chunks = verify_chunk_token_limit("/homes/ko25/Desktop/fyp/chunks_extra.csv")
     print(f"Number of oversized chunks: {len(oversized_chunks)}")
     print(f"Token size: {[chunk['token_count'] for chunk in oversized_chunks]}")
 
