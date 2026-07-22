@@ -66,7 +66,13 @@ def main():
         # for calculation of query claim score
         sum_chunk_scores = 0
         sum_chunk_weights = 0
+        # tracks meta data and scores to give to LLM 
         source_id_list = []
+        recency_score_list = []
+        provenance_score_list = []
+        source_credibility_list = []
+        relevance_score_list = []
+        P_STANCE_list = []
     
         for _, relevant_chunk in relevant_chunks_entries.iterrows(): # dataframe iteration
             # since relationshiplink csv does not contain source_id, we manually obtain it, returns a series
@@ -84,6 +90,11 @@ def main():
             sum_chunk_scores += chunk_score
             sum_chunk_weights += chunk_weight
             source_id_list.append(source_id)
+            recency_score_list.append(recency_score)
+            provenance_score_list.append(provenance_score)
+            source_credibility_list.append(source_credibility)
+            relevance_score_list.append(relevance_score)
+            P_STANCE_list.append(P_STANCE)
 
         
         query_claim_score = sum_chunk_scores / sum_chunk_weights
@@ -98,6 +109,11 @@ def main():
         query_claim_entry["relevant_claim_ids"] = relevant_claim_ids
         query_claim_entry["relevant_chunk_ids"] = relevant_chunks_entries["chunk_id"].tolist()
         query_claim_entry["relevant_source_ids"] = source_id_list
+        query_claim_entry["recency_scores"] = recency_score_list
+        query_claim_entry["provenance_scores"] = provenance_score_list
+        query_claim_entry["source_credibility_scores"] = source_credibility_list
+        query_claim_entry["relevance_scores"] = relevance_score_list
+        query_claim_entry["stance_scores"] = P_STANCE_list
 
         query_claim_list.append(query_claim_entry)
     
