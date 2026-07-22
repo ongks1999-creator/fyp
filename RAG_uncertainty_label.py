@@ -75,7 +75,7 @@ def uncertainty_label(claim: str, relevant_chunk: str, scibert_tokenizer, sciber
 def main():
     top_N = 5 # top N relevant chunks
     threshold = 0.3 # based on what we finetuned
-    claim_file_path = "/homes/ko25/Desktop/fyp/claims.csv"
+    claim_file_path = "/root/fyp/claims.csv"
     claim_csv = pd.read_csv(claim_file_path)
     # shuffle claims, and split first half as build claim set and second half as query claim set for usage stage
     shuffled_claims = claim_csv.sample(frac = 1, random_state = 45)
@@ -85,9 +85,9 @@ def main():
     build_claims.to_csv("build_claims.csv", index = False)
     query_claims.to_csv("query_claims.csv", index = False)
 
-    build_claims_file_path = "/homes/ko25/Desktop/fyp/build_claims.csv"
+    build_claims_file_path = "/root/fyp/build_claims.csv"
 
-    chunk_file_path = "/homes/ko25/Desktop/fyp/chunks_final.csv"
+    chunk_file_path = "/root/fyp/chunks_final.csv"
     # embed both chunk and claim csv
     claim_embeddings, claims, claim_ids = embed_csv_files(build_claims_file_path, data_type = "claims")
     chunk_embeddings, chunks, chunk_ids = embed_csv_files(chunk_file_path, data_type = "chunks")
@@ -103,8 +103,8 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # Initialise scibert model
     # change file directory for pre-trained autotokenizer and model
-    scibert_tokenizer = AutoTokenizer.from_pretrained("/homes/ko25/Desktop/fyp/scibert_finetuned_model")
-    scibert_model = AutoModelForSequenceClassification.from_pretrained("/homes/ko25/Desktop/fyp/scibert_finetuned_model")
+    scibert_tokenizer = AutoTokenizer.from_pretrained("/root/fyp/scibert_finetuned_model")
+    scibert_model = AutoModelForSequenceClassification.from_pretrained("/root/fyp/scibert_finetuned_model")
 
     new_entries = []
 
