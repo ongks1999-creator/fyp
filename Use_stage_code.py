@@ -82,9 +82,9 @@ def main():
             # closer to zero distance give score closer to 1, further away gives score closer to 0.5
             relevance_score = 0.5 + 0.5 * (1 / (1 + float(np.linalg.norm(query_claims_embeds[query_claim_index] - relevant_chunk_embed))))
             P_STANCE, _ = uncertainty_label(query_claim, relevant_chunk["chunk"], scibert_tokenizer, scibert_model, threshold = threshold, device = device)
-            source_credibility = float(sources_df[sources_df["source_id"] == source_id]["source_credibility"])
-            recency_score = float(sources_df[sources_df["source_id"] == source_id]["recency_score"])
-            provenance_score = float(sources_df[sources_df["source_id"] == source_id]["provenance_score"])
+            source_credibility = float(sources_df[sources_df["source_id"] == source_id]["source_credibility"].values[0])
+            recency_score = float(sources_df[sources_df["source_id"] == source_id]["recency_score"].values[0])
+            provenance_score = float(sources_df[sources_df["source_id"] == source_id]["provenance_score"].values[0])
             chunk_weight = source_credibility * recency_score * provenance_score * relevance_score
             chunk_score = P_STANCE * chunk_weight
             sum_chunk_scores += chunk_score
