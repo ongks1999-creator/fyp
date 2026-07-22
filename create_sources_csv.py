@@ -112,6 +112,27 @@ def main():
         source_entry["date"] = entry["date"]
         source_entry["recency_score"] = recency_dict[entry["magazine"]]
         source_entry["provenance_score"] = provenance_dict[entry["source_id"]]
+        # tentative source credibility score, fixed score
+        # highest was given to NEI as it is a trade publication
+        # WNN and nucnet both report nuclear news but WNN is accreditted by World nuclear association
+        # NCE has the second lowest score as it is a general civil engineering publication
+        # reddit lowest as it is a social news platform
+        if entry["magazine"] == "Reddit":
+            source_entry["source_credibility"] = 0.5
+
+        elif entry["magazine"] == "Nuclear Engineering International":
+            source_entry["source_credibility"] = 0.9
+
+        elif entry["magazine"] == "World Nuclear News":
+            source_entry["source_credibility"] = 0.8
+
+        elif entry["magazine"] == "NucNet":
+            source_entry["source_credibility"] = 0.7
+
+        elif entry["magazine"] == "New Civil Engineer":
+            source_entry["source_credibility"] = 0.6
+
+
         sources.append(source_entry)
     
     sources_df = pd.DataFrame(sources)
