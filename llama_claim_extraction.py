@@ -39,22 +39,29 @@ def claim_extraction_from_chunk(chunk: list):
 
 
 if __name__ == "__main__":
-    chunks_final_file_path = "update again"
+    chunks_final_file_path = "/root/fyp/chunks_final.csv"
     chunks = read_chunk_csv(chunks_final_file_path)
 
     # Initialise scibert model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # to update again
-    scibert_tokenizer = AutoTokenizer.from_pretrained("/homes/ko25/Desktop/fyp/scibert_finetuned_model")
-    scibert_model = AutoModelForSequenceClassification.from_pretrained("/homes/ko25/Desktop/fyp/scibert_finetuned_model")
+    scibert_tokenizer = AutoTokenizer.from_pretrained("/root/fyp/scibert_finetuned_model")
+    scibert_model = AutoModelForSequenceClassification.from_pretrained("/root/fyp/scibert_finetuned_model")
     scibert_model.to(device)
     threshold = 0.3
     claim_token_limit = 100
 
     claims_list = []
-    for chunk in chunks:
+    for index, chunk in enumerate(chunks):
         claim = claim_extraction_from_chunk(chunk)
+        # faced keyerror when claim generated was a null value, use get method to check if key exist
+        if not isinstance(claim.get("claim"), str):
+            continue # skip for that claim
+        if index % 100 == 0:
+            print(f"Processing chunk {index} out of {len(chunks)}")
+            
         token_count = len(scibert_tokenizer.tokenize(claim["claim"]))
+
         if token_count > claim_token_limit:
             continue # only keep claims that are under 100 tokens
         stance_score, label = uncertainty_label(claim["claim"], chunk["chunk"], scibert_tokenizer, scibert_model, threshold, device)
