@@ -76,9 +76,20 @@ def main():
     top_N = 5 # top N relevant chunks
     threshold = 0.3 # based on what we finetuned
     claim_file_path = "/homes/ko25/Desktop/fyp/claims.csv"
-    chunk_file_path = "/homes/ko25/Desktop/fyp/chunks.csv"
+    claim_csv = pd.read_csv(claim_file_path)
+    # shuffle claims, and split first half as build claim set and second half as query claim set for usage stage
+    shuffled_claims = claim_csv.sample(frac = 1, random_state = 45)
+    num_entries = len(shuffled_claims)
+    build_claims = shuffled_claims.iloc[:num_entries // 2]
+    query_claims = shuffled_claims.iloc[num_entries // 2:]
+    build_claims.to_csv("build_claims.csv", index = False)
+    query_claims.to_csv("query_claims.csv", index = False)
+
+    build_claims_file_path = "/homes/ko25/Desktop/fyp/build_claims.csv"
+
+    chunk_file_path = "/homes/ko25/Desktop/fyp/chunks_final.csv"
     # embed both chunk and claim csv
-    claim_embeddings, claims, claim_ids = embed_csv_files(claim_file_path, data_type = "claims")
+    claim_embeddings, claims, claim_ids = embed_csv_files(build_claims_file_path, data_type = "claims")
     chunk_embeddings, chunks, chunk_ids = embed_csv_files(chunk_file_path, data_type = "chunks")
     FAISS_index = build_FAISS_index(chunk_embeddings)
 
@@ -119,3 +130,5 @@ def main():
     relationshiplink_df = pd.DataFrame(new_entries)
     pd.DataFrame.to_csv(relationshiplink_df, "relationshiplink.csv", index = False)
 
+if __name__ == "__main__":
+    main()
