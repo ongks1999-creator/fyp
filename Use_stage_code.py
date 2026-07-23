@@ -45,6 +45,7 @@ def main():
     relationship_link_df = pd.read_csv("/root/fyp/relationshiplink.csv")
     sources_df = pd.read_csv("/root/fyp/sources.csv")
     chunks_df = pd.read_csv("/root/fyp/chunks_final.csv")
+    query_claims_df = pd.read_csv("/root/fyp/query_claims.csv")
 
 
     claim_relevance_list, claim_relevance_indices = claims_FAISS_index.search(query_claims_embeds, top_N) # search for Top 3 relevant claims 
@@ -114,7 +115,7 @@ def main():
         query_claim_entry["source_credibility_scores"] = source_credibility_list
         query_claim_entry["relevance_scores"] = relevance_score_list
         query_claim_entry["stance_scores"] = P_STANCE_list
-
+        query_claim_entry["company"] = query_claims_df.iloc[query_claim_index]["company"] # index df based on query claim index
         query_claim_list.append(query_claim_entry)
     
     query_claim_scores_df = pd.DataFrame(query_claim_list)
