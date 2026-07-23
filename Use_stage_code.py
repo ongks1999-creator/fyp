@@ -116,6 +116,7 @@ def main():
         query_claim_entry["relevance_scores"] = relevance_score_list
         query_claim_entry["stance_scores"] = P_STANCE_list
         query_claim_entry["company"] = query_claims_df.iloc[query_claim_index]["company"] # index df based on query claim index
+        query_claim_entry["claims originating magazine"] = query_claims_df.iloc[query_claim_index]["magazine"]
         query_claim_list.append(query_claim_entry)
     
     query_claim_scores_df = pd.DataFrame(query_claim_list)
