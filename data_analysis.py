@@ -1,9 +1,12 @@
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import pandas as pd
 from collections import defaultdict, Counter
 import ast
 from rapidfuzz import fuzz, process
 from sklearn.cluster import KMeans
+import numpy as np
+from adjustText import adjust_text
 
 # Understanding the distribution of query claim scores to find the thresholds to separate the final verification labels
 results_df = pd.read_csv("/homes/ko25/Desktop/fyp/query_claim_scores.csv")
@@ -38,10 +41,10 @@ results_df["Verdict Label"] = results_df["query_claim_score"].apply(classificati
 # breakdown into individual companies, since each entry for results df contain a single label for one or more companies
 company_dict = defaultdict(list)
 for index, entry in (results_df.iterrows()):
-    if entry["company"] is None or entry["company"].lower() == "null":
+    if pd.isna(entry["company"]) or entry["company"] is None or entry["company"].lower() == "null":
         continue # skip invalid entries
     for company in ast.literal_eval(entry["company"]): # since value given is a string, need turn to list
-        if company is None or company.lower() == "null":
+        if pd.isna(entry["company"]) or company is None or company.lower() == "null":
             continue
         company_dict[company].append(entry["Verdict Label"])
 
@@ -103,6 +106,30 @@ top_30["Percentage of Verifiability"] = top_30["Percentage of Supported Claims"]
 kmeans = KMeans(n_clusters = 3, random_state = 45)
 top_30["cluster"] = kmeans.fit_predict(top_30[["Percentage of Verifiability", "Percentage of NEI Claims"]])
 top_30[["company", "Percentage of Verifiability", "Percentage of NEI Claims", "cluster"]].sort_values("cluster").to_csv("top_30_companies_verifiability_clustering.csv", index = False)
+
+
+scatter_plot = plt.figure(figsize = (20, 10))
+#colours = cm.tab20(np.linspace(0, 1, len(top_30)))
+scatter_veri_axis = scatter_plot.add_subplot(1, 2, 1)
+scatter_veri_axis.set_xlabel("Total Labels")
+scatter_veri_axis.set_ylabel("Percentage of Verifiability")
+scatter_NEI_axis = scatter_plot.add_subplot(1, 2, 2)
+scatter_NEI_axis.set_xlabel("Total Labels")
+scatter_NEI_axis.set_ylabel("Percentage of NEI Claims")
+cluster_color = {0: "red", 1: "blue", 2: "green"}
+ver_axis_entries = []
+NEI_axis_entries = []
+
+for index, row in top_30.iterrows(): # label each dot
+    color = cluster_color[row["cluster"]] # top 30 clustering was based on percentage verifiability and NEI features
+    scatter_veri_axis.scatter(row["Total Labels"], row["Percentage of Verifiability"], c = color)
+    scatter_NEI_axis.scatter(row["Total Labels"], row["Percentage of NEI Claims"], c = color)
+    ver_axis_entries.append(scatter_veri_axis.text(row["Total Labels"], row["Percentage of Verifiability"], row["company"], fontsize = 15))
+    NEI_axis_entries.append(scatter_NEI_axis.text(row["Total Labels"], row["Percentage of NEI Claims"], row["company"], fontsize = 15))
+
+adjust_text(ver_axis_entries, ax = scatter_veri_axis)
+adjust_text(NEI_axis_entries, ax = scatter_NEI_axis)
+plt.savefig("top_30_companies_scatter.png")
 
 # K means based on publicity and coverage per company
 kmeans = KMeans(n_clusters = 3, random_state = 45)
