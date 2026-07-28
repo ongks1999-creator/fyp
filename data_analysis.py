@@ -68,9 +68,11 @@ for company in company_dict.keys():
         mapping_dict[company] = company
         continue
     # used utils default to lower case to prevent mismatch due to case sensitivity, realised company names are the same but did not match due to case sensitivity
-    most_similar_name, simi_score, index = process.extractOne(company, standardised_company_list, processor = utils.default_process)
+    # changed scorer to token_sort_ratio to capture same name but different sequence
+    most_similar_name, simi_score, index = process.extractOne(company, standardised_company_list, scorer = fuzz.token_sort_ratio, processor = utils.default_process)
     # if the current company is very similar to an existing standardised name, we add it to the names that get mapped to the standardised name
-    if simi_score > 80: # must be high enough to ensure moderate similarity means the same company
+    # ensuring all acronyms have 100% match regardless of them matching but with different sequence
+    if (simi_score > 80 and len(utils.default_process(company)) > 5) or simi_score == 100: # must be high enough to ensure moderate similarity means the same company
         mapping_dict[company] = most_similar_name
     # if it is not similar, that means it is a new company, add it to standardise name list, and map to itself
     else:
@@ -78,7 +80,45 @@ for company in company_dict.keys():
         mapping_dict[company] = company
 
 # alias names identified after obtaining initial results
-alias_names = {unicodedata.normalize("NFC", "Fluor Enterprises"): "Fluor", unicodedata.normalize("NFC", "Fluor Federal Services"): "Fluor", unicodedata.normalize("NFC", "GEH"): "GE-Hitachi", unicodedata.normalize("NFC", "INL"): "Idaho National Laboratory (INL)", unicodedata.normalize("NFC", "Yellowcake PLC"): "Yellow Cake", unicodedata.normalize("NFC", "ČEZ"): "CEZ", unicodedata.normalize("NFC", "ORNL"): "Oak Ridge National Laboratory (ORNL)", unicodedata.normalize("NFC", "CNL"): "Canadian Nuclear Laboratories (CNL)"}
+alias_names = {unicodedata.normalize("NFC", "Fluor Enterprises"): "Fluor",
+               unicodedata.normalize("NFC", "Fluor Federal Services"): "Fluor", 
+               unicodedata.normalize("NFC", "GE Hitachi Nuclear Energy"): "GE-Hitachi",
+               unicodedata.normalize("NFC", "Westinghouse Electric Company"): "Westinghouse",
+               unicodedata.normalize("NFC", "Westinghouse Electric Sweden"): "Westinghouse",
+               unicodedata.normalize("NFC", "CNNC"): "China National Nuclear Corporation",
+               unicodedata.normalize("NFC", "USNC"): "Ultra Safe Nuclear Corporation",
+               unicodedata.normalize("NFC", "OPG"): "Ontario Power Generation",
+               unicodedata.normalize("NFC", "NuScale Power"): "NuScale",
+               unicodedata.normalize("NFC", "Holtec International"): "Holtec",
+               unicodedata.normalize("NFC", "MoltexFLEX"): "Moltex",
+               unicodedata.normalize("NFC", "Moltex Energy"): "Moltex",
+               unicodedata.normalize("NFC", "Moltex Energy Canada"): "Moltex",
+               unicodedata.normalize("NFC", "Moltex Energy Limited"): "Moltex",
+               unicodedata.normalize("NFC","ARC Canada"): "ARC",
+               unicodedata.normalize("NFC","ARC Clean Energy Canada"): "ARC",
+               unicodedata.normalize("NFC","ARC Clean Technology"): "ARC",
+               unicodedata.normalize("NFC", "KHNP"): "Korea hydro and Nuclear Power (KHNP)",
+               unicodedata.normalize("NFC", "GEH"): "GE-Hitachi",
+               unicodedata.normalize("NFC", "INL"): "Idaho National Laboratory",
+               unicodedata.normalize("NFC", "EDF Energy"): "EDF",
+               unicodedata.normalize("NFC", "Flibe Energy"): "Flibe",
+               unicodedata.normalize("NFC", "NANO Nuclear"): "NANO",
+               unicodedata.normalize("NFC", "Kairos Power"): "Kairos",
+               unicodedata.normalize("NFC", "BWXT Advanced Technologies LLC"): "BWXT",
+               unicodedata.normalize("NFC", "BWX Technologies"): "BWXT",
+               unicodedata.normalize("NFC", "BWXT Canada"): "BWXT",
+               unicodedata.normalize("NFC", "BWXT Medical"): "BWXT",
+               unicodedata.normalize("NFC", "BWXT Technical Services Group"): "BWXT",
+               unicodedata.normalize("NFC", "UltraSafe Nuclear"): "Ultra Safe Nuclear Corporation",
+               unicodedata.normalize("NFC", "Ultra Safe Nuclear Corp (USNC)"): "Ultra Safe Nuclear Corporation",
+               unicodedata.normalize("NFC", "Ultra Safe Nuclear"): "Ultra Safe Nuclear Corporation",
+               unicodedata.normalize("NFC", "ThorCon International"): "ThorCon",
+               unicodedata.normalize("NFC", "Thorcon"): "ThorCon",
+               unicodedata.normalize("NFC", "General Atomics Electromagnetic Systems (GA-EMS)"): "General Atomics",
+               unicodedata.normalize("NFC", "Yellowcake PLC"): "Yellow Cake",
+               unicodedata.normalize("NFC", "ČEZ"): "CEZ",
+               unicodedata.normalize("NFC", "ORNL"): "Oak Ridge National Laboratory (ORNL)",
+               unicodedata.normalize("NFC", "CNL"): "Canadian Nuclear Laboratories (CNL)"}
 # normalise it for unicode, same as mapping_dict keys
 
 for company, standardised_name in mapping_dict.items():
@@ -148,3 +188,55 @@ plt.savefig("top_50_companies_scatter.png")
 kmeans = KMeans(n_clusters = 3, random_state = 45)
 top_50["cluster"] = kmeans.fit_predict(top_50[["Total Labels"]])
 top_50[["company", "Total Labels", "cluster"]].sort_values("cluster").to_csv("top_50_companies_publicity_clustering.csv", index = False)
+
+
+# Comparison to Tiril's
+# key is the company name in my data base, value is her company name in her notation and the maturity
+# not inside my dataset babcox and wilcox and berkeley
+comparison_company = {"Framatome": ("Framatome", "Mature"),
+                      "Westinghouse": ("Westinghouse", "Mature"),
+                     "NuScale": ("NuScale", "Moderate Maturity"),
+                     "Holtec": ("Holtec International", "Moderate Maturity"),
+                     "GE-Hitachi": ("GE Hitachi", "Moderate Maturity"),
+                     "ARC": ("ARC", "Moderate Maturity"),
+                     "Moltex": ("Moltex Energy", "Moderate Maturity"),
+                     "ThorCon": ("ThorCon", "Least Mature"),
+                     "Ultra Safe Nuclear Corporation": ("Ultra Safe Nuclear Corporation", "Least Mature"),
+                     "General Atomics": ("General Atomics", "Least Mature"),
+                     "Flibe": ("Flibe", "Least Mature"),
+                     "NANO": ("NANO Nuclear", "Least Mature"),
+                     "Oklo": ("Oklo", "Least Mature"),
+                     "Kairos": ("Kairos Power", "Least Mature"),
+                     "BWXT": ("BWX", "Least Mature"),
+                     "X-Energy": ("X-Energy", "Least Mature"),
+                     "Oak Ridge National Laboratory (ORNL)": ("Oak Ridge National Laboratory", "Least Mature"),
+                     "TerraPower": ("TerraPower", "Least Mature")
+                     }
+
+comparison_company_df = company_df[company_df["company"].isin(comparison_company.keys())]
+comparison_company_df["Percentage of Supported Claims"] = (comparison_company_df["SUPPORT"].fillna(0) / comparison_company_df["Total Labels"]) * 100
+comparison_company_df["Percentage of Contradicted Claims"] = (comparison_company_df["CONTRADICT"].fillna(0) / comparison_company_df["Total Labels"]) * 100
+comparison_company_df["Percentage of NEI Claims"] = (comparison_company_df["NEI"].fillna(0) / comparison_company_df["Total Labels"]) * 100
+comparison_company_df["Percentage of Verifiability"] = comparison_company_df["Percentage of Supported Claims"] - comparison_company_df["Percentage of Contradicted Claims"]
+
+comp_colour = {"Mature": "green", "Moderate Maturity": "orange", "Least Mature": "purple"}
+comp_ver_axis_entries = []
+comp_NEI_axis_entries = []
+comp_scatter_plot = plt.figure(figsize = (20, 10))
+comp_scatter_veri_axis = comp_scatter_plot.add_subplot(1, 2, 1)
+comp_scatter_veri_axis.set_xlabel("Total Labels")
+comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability")
+comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(1, 2, 2)
+comp_scatter_NEI_axis.set_xlabel("Total Labels")
+comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims")
+
+for index, row in comparison_company_df.iterrows(): 
+    color = comp_colour[comparison_company[row["company"]][1]]
+    comp_scatter_veri_axis.scatter(row["Total Labels"], row["Percentage of Verifiability"], c = color)
+    comp_scatter_NEI_axis.scatter(row["Total Labels"], row["Percentage of NEI Claims"], c = color)
+    comp_ver_axis_entries.append(comp_scatter_veri_axis.text(row["Total Labels"], row["Percentage of Verifiability"], row["company"], fontsize = 15))
+    comp_NEI_axis_entries.append(comp_scatter_NEI_axis.text(row["Total Labels"], row["Percentage of NEI Claims"], row["company"], fontsize = 15))
+
+adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis)
+adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis)
+plt.savefig("comparison_companies_scatter.png")

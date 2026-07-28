@@ -1,51 +1,51 @@
 company,Total Labels,cluster
-Holtec Britain,54.0,0
-TerraPower,53.0,0
-UK,45.0,0
-Samsung C&T Corporation,50.0,0
-Austin Energy,75.0,0
-TVEL,55.0,0
-BWXT,29.0,0
-Ultra Safe Nuclear Corporation,31.0,0
-Bechtel,31.0,0
-Bruce Power,31.0,0
-ARC Canada,32.0,0
-Urenco,33.0,0
-State Council of China,39.0,0
-Hyundai Engineering,42.0,0
-National Nuclear Laboratory,42.0,0
-Orano,42.0,0
-Canadian Nuclear Laboratories (CNL),27.0,0
-Holtec International,26.0,0
-IP Group,29.0,0
-KHNP,27.0,0
-Doosan Enerbility,26.0,0
-CEZ,25.0,0
-CNNC,20.0,0
-OPG,20.0,0
-TEPCO,22.0,0
-Nova Power & Gas,22.0,0
-Kepco,22.0,0
-STP Nuclear Operating Company,23.0,0
-Nuclearelectrica,23.0,0
+Ultra Safe Nuclear Corporation,44.0,0
+China National Nuclear Corporation,48.0,0
+TerraPower,50.0,0
+TVEL,53.0,0
+Ontario Power Generation,55.0,0
+Holtec,59.0,0
+Korea hydro and Nuclear Power (KHNP),59.0,0
+X-Energy,64.0,0
+CEZ,24.0,0
+Canadian Nuclear Laboratories (CNL),25.0,0
+Bechtel,27.0,0
+Moltex,27.0,0
+Urenco,29.0,0
+Bruce Power,30.0,0
+Orano,33.0,0
+BWXT,35.0,0
+Fortum,23.0,0
+Idaho National Laboratory,23.0,0
 newcleo,23.0,0
-First Light Co. Ltd,23.0,0
-Fortum,25.0,0
-Sellafield Ltd,19.0,0
-Cameco,18.0,0
-V/O Izotop JSC,20.0,0
-Oklo,20.0,0
-USNC,20.0,0
-Ansaldo Nucleare,20.0,0
-SNC-Lavalin,20.0,0
-Research Institute for Atomic Reactors,19.0,0
-NuScale Power,331.0,1
-Rosatom,319.0,1
-Westinghouse,235.0,1
-National Nuclear Security Administration,138.0,2
-Energoatom,89.0,2
-GE-Hitachi,121.0,2
-Framatome,85.0,2
-Centrus Energy Corp,178.0,2
-EDF,184.0,2
-Rolls-Royce,115.0,2
+Doosan Enerbility,22.0,0
+Southern Company,20.0,0
+Orlen Synthos Green Energy,20.0,0
+US Department of Energy (DOE),20.0,0
+Hungarian Atomic Energy Authority,19.0,0
+ENEC,16.0,0
+Terrestrial Energy,16.0,0
+ARC,16.0,0
+Akkuyu Nukleer,16.0,0
+Atomenergomash,16.0,0
+Georgia Power,17.0,0
+Oklo,18.0,0
+Ansaldo Nucleare,18.0,0
+SNC-Lavalin,15.0,0
+Slovenské Elektrárne,15.0,0
+Nuclearelectrica,16.0,0
+Vattenfall,16.0,0
+Teollisuuden Voima Oyj (TVO),15.0,0
+Norsk Kjernekraft,15.0,0
+Kansai Electric Power Co,15.0,0
+Sellafield Ltd,15.0,0
+Fermi Energia,16.0,0
+Great British Nuclear,16.0,0
+Rosatom,300.0,1
+EDF,177.0,1
+Westinghouse,227.0,1
+GE-Hitachi,135.0,2
+Rolls-Royce,108.0,2
+Framatome,79.0,2
+NuScale,145.0,2
+Energoatom,87.0,2

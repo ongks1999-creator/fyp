@@ -1,33 +1,55 @@
 company,SUPPORT,CONTRADICT,NEI
+3M Company,,,1.0
 A3D,,,1.0
+AA Bochvar Research Institute of Inorganic Materials (VNIINM),,1.0,3.0
+"AB Rybalkin, Gortsunyan, Dyakin & Partners",,,1.0
 ABB,,,1.0
-ABS,1.0,,3.0
+ABS,,,1.0
+ABS Electro,1.0,,
 ACC,,,1.0
-ACU,,,2.0
+ACU,,,1.0
 ADCB,,,1.0
+ADtranz,,,1.0
 AECL,1.0,,6.0
 AECOM,,,2.0
-AEM-Spetsstal,,,2.0
+AEM,,,1.0
+AEM-Spetsstal,,,1.0
 AFCEN,,,1.0
 AFCONE,,,1.0
-AMG,,,2.0
+AFV Beltrame Group,,,2.0
+AI Leipunsky Institute of Physics & Power Engineering (IPPE),1.0,,1.0
+AK,1.0,,
+ALD Vacuum Technologies,,,1.0
+AMG,,,1.0
+AMG Critical Materials,,,1.0
 ANDRA,,,4.0
-ANL,,,3.0
+ANL,,,1.0
 ANSTO,,,2.0
 ANVS,,,1.0
 ANYbotics,,1.0,
 AP1000,,,1.0
-ARC Canada,6.0,1.0,25.0
-ARN,2.0,1.0,4.0
-ASE,7.0,1.0,8.0
+ARC,2.0,1.0,13.0
+ARN,2.0,1.0,1.0
+ASE,,,2.0
+ASE JSC,5.0,1.0,3.0
 ASN,,,5.0
+ATK Launch Systems,,,1.0
 AWS,,,1.0
 Abu Dhabi Commercial Bank,,,1.0
-Aecon,5.0,,6.0
+Accelerant Solutions,,,2.0
+Accelerated Decommissioning Partners,,,1.0
+Aecon,4.0,,6.0
+Aecon Group,1.0,,
 Aerojet Rocketdyne,,,1.0
+Agenda Global,,,1.0
 Air Products,,,1.0
-Akkuyu,,1.0,2.0
+Akkuyu,,,1.0
+Akkuyu Nukleer,2.0,1.0,13.0
+Akkuyu Nükleer Genel Merkezi,,,1.0
+Alberta Innovates,1.0,,1.0
 Alfa Laval,,,1.0
+All-Russia Science Research and Design Institute of Power Engineering Technology (VNIPIET),,,1.0
+All-Russian YI Zababakhin Scientific Research Institute of Technical Physics (VNIITF),,,1.0
 Allegheny Electric,,,1.0
 Alleima,1.0,,
 AlleyCorp,,,1.0
@@ -37,223 +59,410 @@ Altrad Endel,1.0,,
 Amazul,,,1.0
 Amcham,,,1.0
 Amentum,2.0,,1.0
-American Bureau of Shipping (ABS),1.0,,5.0
+Amentum Environment & Energy,,,1.0
+American Bureau of Shipping (ABS),1.0,,
 American Centrifuge Operating,,,1.0
+American Institute of Physics (AIP),,,1.0
+American Nuclear Society,,,3.0
 Amsted Graphite Materials,,,1.0
 Andreessen Horowitz,1.0,,
+Ansaldo,,,1.0
 Ansaldo Energia,,,4.0
-Ansaldo Nucleare,1.0,1.0,18.0
+Ansaldo Nucleare,1.0,1.0,16.0
 Arabelle Solutions,,,2.0
+Arbok-Nuclear,,,1.0
 Arch Henderson,,,1.0
-Ares,3.0,,2.0
-Areva,3.0,,7.0
+Ares,1.0,,
+Ares Acquisition Corporation,1.0,,
+Ares Management Corporation,1.0,,1.0
+Areva,1.0,,5.0
+"Areva (now part of Framatome, which developed the EPR)",,,1.0
+Areva GmbH,1.0,,1.0
+Areva NP (now Framatome),,,1.0
+Areva NP SAS,1.0,,1.0
+Areva-Siemens,,1.0,5.0
 Argentine Neutron Beam Laboratory (LAHN),,,1.0
-Argonne National Laboratory,,1.0,8.0
+Argentinian Nuclear Regulatory Authority (ARN),,,1.0
+Argo Engineering,,,1.0
+Argonne,,,2.0
+Argonne National Laboratory (ANL),,,1.0
+Ariane Group,,,1.0
+Armenian NPP,,,1.0
 Arthur D. Little,,,1.0
+Asea Atom,,,1.0
+Association of American Railroads (AAR),,,1.0
+Association of Ghana Industries (AGI),,,1.0
+Associazione Italiana Nucleare,,,1.0
 Assystem,2.0,,9.0
+Asterès,,,1.0
 Astrobotic,,,1.0
 At One Ventures,,,1.0
-AtkinsRéalis,3.0,,11.0
+Atkins,2.0,,3.0
+Atkins Nuclear & Power,,,1.0
+AtkinsRéalis,1.0,,8.0
+Atlas,,,1.0
 Atomenergomash,1.0,,15.0
-Atomenergoremont,,,6.0
-Atomflot,,,1.0
+Atomenergoproekt,,,1.0
+Atomic Energy Authority of China (CAEA),,,1.0
+Atomic Energy of Canada Ltd.,2.0,,4.0
 Atomics International,,,1.0
 Atommash,,,5.0
 Atomspetsservice,,,1.0
-Atomstroyexport,1.0,,7.0
+Atomstroyexport,1.0,,5.0
 Atos,,,1.0
-Austin Energy,8.0,3.0,64.0
-Axpo,,,2.0
+Aura Energy,,,1.0
+Austin Energy,,,1.0
+Australian Nuclear Science and Technology Organisation,,,1.0
+Axiom Space,,,1.0
+Axpo,,,1.0
+Axpo Power AG,,,1.0
+B&W,,,1.0
 BAKS,,,1.0
-BAM Nuttall,3.0,,4.0
+BAM Infra Netherlands,1.0,,
+BAM Nuttall,2.0,,3.0
 BARC,,,1.0
 BESIX,,,1.0
 BGE,,,6.0
+BHARATIYA NAHBIKIYA VIDYUT NIGAM LIMITED,,,1.0
 BHEL,,,1.0
 BHP,,,1.0
 BHR,,,2.0
 BKW (formerly Bernische Kraftwerke),,,1.0
+BKW Energie AG,,,1.0
 BLF,,,1.0
 BN-1200M,,1.0,
 BNDES,,,1.0
-BNFL,,1.0,1.0
+BNFL,,1.0,
+BNL,,,1.0
 BREST-OD-300,,1.0,
 BRIN,,,1.0
 BT Pension Scheme,,,1.0
 BWRX,,,1.0
-BWXT,4.0,,25.0
-Babcock,,,2.0
-Balfour Beatty,2.0,1.0,5.0
+BWXT,4.0,,31.0
+Babcock,,,1.0
+Babcock Power Inc.,,,1.0
+Balfour,,,1.0
+Balfour Beatty,2.0,1.0,4.0
+Bam,,,1.0
+Bangor University,,,1.0
+Battelle Energy Alliance,2.0,,1.0
 Bauer Hungary Ltd.,,,1.0
 Bayern Kapital,,,1.0
-Bechtel,3.0,,28.0
+Bechtel,3.0,,24.0
+Bechtel Cavendish Nuclear Solutions,,,1.0
+Bechtel National,,,2.0
+Bel V,,,2.0
 Belenergo,,,1.0
 Belledune Port Authority,,,1.0
+Berkshire Hathaway,,,1.0
 Betavolt,,,1.0
 Bhavini,,,1.0
+Bilfinger,,,2.0
+Bilfinger Noell,,,1.0
 Bilfinger Peters Engineering,,,1.0
+Bilfinger Piping Technologies UK,,,2.0
+Biomashinostroene AD,,,1.0
 Bionomics,,,1.0
+Bloom Energy,,,1.0
 Blue Capsule,,,2.0
+Blue Laser Fusion (BLF),,,1.0
 Blue Origin,,,1.0
 Blue Wave,,,1.0
+Blue Wave AI Labs,,,2.0
 Blykalla,,,2.0
 Boeing,,,2.0
+Boss Energy,,,1.0
+Boston Dynamics,1.0,,
 Bouygues Travaux Publics,,,2.0
-Bpifrance,,1.0,3.0
+Bpifrance,,,1.0
 Branislav Strýček,,,1.0
 Brazilian Navy,,,1.0
+Breakthrough Project,,,1.0
 Britain Remade,,,1.0
-British Nuclear Fuels Limited,,,2.0
-Brookfield Renewable,1.0,,3.0
-Bruce Power,10.0,,21.0
+British Nuclear Fuels Ltd (BNFL),,,3.0
+British Steel,,,1.0
+Brookfield,,,1.0
+Brookfield Renewable,1.0,,2.0
+Bruce C,,1.0,
+Bruce Power,9.0,,21.0
 Bryden Wood,,,2.0
 Building Trades of Alberta,,,1.0
 Bularmex-IK JSCo,,,1.0
+Bulmachinery Enterprises Ltd,,,1.0
 Bundesanstalt für Geowissenschaften und Rohstoffe,,,1.0
+Bureau Veritas,,,1.0
 Bureau Veritas Bulgaria,,,1.0
 Burns & McDonnell,,,2.0
+C5 Capital,,,3.0
+CAEA,,,1.0
 CAMMESA,,,1.0
 CCTE,,,1.0
-CEA,3.0,,10.0
-CERCA,,2.0,2.0
-CERES Power,,,1.0
-CEZ,3.0,1.0,21.0
-CFPP LLC,,,6.0
+CEA,2.0,,6.0
+CERCA,,2.0,1.0
+CERCA Romans,,,1.0
+CEZ,3.0,1.0,20.0
+CFPP LLC,,,2.0
 CFS,,,2.0
-CGN,1.0,,7.0
+CGN,,,7.0
+CGNPC-URC,1.0,,
 CIC,,,1.0
 CIMC Enric,,,1.0
 CITON,1.0,,1.0
+CNEA,1.0,,2.0
 CNFC3G,,,1.0
-CNNC,3.0,,17.0
+CNLY,,,1.0
+CNNC Hainan Nuclear Power Company,1.0,,2.0
+CNNC Overseas Limited,,,1.0
+CNNC Zhejiang Energy Co Ltd,,,1.0
+CNNC-Guodian Zhangzhou Energy Company,,,1.0
 CNNP,,,1.0
-CNPE,,,2.0
+CNP,,,1.0
+CNPE,,,1.0
 CNSC,,,2.0
+CNSL,,,1.0
+CORE,,,1.0
+CORE Energy Systems,,,1.0
 COVVI,,,1.0
-CRA,,1.0,1.0
-CRM Group,,,2.0
+CPS Energy,,,1.0
+CRA,,1.0,
+CRM,,,1.0
+CRM Group,,,1.0
 CSIRO,,,2.0
 CVG,,,2.0
-Cameco,3.0,1.0,14.0
+Caley Ocean Systems,,,1.0
+Cameco,2.0,1.0,11.0
+Cameco Corp,,,1.0
+Cameco Corporation,,,3.0
+Canada Infrastructure Bank,,,3.0
+Canada's Cameco,1.0,,
 Canadian Commercial Corporation,1.0,,
 Canadian Nuclear Association (CAN),,,2.0
-Canadian Nuclear Laboratories (CNL),,,27.0
+Canadian Nuclear Laboratories (CNL),,,25.0
 Canadian Nuclear Safety Commission (CNSC),1.0,1.0,3.0
+Candu Energy,4.0,,6.0
+Canon Electron Tube Device Corporation,,,1.0
 Capital Power,,,1.0
+Case Western Reserve University,,,1.0
 Cavendish,,,1.0
-Cenovus Energy,,,3.0
+Cavendish Nuclear,4.0,,1.0
+Cenovus,,,2.0
+Cenovus Energy,2.0,,3.0
 Central Design & Technological Institute,,,1.0
+Central Enterprise for the Management of Radioactive Waste,,,1.0
+Central Plateau Clean-up Company (CPC Co),,,1.0
 Centralna Energoremontna Baza EAD,,,1.0
 Centrica,,,2.0
-Centrum výzkumu Řež (CVŘ),,,3.0
-Centrus Energy Corp,38.0,6.0,134.0
+Centrum výzkumu Řež (CVŘ),,,1.0
+Centrus,3.0,1.0,10.0
+Centrus Energy Corp,1.0,,6.0
 Century,,,1.0
+Cerberus Nuclear,,,2.0
+Cernavoda NPP,,,1.0
 ChNPP,,,1.0
+Chiba Institute of Technology (CIT),,,1.0
+Chiltern Vital Group,,,1.0
+China,,,4.0
+China Datang Group,,,1.0
+China Energy Investment Corporation,,,4.0
+China First Heavy Machinery Co Ltd,,,1.0
+China General Nuclear,4.0,,7.0
+China General Nuclear Power Group,1.0,,2.0
 China Guodian Corporation,,,2.0
-China National Nuclear Corp,2.0,,
-Chugoku Electric,,,3.0
+China Huaneng Group,1.0,,2.0
+China National Nuclear Corporation,7.0,,41.0
+China National Nuclear Corporation's subsidiary China Nuclear Engineering Corporation,,,1.0
+China National Nuclear Power (CNNP),1.0,,3.0
+China Nuclear Industry 24 Construction Company,2.0,,4.0
+China Nuclear Power Engineering,,,3.0
+China Nuclear Power Research and Design Institute,,,2.0
+Chinese,1.0,,
+Chugoku Electric,,,1.0
+Chugoku Electric Power Company,,,1.0
 Clark Seed,,,1.0
-Clean Core,,,5.0
-Climentum Capital,,1.0,4.0
+Clean Core,,,3.0
+Climentum Capital,,,1.0
 ComEd,,,1.0
+Comanche Peak Power Company,,,1.0
 Combustion engineering,,,2.0
 Cominak,,,1.0
+Commission for Atomic Energy & Alternative Energies (CEA),1.0,,2.0
+Commonwealth Fusion Systems (CFS),,,1.0
 Compania Nationala a Uraniului (CNU),,,1.0
-Constellation,,1.0,17.0
+Compania Națională Nuclearelectrica (SNN),,,1.0
+Concern Titan-2 JSC,1.0,,
+Conference Board of Canada,,,1.0
+Constellation,,1.0,13.0
+Constellation Energy Corp,,,2.0
+Constellation Energy Generation,,,2.0
 Consulper,,,1.0
 Conuar,,,1.0
+Coordinating Ministry for Economic Affairs of the Republic of Indonesia,,,1.0
 Copenhagen Atomics,,1.0,7.0
+Core Power,,,10.0
+Corespring Invest,1.0,,
 Costain,,,1.0
 Covra,,,2.0
 Createc,1.0,,
 Creative Energy,,,1.0
 Crédit Agricole CIB,,,1.0
+Crédit Agricole Group,,,1.0
+Cumbria Nuclear Solutions,,,1.0
 Curio,,,2.0
 Curium,,,3.0
 Curtiss-Wright,,,1.0
 Cwmni Egino,,,5.0
-DAE,,,2.0
+DAE,,,1.0
 DARPA,,,1.0
 DBD,,,1.0
 DBI-Virtuhcon,,,1.0
 DESNZ,,,1.0
-DMT GmbH & Co,1.0,,1.0
-DOE,1.0,,13.0
-DTRA,,,2.0
+DL E&C,1.0,,2.0
+DMT GmbH & Co,,,1.0
+DOE,1.0,,12.0
+DOE Office of Environmental Management (EM),,,1.0
+DOE/NNSA,,,1.0
+DOW Chemical,,,2.0
+DSS Sustainable Solutions USA,,,1.0
+DTRA,,,1.0
+Daewoo,,,1.0
+Daewoo E&C,,,1.0
+Daewoo Engineering & Construction,,,1.0
+Daewoo Shipbuilding & Marine Engineering,,,2.0
+Dairyland Power Cooperative,,,1.0
 Dalian Baoyuan Nuclear Equipment,,,1.0
+Dalian Municipal Construction Investment Co,,,1.0
 Dalton Utilities,,1.0,3.0
 Danish start-ups,,,1.0
 Dassault Systèmes,,,1.0
 Data61,,,1.0
+Datang International Power Generation Company,,,1.0
 Datastart,,,1.0
+Day and Zimmerman,,,1.0
 Deep Isolation,2.0,,4.0
+DeepGEO,,,1.0
 DeepTech & Climate Fonds,,,1.0
-Degussa AG,,,3.0
+Degussa AG,,,1.0
 Dell,,,1.0
-Desktop Metal,,1.0,2.0
+"Department for Business, Energy and Industrial Strategy (BEIS)",,,1.0
+Des Nëdhé Group,,,1.0
+Desktop Metal,,1.0,1.0
 Det Norske Veritas,,,1.0
 Diamondback,,,1.0
+Direct One,1.0,,
+Direct Rail Services,,,2.0
 Dominion Energy,,,4.0
-Doosan Enerbility,3.0,3.0,20.0
+Dongfang Electric Corporation,,,1.0
+Dongguk Nuclear Solution,,,1.0
+Doosan,1.0,,2.0
+Doosan Co,,,1.0
+Doosan Enerbility,2.0,3.0,17.0
 Doosan Energy,,,2.0
-Dow,7.0,,8.0
+Doosan Heavy Industries & Construction,,,1.0
+Dounreay Site Restoration Ltd,,,1.0
+Dow,7.0,,6.0
 Dragonball,,,1.0
 Drax,,,1.0
-Dual Fluid,,1.0,6.0
-E.ON,1.0,,6.0
+Drone Delivery Canada Corp (DDC),,,1.0
+Dual Fluid,,1.0,2.0
+Dual Fluid Energy,,,1.0
+Duke Energy,,1.0,9.0
+Duke Energy Carolinas,,,1.0
+Duke Energy Progress,,,1.0
+Dutch Authority for Nuclear Safety and Radiation Protection,,,1.0
+E-INFRA,1.0,,1.0
+E.ON,,,3.0
 EBRD,1.0,,2.0
-EDF,17.0,21.0,146.0
+EC,1.0,,1.0
+EDF,17.0,21.0,139.0
+EDF EPR Engineering,,,1.0
+EDF Energy Holdings Ltd,,,1.0
+EDF Generation,,,1.0
+EDF Group,,,2.0
+EDF R&D,,,1.0
+EDF Trading,,,1.0
+EDU II,,,1.0
+EGIS Industries,,,1.0
 EHT,,1.0,
 EIB,,,1.0
 EIG,,,1.0
 EIT InnoEnergy,,,2.0
-ELIA AD,,,4.0
+ELIA AD,,,1.0
+EM,,,1.0
 ENBPar,,,1.0
+ENE,,,1.0
 ENEA,1.0,1.0,5.0
-ENEC,2.0,1.0,15.0
-EOS,,,2.0
+ENEC,2.0,1.0,13.0
+EOS,,,1.0
+EP Slovakia BV,,,1.0
 EPH,,,1.0
 EPK,,,1.0
-EPR,,1.0,3.0
+EPR,,,2.0
+EPR2,,,1.0
+EPRI,,1.0,
 EPZ,,,1.0
+ERA,,,1.0
 ERA-supported PMU,,,1.0
 ES Fox,3.0,,1.0
 EUROCHEMIC,,,1.0
 EWEC,,,1.0
+EXIM,,,1.0
 Ed. Züblin AG,,,1.0
-Edison,,,5.0
+Edison,,,4.0
+Edvance UK,,,2.0
 Efinor,,,2.0
+Egypt Atomic Energy Authority,,,1.0
+Egypt's Nuclear Power Plants Authority (NPPA),1.0,,1.0
 Eiffage,,,1.0
+Electrabel,,1.0,3.0
+Electric Power Research Institute (EPRI),,,4.0
+Electricité de France,,,2.0
 Electrogrup,1.0,,
-Elektrárna Dukovany II,,,2.0
+Elektrárna Dukovany II,,,1.0
 Eletrobras,,,2.0
 Eletronuclear,,,5.0
 Elysee,,,1.0
-Emissions Reduction Alberta,1.0,,2.0
+Emirates Nuclear Energy Corporation (ENEC),,,10.0
+Emissions Reduction Alberta,,,1.0
 Empresarios Agrupados (EA),,,1.0
 EnBW,,,2.0
-Enel,2.0,,11.0
-Energoatom,8.0,11.0,70.0
+Enel,1.0,,4.0
+Enel Group,1.0,,
+Enel Produzione SpA,,,1.0
+Energoatom,8.0,11.0,68.0
 Energoholding,,,1.0
+Energoremont-Galabovo AD,,,1.0
 Energy Exploration,,,1.0
 Energy Harbor,,,2.0
-Energy Northwest,5.0,,5.0
+Energy Northwest,4.0,,5.0
+Energy Research Accelerator,,,1.0
+Energy Solutions Canada,,,1.0
 EnergySolutions,,,2.0
 Enfission,1.0,,
-Engie Electrabel,2.0,3.0,13.0
+Engie,2.0,2.0,6.0
+Engie Electrabel,,,4.0
 Enresa,,,4.0
+Ensa,,,1.0
 Ensreg,,,1.0
+Entergy,,,4.0
 Entra1,,,1.0
-Enusa,1.0,1.0,3.0
+Enusa,1.0,1.0,2.0
+Enusa Industrias Avanzadas,,,1.0
 Environment Agency (EA),,,3.0
+Environmental Working Group,,,1.0
 Envision AESC,,,1.0
+Equipos Nucleares SA (ENSA),,,1.0
 Equitix,,,1.0
 Eskom,,,6.0
 EthosEnergy,,,2.0
-European Investment Bank (EIB),,,5.0
-Evonik AG,,,2.0
-Exelon Generation,,,4.0
+European Bank for Reconstruction & Development (EBRD),,,3.0
+European Commission,,,2.0
+European Institute for Energy and Transport (JRC-IET),1.0,,
+European Investment Bank (EIB),,,3.0
+Evonik AG,,,1.0
+Exelon,,,1.0
+Exelon Generation,,,2.0
 Expedition Engineering,,,3.0
+Export Development Canada,,,1.0
 ExxonMobil,,,1.0
 FAB,,,1.0
 FANC,,,4.0
@@ -261,245 +470,443 @@ FANR,,,2.0
 FKA,,,1.0
 FONGIT,,,1.0
 FPCU Feldioara,,,1.0
-FPoliSolutions,1.0,,1.0
+FPoliSolutions,1.0,,
+FSUE NO RAO,,,1.0
 FSUE Radon,,,1.0
+Federal Agency for Nuclear Control,,,1.0
+Federal Authority for Nuclear Regulation (FANR),,,1.0
 Federal Network Agency,,,1.0
+Fengyuan Thermal Power,,,1.0
 Fennovoima,,,3.0
 Fermi Energia,4.0,2.0,10.0
 Ferreira Guedes,,,1.0
 Fincantieri,,1.0,
-First Abu Dhabi Bank,,,10.0
-First Light Co. Ltd,1.0,1.0,21.0
-First Light Fusion,,,6.0
-Flibe,,,1.0
+First Abu Dhabi Bank,,,1.0
+First Light Co. Ltd,,,1.0
+First Light Fusion,,,5.0
+First Mats,,,1.0
+First Nations Power Authority (FNPA),,,1.0
+Flibe,,,2.0
+Fluid Controls and Components,,,2.0
 Fluor,1.0,,5.0
-Forth,,,2.0
-Fortum,6.0,2.0,17.0
-Framatome,10.0,6.0,69.0
-Frazer-Nash Consultancy,,,1.0
-French companies,,,3.0
+Fluor Corporation,,1.0,5.0
+"Fluor–BWXT Portsmouth, LLC",,,1.0
+Ford,,,1.0
+Forth,,,1.0
+Fortum,6.0,1.0,16.0
+Fortum Power & Heat Oy,,1.0,
+Fortum Uniper Nuclear Services (FUNS),,,1.0
+Framatome,9.0,6.0,64.0
+Framatome GmbH,,,1.0
+Framatome SAS - Siemens AG,1.0,,
+Framatome US Government Solutions,,,1.0
+Framatome-Siemens consortium,,,1.0
+France,,1.0,2.0
+France's Orano,1.0,,
+France-China Chamber of Commerce and Industry,,,1.0
+France’s EDF,,,1.0
+Frazer-Nash Consultancy Ltd,,,2.0
+French,,,1.0
+French Nuclear Safety Authority,,,1.0
+French companies,,,1.0
+Fuego Red,,,1.0
+Fuel Cell Energy,1.0,,
 FuelCell Energy,,,3.0
 Full Matrix Ltd,,,1.0
-Full-Life Technologies,,,2.0
-GA-EMS,,,2.0
+Full-Life Technologies,,,1.0
+Full-Life Technology Europe,,,1.0
+Fusion for Energy (F4E),,,3.0
+GA,,,1.0
+GA Electromagnetic Systems,,,1.0
+GA-EMS,,,1.0
 GAP,,,1.0
 GBN,,,2.0
+GE,,3.0,11.0
+GE Hungary Kft,,,1.0
+GE Oil & Gas Marine & Industrial UK Ltd,,,1.0
+GE Research,,,2.0
 GE Steam Power,1.0,,5.0
-GE Vernova,2.0,,5.0
-GE-Hitachi,15.0,16.0,90.0
+GE Vernova,2.0,,4.0
+GE Vernova's Nuclear business,,,1.0
+GE-H,,1.0,
+GE-Hitachi,22.0,11.0,102.0
+GE-Hitachi Nuclear Energy International,,2.0,2.0
+GEAST UK Ltd,,,1.0
 GEN Energija,,,2.0
-GERB Vibration Control Systems,1.0,,4.0
+GERB Vibration Control Systems,1.0,,1.0
 GFP,1.0,,
 GIC,,,1.0
 GK Neolant,,,1.0
+GLE,,,1.0
+GMB,1.0,,
 GMET,,,1.0
 GNS,,,2.0
-GSE Solutions,2.0,,10.0
-GSPI,1.0,,3.0
+GNS Gesellschaft für Nuklear-Service mbH,,,3.0
+GS Energy Corporation,,1.0,1.0
+GSE Solutions,2.0,,
+GSPI,1.0,,2.0
 GScan,,,1.0
 Gazprombank,,,2.0
-General Atomics,,1.0,12.0
-General Electric,1.0,,11.0
+Geely Technology Group,,,1.0
+Gencoa Ltd,,,1.0
+General Atomics,,1.0,11.0
+General Electric,1.0,,7.0
+General Electric Company,,,1.0
+General Electric Global Research,,,1.0
+General Electric Hitachi,,,1.0
+General Electric Steam Power,,,1.0
 General Fusion,,,8.0
 Georgia Power,,3.0,14.0
+Geosonda,,,1.0
 Getka,,,1.0
 Ghana News Agency,,,1.0
 Gidropress,,,3.0
 Gilmartin Engineering Works,,,1.0
-Global Laser Enrichment (GLE),1.0,,
-Global Nuclear Fuel-Americas (GNF-A),3.0,1.0,11.0
-Goodwin International,,,2.0
-Google-X,,,3.0
+Global 2000,,,1.0
+Global First Power,,,1.0
+Global Morpho Pharma,,,2.0
+Global Nuclear Fuel,,,1.0
+Global Nuclear Fuel-Americas (GNF-A),,1.0,1.0
+Goodwin International,,,1.0
+Google-X,,,1.0
 Graham Construction,,,1.0
-Granitor Growth Management,,,4.0
+Granitor Growth Management,,,1.0
 Grant County Public Utility District,1.0,,
+Great British Energy,,1.0,1.0
+Great British Nuclear,1.0,,15.0
 Greenpeace Energy,,2.0,
-Grupa Azoty,1.0,,2.0
+Gresham House Secure Income Renewable Energy & Storage LP (SIRES),,,1.0
+Grouped Entrepreneurs International SA,,,1.0
+Groupement des Industriels Français de l'Energie Nucléaire (Gifen),,,1.0
+Grupa Azoty,,,1.0
 Gruppo Aturia,,,1.0
+Guangdong Energy Group,,,1.0
+Guangxi Investment Group,2.0,,1.0
+HALEU Energy Fuel,,,1.0
 HCVC,,,1.0
-HD KSOE,,,3.0
-HDEC,,,2.0
+HD Hyundai,,,5.0
+HD KSOE,,,2.0
+HD Korea Shipbuilding & Offshore Engineering (KSOE),,,3.0
+HDEC,,,1.0
+HEC,,,1.0
+HTGF,,,1.0
 Halden Kjernekraft,2.0,,1.0
+"Hanford Tank Waste Operations & Closure, LLC",,,1.0
 Hanki,,,1.0
 Hanson,,,3.0
+Hanson UK,,,1.0
 Hanwon Central Research Institute,,,1.0
-Hatch,2.0,,7.0
+Hatch,2.0,,5.0
+Hatch Ltd,,,2.0
 Haykakan Atomayin Elektrakayan,,,1.0
 Hayward Tyler,,,2.0
 Health & Safety Executive (HSE),,,1.0
 Heidelberg Materials,,,2.0
 Helen,,,6.0
 Helical Fusion,,,1.0
-Helion,,,3.0
+Helion,,,2.0
+Helion Energy,,,1.0
 Helmholtz Zentrum Berlin (HZB),,,1.0
+Herbert Engineering Corp (HEC),1.0,,
 Hexana,,,1.0
-High-Tech Gründerfonds (HTGF),1.0,,4.0
+High-Tech Gründerfonds (HTGF),,,2.0
 Himmash JSC,,,1.0
-Hitachi Zosen,,,2.0
-Hokuriku Electric,,,1.0
-Holtec Britain,4.0,8.0,42.0
-Holtec International,1.0,2.0,23.0
+Hitachi Zosen,,,1.0
+Hitachi Zosen Co Ltd,,,1.0
+Hokuriku Electric Power,,,2.0
+Holtec,1.0,6.0,52.0
+Holtec Britain,3.0,3.0,7.0
+Holtec Britain Limited,,1.0,1.0
+Holtec Decommissioning International,,,1.0
+Holtec Maintenance & Modification International (HMI),,,1.0
+Hoosier Energy,,,1.0
+Horizon Nuclear Power,,,3.0
 Houlder,,,1.0
+House of Ventures,,,1.0
 Howden,,,1.0
 Hualong,,,3.0
+Huaneng Company,,,1.0
 Hugh Simpson Contractors,,,1.0
 Huisman,,,1.0
-Hynamics,1.0,,1.0
-Hyundai Engineering,4.0,1.0,37.0
+Hungarian Atomic Energy Authority,4.0,,15.0
+Hydromine Nuclear Energy,1.0,,
+Hynamics,,,1.0
+Hyundai E&C,1.0,,3.0
+Hyundai Engineering,1.0,,4.0
+Hyundai Engineering & Construction,3.0,,5.0
+Hyundai Engineering & Construction Co Ltd (Hyundai E&C),,1.0,2.0
 Hyundai Heavy Industries,,,1.0
+Höfer & Bechtel,,,1.0
 IAEA,4.0,3.0,7.0
 IBRAE RAS,,,2.0
-IC Içtas,1.0,,6.0
+IC Içtas,1.0,,4.0
 IDOM,,,4.0
 IGCAR,,,1.0
+IHI Corp.,,,1.0
+IHI Corporation,,,7.0
 IHS Markit,,1.0,
-ILF,,,3.0
+ILF,,,1.0
 IMI Critical Engineering,,,1.0
 INB,,,1.0
+INET-CNNC,,,1.0
 INP,,1.0,
 INTERA Incorporated,,,1.0
+INUKI,,,1.0
 INVAP,1.0,,5.0
-IP Group,3.0,,26.0
+IP Group,,,1.0
 IPP,,,1.0
-IRE,1.0,,9.0
+IRE,,,4.0
+IRE ELiT,,,1.0
 IRID,,,1.0
 IRSN,,,2.0
 ISAMZ,,,1.0
 ISEC Monitoring Systems,,,1.0
-ITER,,,4.0
+ITER,,,2.0
+ITER Organisation,,,2.0
+ITM,2.0,,1.0
+ITM Isotope Technologies Munich,1.0,,1.0
 Iberdrola,,,1.0
 Idaho Environmental Coalition (IEC),,,1.0
-Idaho National Laboratory (INL),,,9.0
-Imabari Shipbuilding,,,2.0
+Idaho National Laboratory,3.0,1.0,19.0
+Imabari Shipbuilding,,,1.0
 Impact Innovations,,,1.0
 Imperial College London,,1.0,1.0
 Impuls Zeeland,,,1.0
 Independent Nuclear Assurance (INA),1.0,,
-Indonesia Power,,,4.0
-Industria,1.0,2.0,11.0
+Indonesia Power,,,3.0
+Industria,,1.0,3.0
+Industrial Development Agency JSC (IDA),,1.0,
+Industrial Parts,,,1.0
+Industrias Metalúrgicas Pescarmona SA (IMPSA),,,1.0
 Indústrias Nucleares do Brasil (INB),,,1.0
 Ingérop,,,1.0
+Institute of Energy and Nuclear Research (IPEN),,,1.0
+Institute of Nuclear and New Energy Technologies of Tsinghua University,,,1.0
+"Institute of Plasma Physics, Chinese Academy of Sciences ASIPP",,,1.0
 Intel,,,1.0
+Interim Storage Partners LLC,,,1.0
+International Atomic Energy Agency,,,1.0
+International Nuclear Services,,,1.0
 Interpath Advisory,,,1.0
-Intuitive Machines,1.0,,1.0
+Intuitive Machines,,,1.0
 Invesco,,,1.0
-Invest-NL,1.0,,1.0
+Invest-NL,,,1.0
 Isogen,3.0,,
-Italian Space Agency,,,5.0
-Itochu,,,2.0
+Italian Space Agency,,,1.0
+Itochu,,,1.0
 Ivo,,1.0,
-JAEA,,1.0,11.0
+JAEA,,,9.0
 JAVYS,1.0,,2.0
 JESS,,,1.0
+JGC Corp.,,,1.0
+JGC Corporation,,,4.0
+JGC Engineering,,,1.0
 JGC Holdings,,,1.0
 JIC Venture Growth Investments,,,1.0
-JSC Diacon,3.0,,12.0
+JSC AEM-Technologies,2.0,,2.0
+JSC Akkuyu Nuclear,2.0,,5.0
+JSC Atomenergoremont,,,5.0
+JSC Atomstroyexport (ASE),1.0,,2.0
+JSC Baltiysky Zavod,,,1.0
+JSC Diacon,,,1.0
+JSC Energospetzmontazh,1.0,,4.0
+JSC Energy Special Installation (ESI),1.0,,
+JSC GSPI,,,1.0
 JSC ITC JET,1.0,,
-JSC MSU-90,,,2.0
+JSC Luch,,,1.0
+JSC MSU-90,,,1.0
+JSC NFC Logistics Centre,,,1.0
+JSC Nikiet,1.0,,1.0
+JSC Orgenergostroy,,,1.0
+JSC Orgenergostroy Institute,1.0,,2.0
+JSC RAOS,,,1.0
 JSC RaoProekt,,,1.0
-JSC VNIIAES,,,2.0
-Jacobs,3.0,,12.0
+JSC Rusatom Automated Control Systems,1.0,,3.0
+JSC Rusatom Overseas,1.0,,3.0
+JSC TsPTI,1.0,,
+JSC VNIIAES,,,1.0
+Jacobs,3.0,,11.0
+Jacobs Naarea,,,1.0
+Jacobs UK,1.0,,
 Jadrová Energetická Spolocnost Slovenska,,,1.0
-Japan,2.0,,4.0
+Japan,,,1.0
+Japan Atomic Energy Agency (JAEA),1.0,1.0,4.0
+Japan Atomic Industrial Forum,,,1.0
+Japan Atomic Power Company,1.0,,1.0
+Japan Bank for International Cooperation,,,1.0
+Japan Nuclear Fuel Ltd (JNFL),,,1.0
+Jiangsu Guoxin Group,,,3.0
+Jiangsu Nuclear Power Corporation,,,4.0
 John Gunn & Sons,,,1.0
+Joint Research Centre,,,1.0
 Joint Research Centre-European Commission,,,1.0
 K-Sure,,,1.0
 KAERI,,,1.0
 KBR,,,1.0
-KF,,,3.0
-KGHM Polska Miedź,2.0,1.0,11.0
-KHNP,2.0,3.0,22.0
+KEPCO E&C,,,5.0
+KF,,,2.0
+KGHM,,1.0,6.0
+KGHM Polska Miedź,2.0,,5.0
 KINGS,,,1.0
 KKM,,,2.0
+KMC JSC,,,1.0
 KPMG,,,1.0
 KPPN (Courtesy KNPP),,,1.0
-KTH Innovation,,1.0,3.0
+KSOE,,,1.0
+KTH Innovation,,1.0,2.0
 KWU,,,1.0
 KZNPP-NM,,,1.0
 Kairos,3.0,1.0,10.0
 Kamilla,,,1.0
-Kansai Electric,,1.0,5.0
+Kansai Electric,,1.0,2.0
+Kansai Electric Power Co,2.0,1.0,12.0
+Karlsruhe Institute of Technology,,,1.0
+Karpov Institute,,,1.0
+Kazakhstan Nuclear Power Plants,,,1.0
 Kazatomprom,1.0,2.0,7.0
-Kepco,2.0,,20.0
+Kepco,,,8.0
+Kepco International Nuclear Graduate School,,,1.0
+Kepco KPS,,,3.0
+Kepco Nuclear Fuel,,,1.0
+Kepco Technology,,,1.0
+Kepco fuel,,,1.0
+Kernkraftwerk Gösgen-Däniken AG,,,1.0
+Kernkraftwerk Leibstadt AG,,,1.0
 Kerry,,,1.0
-Kexim,,,2.0
-Kia,,,2.0
+Kexim,,,1.0
+Kia,,,1.0
 Kinectrics,5.0,,5.0
 Korad,,,1.0
-Korea Gas Corp (KOGAS),,,5.0
+Korea,,,1.0
+Korea Atomic Energy,,1.0,
+Korea Electric Power Company (Kepco),1.0,,6.0
+Korea Electric Power Corporation,,1.0,
+Korea Gas Corp (KOGAS),,,1.0
+Korea Hydro & Nuclear Power Corporation,,,1.0
+Korea Institute of Fusion Energy (KFE),,,1.0
+Korea National Oil Corp (KNOC),,,1.0
+Korea hydro and Nuclear Power (KHNP),10.0,5.0,44.0
 Korean Domestic Agency,,,1.0
+Kostrzyn-Słubicka Special Economic Zone SA (KSSSE),,,1.0
+Kozloduy NPP,1.0,,
+Kozloduy NPP-Newbuild,2.0,,1.0
+Kozloduy NPP-Novemostnosti,1.0,,
 Kranostroene Engineering,,,1.0
+Kudankulam NPP,,,1.0
 Kuopion Energia,,,3.0
+Kurchatov Institute,,,1.0
 Kursk NPP,,,2.0
 Kyoto Fusioneering,,,10.0
+Kärnfull Future AB,,,1.0
 Kärnfull Next,,,5.0
+LANL,,,2.0
 LDR,,,1.0
-LEP,,,2.0
+LEP,,,1.0
+LIS,,,1.0
 LISCR,,,1.0
 LSEZ,,,1.0
 Labour,,1.0,
 Laing O'Rourke,3.0,,
 Langfields Ltd,,,1.0
+Last Energy,,1.0,5.0
 Laurentis,1.0,,
+Laurentis Energy Partners,,,6.0
 Leadcold,,,2.0
 Legal & General,,,1.0
 Leibniz-Institut für Angewandte Geophysik,,,1.0
 Leibniz-Institut für Photonische Technologien,,,1.0
 Leidos,,,1.0
+Liaoning Hongyanhe Nuclear Power Company,,,1.0
+Liaoning Nuclear Power Company Limited,,,1.0
 Libri Publishing Ltd.,,,1.0
 Liebherr,,,2.0
 Lifeline Ventures,,,1.0
-Lightbridge,2.0,1.0,7.0
+Lightbridge,,,5.0
+Lightbridge Corporation,2.0,1.0,2.0
+Limac Company,,,1.0
 Linde,,,1.0
-Lloyd Resister,,,2.0
+Lloyd's Register,,,3.0
 Lockheed Martin Corporation,,,1.0
+Lockheed Martin Space,,,1.0
+Longenecker & Associates,,,1.0
 Longview,,,1.0
-Los Alamos National Laboratory,,,2.0
+Longview Fusion Energy Systems,,,1.0
+Los Alamos,,,1.0
+Los Alamos National Laboratory,,,1.0
 Los Alamos Technical Associates,,,1.0
 Lotte Chemical Corp,,,1.0
 Loviisa,,1.0,
+Low Level Waste Repository Limited (LLWR),,,1.0
 Lucideon,,,1.0
 M Vestt,,1.0,
+MARVEL,,1.0,
 MCC,,,5.0
+MEAG Power,,,2.0
 MHI,,,3.0
-MIT,,,5.0
+MIT,,,2.0
+MIT Energy Initiative,,,1.0
 MMC Norilsk Nickel,1.0,,1.0
 MOL DryBulk,,,1.0
+MSU-90,,,1.0
 MSZ,,,1.0
 MTG-Dolphin,,,1.0
+MVM Paks NPP,,,1.0
 Magnox,,,6.0
+Magnox Ltd,,,4.0
 Malin Group,,,1.0
-Mallinckrodt Medical,1.0,,1.0
+Mallinckrodt Medical,1.0,,
 Mammoet,,,3.0
+Manchester Centre for Robotics and AI,,,1.0
 Mangiarotti,,,1.0
+Manila Electric Co (Meralco),,,1.0
+Marine Engineering Bureau Malakhit,,,1.0
 Martingale,,,2.0
-Marvel Fusion,,1.0,1.0
+Marvel Fusion,,,1.0
 Mashinostroitelny Zavod,,1.0,4.0
+Massachusetts Institute of Technology’s Plasma Science & Fusion Center (MIT PSFC),,,1.0
+Materion Corporation,1.0,,2.0
 Matricial,,,1.0
-Max Planck Institute for Plasma Physics,,,3.0
+Max Planck Foundation,,,1.0
+Max Planck Institute for Plasma Physics,,,2.0
 Mayak,,,2.0
 McMahon Communications,,,1.0
 Meralco,1.0,,1.0
 Metatomic,,,1.0
 Metroscope,,,2.0
-Microsoft,,,7.0
+Micromet AD,,,1.0
+Microsoft,,,6.0
+Microsoft Canada,,,1.0
 Mid-America Conversion Services,,,1.0
 Middle Estates,,,1.0
-Mirion Technologies,1.0,,11.0
+Milan Vidmar Electrical Institute (EMV – Elektroinštitut Milan Vidmar),,,1.0
+Millwright Regional Council of Ontario’s (MRCO),,,1.0
+MinSredMash,,,1.0
+Mirion Technologies,,,2.0
+Mitsubishi,,,1.0
+Mitsubishi Electric Corporation,,,1.0
+Mitsubishi Electric of Japan,,,1.0
 Mitsubishi FBR Systems (MFBR),,,2.0
-Mitsubishi Heavy Industries,2.0,,10.0
-Moltex Energy,1.0,,5.0
-MoltexFLEX,2.0,,14.0
+Mitsubishi Heavy Industries,1.0,,7.0
+Moltex,5.0,,22.0
 Morson,,1.0,1.0
 Motie,,,1.0
 Mott Macdonald,,,5.0
 Multiconsult Norge AS,,,1.0
+Municipal Electric Authority of Georgia (MEAG),,2.0,4.0
 Mustang,,,1.0
-NAC,,,9.0
-NANO,,,3.0
+N-Visage UK,,,1.0
+NA Dollezhal Scientific Research & Design Institute of Power Engineering (Nikiet),,,3.0
+NA-SA,,1.0,4.0
+NAC,,,4.0
+NAC International,,,7.0
+NANO,,,2.0
 NAP,,,2.0
-NASA,,1.0,9.0
+NASA,,,5.0
+NB Power,,1.0,6.0
 NCNR,,,1.0
+NDA,,,2.0
+NEI,,,2.0
+NEK,,,1.0
 NEMO,,,1.0
 NFS,,,1.0
 NFT Inc,,,1.0
@@ -507,352 +914,642 @@ NG Bailey,,,1.0
 NIIAR,,,1.0
 NIIEFA,,,1.0
 NIIPT,,,1.0
-NNB,,,2.0
+NNB,,,1.0
+NNB Generation Company,,,2.0
+NNB Generation Company (Sizewell C) Limited,,,1.0
+"NNB Generation Company (Sizewell C) Limited (NNB), Office for Nuclear Regulation (ONR)",,,1.0
+NNB Holding Company (SZC) Ltd,,,1.0
+NNB Nuclear Generation (SZC) Limited,,,1.0
+NNC,,,1.0
 NNL,,,5.0
 NNSA,,,2.0
-NO RAO Zheleznogorsk branch,,,2.0
+NO RAO Zheleznogorsk branch,,,1.0
 NPCIL,2.0,,4.0
-NPP Doza,4.0,1.0,9.0
+NPP Doza,,,1.0
 NPPA,,,2.0
 NRA,,,1.0
-NRC,,1.0,7.0
-NRG,1.0,,11.0
+NRC,,1.0,6.0
+NRG,,,9.0
+NRG Energy,,,4.0
+NRG|Pallas,1.0,,2.0
 NSERC,,,1.0
 NTP Radioisotopes,,,1.0
-NTS,,,3.0
-NUKEM Technologies,,,15.0
+NTS,,,2.0
+NUKEM,,,2.0
+NUKEM Technologies,,,14.0
 NUVIA,,,1.0
 NWMO,,,3.0
 NYSERDA,,,1.0
-Naarea,1.0,,7.0
-Nagra,,,7.0
+Naarea,1.0,,5.0
+Naarea SA,,,2.0
+Nagra,,,5.0
+Nagra BEVA AG,,,1.0
+Nagra gTL AG,,,1.0
+Nano Nuclear Energy,,,1.0
+Nantong CIMC Energy Equipment Co Ltd,,,1.0
 Nantong Energy,,,1.0
 NatWest,,,1.0
-National Nuclear Laboratory,6.0,1.0,35.0
-National Nuclear Security Administration,22.0,2.0,114.0
+National Atomic Energy Commission (CNEA),,,2.0
+National Grid,,,2.0
+National Ignition Facility,,,1.0
+National Institute for Fusion Science (NIFS),,,1.0
+National Nuclear Laboratory,3.0,1.0,8.0
+National Nuclear Security Administration,,,2.0
+National Research Centre Kurchatov Institute,,,1.0
+National Research and Innovation Agency of Indonesia,,,1.0
+National Thermal Power Corporation (NTPC),,,1.0
 Natrium,,,2.0
 Natsiunalnata Elektricheska Kompania,,,1.0
-Natura Resources,,,4.0
+Natura Resources,,,2.0
+Natural Resources Wales (NRW),,,2.0
 Naval Group,2.0,,2.0
 Nawah,,,1.0
+Nawah Energy Company,,1.0,2.0
+Nebraska Public Power District (NPPD),,,1.0
 Necsa,,,1.0
 Nest,,,1.0
 Netcity,1.0,,
+New Brunswick Power (NB Power),1.0,,1.0
+New Mexico Department of Transportation,,,1.0
 New Mexico Environment,,,1.0
-NexGen Energy,,,2.0
-Nikiet,1.0,,5.0
-Nippon Export and Investment Insurance,,,2.0
+NexGen Energy,,,1.0
+Nexgen,,,1.0
+NextChem Tech,1.0,,
+Nikiet,,,4.0
+Nippon Export and Investment Insurance,,,1.0
 Nissan,,,1.0
+Nizhny Tagil Metal Structures Plant,,,1.0
 Nordion,,,1.0
-Norsk Kjernekraft,3.0,1.0,12.0
+Norsk Kjernekraft,3.0,1.0,11.0
+NorthStar Group Services,,,2.0
+NorthStar Medical Radioisotopes,,,1.0
 Northrop Grumman,,,1.0
-Nova Power & Gas,2.0,1.0,19.0
+Nova Power & Gas,1.0,1.0,6.0
 NovaWind,,,1.0
 Novatome,,,1.0
-Novatron Fusion,,,1.0
+Novatron Fusion Group,,,2.0
+Novosibirsk Chemical Concentrates Plant,,,2.0
 NuCycle,,,1.0
 NuPEA,,,1.0
-NuScale Power,51.0,34.0,246.0
-Nuclear Alternative Project (NAP),,,6.0
-Nuclear Decommissioning Authority,,,8.0
-Nuclear Industry Association,,,6.0
+NuScale,23.0,26.0,96.0
+NuScale Power Corporation,,2.0,2.0
+NuScale Power Module,,,1.0
+Nuclear AMRC,,,2.0
+Nuclear Alternative Project (NAP),,,1.0
+Nuclear Decommissioning Authority,,,7.0
+Nuclear Decommissioning Authority’s (NDA’s) Integrated Waste Management Programme,,,1.0
+Nuclear Energy Agency (NEA),,,1.0
+Nuclear Energy Institute,,,7.0
+Nuclear Fuel Services (NFS),,,3.0
+Nuclear Industry Association,,,5.0
+Nuclear New Build Generation (SZC) Ltd,1.0,,
+Nuclear Power Corporation of India Ltd,,,8.0
+Nuclear Power Ghana (NPG),,,4.0
+Nuclear Power Institute of China,,,1.0
 Nuclear Regulation Authority,,,3.0
-Nuclear Regulatory Commission (NRC),,1.0,2.0
+Nuclear Research Group (NRG),1.0,,
 Nuclear Restoration Services,,,2.0
-Nuclear Waste Management Organisation,,,1.0
-Nuclearelectrica,4.0,,19.0
+Nuclear Transport Solutions,,,5.0
+Nuclear Waste Management Organisation of Japan,,,2.0
+Nuclear Waste Partnership,,,1.0
+Nuclear Waste Services,3.0,,11.0
+Nuclear and Decommissioning Company (JAVYS),,,1.0
+Nuclearelectrica,3.0,,13.0
+Nuclearelectrica Romania,,,1.0
 Nucleareurope,,,4.0
 Nuclenor,,,2.0
 Nucleoeléctrica Argentina,2.0,,3.0
+Nuclep,,,1.0
 Nuueen,,,1.0
 Nuward,1.0,,5.0
-OC Robotics,,,2.0
+OC Robotics,,,1.0
+OKBM,,,1.0
 OKBM Africantov,,1.0,6.0
 OKG,1.0,,1.0
+OKLO (VOYGR packs),,,1.0
 OMERS,1.0,,1.0
 OMZ,,,1.0
 OMZ Public Joint-Stock Company,,,1.0
 ONDRAF/NIRAS,,1.0,
 ONR,,,3.0
-OPG,3.0,3.0,14.0
 OSCE,,,1.0
-OSI,,1.0,7.0
-Oak Ridge National Laboratory (ORNL),,,11.0
+OSGE,,,3.0
+OSI,,,1.0
+Oak Ridge National Laboratory (ORNL),,,10.0
+Oak Ridge Technologies,,,1.0
 Office for Nuclear Regulation,1.0,1.0,5.0
-Oglethorpe Power,,2.0,7.0
-Oklo,3.0,2.0,15.0
-Omexom and Taylor Woodrow JV (OTW),,,2.0
+Office of Nuclear Energy,,,2.0
+Oglethorpe Power,,2.0,6.0
+Oglethorpe Power Corporation,,,1.0
+Oklo,3.0,2.0,13.0
+Oklo Inc,,,1.0
+Omexom and Taylor Woodrow JV (OTW),,,1.0
 Omniflex,,,1.0
 Onomichi Dockyard,,,1.0
-Orano,4.0,,38.0
-Orlen,2.0,1.0,9.0
+Ontario Power Generation,13.0,3.0,39.0
+Ontario Tech (OTU),,,1.0
+Orano,3.0,,30.0
+Orano Med,,,3.0
+Orano NPS,,,2.0
+Orano USA,,,3.0
+Organisation of Canadian Nuclear Industries (OCNI),,,1.0
+Orlen,,1.0,3.0
+Orlen Synthos Green Energy,3.0,,17.0
 Outokumpu,,1.0,1.0
-Oxford Sigma,,,2.0
+Oxford Sigma,,,1.0
 PA Consulting,,,1.0
 PAA,,,1.0
-PALLAS Reactor Preparation Foundation (PALLAS),1.0,,1.0
+PAKS,,1.0,
+PALLAS Reactor Preparation Foundation (PALLAS),1.0,,
 PATEC,,,1.0
+PCL Nuclear Management,,,1.0
 PDENH,,,1.0
 PEJ,1.0,,3.0
-PGE,1.0,,8.0
+PG&E,,,1.0
+PGE,1.0,,4.0
+PGE PAK Energia Nuclear,,,1.0
+PGE Pak Energia Jadrowa,,,1.0
 PK Valve,,,1.0
+PKN Orlen,2.0,,3.0
 PLEF,,,1.0
+PLN,,,2.0
 PNPI,,,1.0
+PODEMCRANE AD,,,1.0
 PSEG,,,1.0
 PT Batan Teknologi,,,1.0
+PT Industry Nuklir Indonesia (INUKI),,,1.0
 PT PAL Indonesia,,,2.0
-PT PLN (Persero),,,4.0
+PT PLN,,,1.0
+PT PLN (Persero),,,1.0
+PT Pertamina Power Indonesia,,,1.0
 PTT,,,2.0
 Pacific Gas & Electric,,,1.0
-Paks NPP,,1.0,1.0
+Pacific Gas and Electric Company,1.0,,1.0
+Pacific Northwest National Laboratory,1.0,,1.0
+Pacific Nuclear Transport Ltd (PNTL),,,2.0
+Pajarito Scientific Corporation (PSC),,,1.0
+Paks NPP,,,1.0
+Paks-II Ltd.,,,1.0
+Pallas-Reactor,,,1.0
+Paragon Energy Solutions,,,2.0
 Parkwalk Advisors,,,1.0
 Pertamina,,,2.0
+Philippines largest power utility,,,1.0
+Phoenix Group,,,1.0
 Pinsent Masons,,,1.0
 Planetary Science Institute,,,1.0
-Plural Platform,,,2.0
+Plasma Research Centre,,,1.0
+Plug Power Siemens,,,1.0
+Plural,,,1.0
+Plural Platform,,,1.0
+Pohjolan Voima,,,1.0
+Poland's OSGE,,,1.0
 Polimex,,,1.0
+Polska Grupa Energetyczna,1.0,,1.0
 Polskie Elektrownie Jadrowe,,,9.0
 Pompes Rütschi SAS,,,1.0
+Posco E&C,1.0,,1.0
+Positron Ventures,,,1.0
+Posiva,,1.0,3.0
+Posiva Oy,,,1.0
+Potomac Communications Group,,,1.0
 Presight Capital,,,1.0
+PreussenElektra,,,5.0
+PricewaterhouseCoopers LLC (PwC),,,1.0
 Princeton Satellite Systems,,,1.0
 Princeton University,,,1.0
-Prodigy,1.0,,5.0
-Prolog LLC,,,2.0
-Promcomplect-B,,,2.0
+Private Fuel Storage,,,1.0
+Prodigy,1.0,,2.0
+Prodigy Clean Energy,,,3.0
+Project Phoenix,,,1.0
+Prolog,,,1.0
+Prolog LLC,,,1.0
+Promcomplect-B,,,1.0
 Prometey Construction,,,1.0
+Proryv project,,,1.0
 Proxima Fusion,,,3.0
 Pulsar Fusion,,,1.0
 PwC,,,1.0
+QSA Global,,,1.0
 QST,,,1.0
-RAFA,,,3.0
+RAFA,,,1.0
 RASU,,,1.0
 RATEN,,,2.0
-RED,,,4.0
+RED,,,1.0
+RI Research Instruments,,,1.0
 RINA,,1.0,
+RITM-200,,,1.0
 RMC,,,1.0
+RR,,,3.0
 RWE,,,1.0
+RWE Power,,,1.0
 Radiant,,,3.0
+Radiant Industries,1.0,,1.0
+Radioactive Waste Management (RWM) Limited,,,1.0
+Rafako,,,1.0
 Ramboll,,,1.0
+Raos Project,,,2.0
+Reactor Institute Delft,1.0,,
 Recumo,,,1.0
 Regardie,,,1.0
+Regnum Technology Group,,,4.0
 Renaissance Fusion,,,2.0
-Research Institute for Atomic Reactors,1.0,1.0,17.0
+Research Institute for Atomic Reactors,,,5.0
 Ringhals,,,1.0
-Ritm,2.0,,3.0
-RoPower,1.0,2.0,7.0
+Ritm,,,1.0
+RoPower,1.0,1.0,3.0
+RoPower Nuclear,,1.0,4.0
 Rock Creek Innovations,,,2.0
 Rockwell,,,1.0
-Rolls-Royce,23.0,23.0,69.0
-Rosatom,51.0,19.0,249.0
+Rolls,,,1.0
+Rolls-Royce,22.0,23.0,63.0
+Rolls-Royce LibertyWorks,,,1.0
+Rolls-Royce SMR A,,,1.0
+Rolls-Royce SMR Limited,,,3.0
+Rolls-Royce Submarines,1.0,,
+Romanian Atomic Forum,,,1.0
+Rosatom,50.0,17.0,233.0
+Rosatom (implied by the mention of Leningrad NPP),,,1.0
+Rosatom (via RITM-200),,,1.0
+Rosatom Energy Projects,,,1.0
+Rosatom Engineering Division,,1.0,2.0
+Rosatom's Atommash plant,,,1.0
+Rosatomflot,,,2.0
+Rosatom’s Fuel Company TVEL,,,3.0
+"Rosatom”, “TVEL”, ",,1.0,1.0
 Roselectronics,,,1.0
+Rosenergoatom Concern,,,1.0
 Rosgvardiya,,,3.0
 Rostechnadzor,1.0,2.0,6.0
-Rostekh State Corporation,,,1.0
-Rusatom Overseas,1.0,,2.0
-Rusatom Service,1.0,,4.0
-Russia,,1.0,8.0
-SACE,,1.0,1.0
-SCC,1.0,,3.0
+Rostekh State Corporation,,,2.0
+Rusatom Service,1.0,,1.0
+Rusatom – International Network,,,1.0
+Russia,,1.0,5.0
+Russia's TSS Group,,,1.0
+Russian Defence Ministry,,,1.0
+Russian Federation,,,1.0
+Rütschi Fluid AG,,,1.0
+S&P Platts,,,1.0
+SACE,,1.0,
+SCC,1.0,,2.0
 SCK-CEN,,,10.0
 SCS,,,1.0
-SCX Special Projects,,,3.0
+SCX,,,1.0
+SCX Special Projects,,,1.0
+SE,,,2.0
 SECIN,,,1.0
-SGE,,,6.0
+SGE,,,3.0
 SGSC,,,1.0
 SIMSA,,,2.0
-SK Inc,1.0,1.0,2.0
-SKB,,,5.0
+SK,,,2.0
+SK Ecoplant,1.0,,1.0
+SK Inc,,1.0,1.0
+SKB,,,2.0
 SMU 1 LLC,,,1.0
-SNC-Lavalin,4.0,,16.0
-SNN,1.0,2.0,4.0
+SN Nuclearelectrica SA (SNN),,,1.0
+SNC,,,1.0
+SNC-Lavalin,2.0,,13.0
+SNC-Lavalin Group,2.0,,2.0
+SNN,1.0,2.0,3.0
 SNRIU,,,1.0
 SOC,,,1.0
+SOGAZ JSC,,,1.0
 SPIC,1.0,,1.0
 SRNS,,,1.0
 SSM,,,1.0
 SSN,,,1.0
-STP Nuclear Operating Company,,1.0,22.0
+STP Nuclear Operating Company,,,2.0
+STUK,,,1.0
 SUAS Group,,,2.0
 Saab,,,1.0
 Saai,,,1.0
 Saber Astronautics,,,1.0
-Samsung C&T Corporation,4.0,3.0,43.0
-Samsung Heavy Industries,,,4.0
+Samruk-Kazyna,,,1.0
+Samsung,,,1.0
+Samsung C&T,,,2.0
+Samsung C&T Corporation,,1.0,5.0
+Samsung Heavy Industries,,,3.0
 Sandia,,,1.0
 Sarens,,,1.0
 Sargeant & Lundy,1.0,,3.0
 SaskPower,3.0,2.0,7.0
 Savannah River National Laboratory,,,1.0
-Schneider Electric,,2.0,9.0
+Savannah River Nuclear Solutions,,,2.0
+Schneider Electric,,2.0,3.0
 Scott Brownrigg,,,1.0
-Seaborg,2.0,,10.0
+Seaborg,2.0,,7.0
+Seaborg Technologies,,,3.0
+Seddon Construction Ltd,,,1.0
 Seligdar,1.0,,
-Sellafield Ltd,,2.0,17.0
+Sellafield Ltd,,2.0,13.0
 Seth Twum-Akwaboah,,,1.0
 Shanghai Boiler Works Limited,,,1.0
+Shanghai Electric Power Equipment Company,,,2.0
+Shanghai Nuclear Engineering Research and Design Institute,,,5.0
 Shanghai Nuclear Labor Institute,,,1.0
-Sheffield Forgemasters,1.0,1.0,3.0
-Siberian Chemical Combine,,,5.0
-Siemens,1.0,1.0,14.0
-Silex,2.0,,4.0
+Sheffield Forgemasters,1.0,1.0,1.0
+Sheffield Forgemasters International (SFI),,,1.0
+Shell Global Solutions,1.0,,
+Shoreline Power Group,1.0,,
+Siberian Chemical Combine,,,3.0
+Siberian Group of Chemical Enterprises,,,1.0
+Siemens,1.0,,7.0
+Siemens Energy,,,1.0
+Silex,,,1.0
+Silex Systems Ltd,2.0,,3.0
 Siteflow,,,3.0
+Sizewell C,,1.0,
 Skanska,,,1.0
 Skepast & Puhkim,,,1.0
-Slovenské Elektrárne,,,12.0
+Slovak Power Holding BV (SPH),,,1.0
+Slovenské Elektrárne,,,15.0
 Smart Green Shipping (SGS),,,1.0
+Smolensk NPP,,,2.0
+Smolenskatomenergoremont (SAER),,,1.0
+Societatea Nationala Nuclearelectrica (SNN),1.0,,4.0
 Sogin,,,1.0
 Sokolovska Uhelna,,,2.0
 Solexperts,,,1.0
+South African Atomic Energy Corporation (Necsa),,,1.0
+South Korea,,,2.0
 Southern,,,1.0
-SpaceX,,,2.0
-Springfields Fuels Limited,,,4.0
-Sprott Uranium Trust,,,2.0
+Southern California Edison,,,1.0
+Southern Company,,2.0,18.0
+Southern Nuclear,,1.0,11.0
+Southwestern Institute of Physics,,,1.0
+SpaceX,,,1.0
+Spring Valley Acquisition Corp.,,1.0,
+Springfields Fuels Ltd (SFL),,,3.0
+Sprott,,,1.0
+Sprott Uranium Trust,,,1.0
 Standard Power,,,2.0
-State Council of China,2.0,3.0,34.0
+Starfire Energy,,,1.0
+State Council of China,,,1.0
+State Development & Investment Corporation,,,1.0
+State Nuclear Regulatory Inspectorate of Ukraine (SNRIU),,,1.0
+State Power Investment Corporation,1.0,,4.0
+State Scientific & Technical Centre for Nuclear & Radiation Safety,,,1.0
 Steady Energy,1.0,,10.0
-Steel Atlas,,,2.0
+Steel Atlas,,,1.0
 Stellarex,,,1.0
 Stellaria,,,4.0
 Steve Vick International,,,2.0
 Stimson Center,,,1.0
-Studsvik,1.0,,6.0
+Strana Rosatom,,,1.0
+Strategic Innovation Fund,,,1.0
+Studsvik,1.0,,3.0
+Studsvik Scandpower,,,3.0
+Sumitomo Corporation,1.0,,1.0
 Sunderland City Council,,,1.0
 Supracon,,,1.0
-Svensk Kärnbränslehantering AB (SKB),1.0,,3.0
+Svensk Kärnbränslehantering AB (SKB),1.0,,2.0
 Svenska Kraftnat,,,1.0
 Sydkraft,,,1.0
-Synthos,,1.0,4.0
+Synthos,,1.0,3.0
+Synthos Group,,,1.0
 TANICS,,,1.0
-TEPCO,4.0,2.0,16.0
+TAU Systems,,,1.0
+TEPCO,1.0,,13.0
 TINT,,,1.0
+TITAN-2 (part of Rosatom),1.0,,
+TITAN-2 JSC,1.0,,2.0
 TM INOX,,,1.0
 TRANSCO,,,1.0
-TRIGA International,,,2.0
-TRISO-X,2.0,,2.0
-TRIUMF,,,4.0
-TSM Enerji,1.0,,3.0
+TRISO,1.0,,
+TRISO-X,1.0,,2.0
+TRIUMF,,,3.0
+TRIUMF Innovations,,,1.0
+TSM Enerji,1.0,,2.0
+TSM Enerji Insaat Sanayi Limited Şirketi,,,1.0
 TSOs,,,1.0
-TU Delft,1.0,,1.0
+TSP Engineering,,1.0,1.0
+TU Bergakademie Freiberg,,,1.0
+TU Delft,1.0,,
+TUM,,1.0,
 TVA,,,3.0
-TVEL,6.0,2.0,47.0
-TVO,4.0,1.0,8.0
+TVEL,6.0,2.0,45.0
+TVEL Fuel Company,,,2.0
+TVO,1.0,1.0,6.0
+TVONS,,,1.0
 TWI,2.0,,1.0
 Talen,,,1.0
+Talen Energy,,,1.0
 TechnicAtome,2.0,,3.0
 Technip Energies,,,1.0
 Tecnatom USA,,,1.0
 Tecniark,,,1.0
 Tecnimont,1.0,,1.0
-Teledyne Brown Engineering,,1.0,4.0
+Teledyne Brown Engineering,,,2.0
+Teledyne UK Ltd,,,1.0
 Teletrix,,,1.0
 Tenex,,,2.0
 Tennessee Valley Authority,2.0,,5.0
-Teollisuuden Voima Oyj (TVO),3.0,2.0,11.0
+Teollisuuden Voima Oyj (TVO),3.0,2.0,10.0
+Tepco Holdings Co Ltd,,,1.0
 Teplárny Brno,,,1.0
 Terex-Demag,1.0,,
-TerraPower,3.0,3.0,47.0
-TerraPraxis,,,3.0
+Terra Praxis,,,1.0
+TerraPower,3.0,3.0,44.0
+TerraPraxis,,,2.0
+Terrafame,,,1.0
 Terrestrial Energy,5.0,2.0,9.0
+Texas A&M,,,1.0
 Thales,,,1.0
-The VG Khlopin Radium Institute,,,2.0
+The Nuclear Container Corporation,,,1.0
+The Open University,,,1.0
+The Urals Federal University (UrFU),,,1.0
+The VG Khlopin Radium Institute,,,1.0
+Thermal Engineering International,,,3.0
+Third Qinshan Nuclear Power Co (TQNPC),,,1.0
 Thomas Thor,,,2.0
-Thorcon,,,7.0
+ThorCon,,,7.0
 Thorizon,1.0,,4.0
 Tia Logistics,,,1.0
-Titan-2,1.0,,4.0
-Tokamak Energy,4.0,,6.0
+Tiny Supercomputer Investment Co.,,,1.0
+Titan-2,,,3.0
+Titan2 IC Içtaş Inşaat Anonim Şirketi,,,2.0
+Tohoku Electric,,,1.0
+Tokamak Energy,3.0,,6.0
 Tokyo,,,1.0
-Tomsk Polytechnic University,,,3.0
+Tokyo Electric Power Co,2.0,2.0,6.0
+Tokyo Electric Power Holdings (Tepco),1.0,1.0,5.0
+Tomsk Polytechnic University,,,1.0
 Topsoe,1.0,,
 Torch Technologies,,,1.0
 Tornado,,,1.0
 Toshiba,,1.0,1.0
-Tosto Group,1.0,,
-Tractebel,6.0,,9.0
-TransAlta Corporation,,,3.0
-Transmutex SA,,,2.0
+Tosto Group,1.0,,1.0
+Tractebel,6.0,,7.0
+Tractebel Engineering Ltda,,,2.0
+TransAlta Corporation,,,1.0
+TransAlta US,,,1.0
+Transmutex SA,,,1.0
 Transrad,,,2.0
-Trest RosSEM,,1.0,4.0
-Tsinghua University,,,5.0
+Trest RosSEM,,1.0,2.0
+TrestRosSEM,,,1.0
+TsKBM,,,1.0
+TsKBM (part of Rosatom’s mechanical engineering division Atomenergomash),,,3.0
+Tsinghua University,,,1.0
 Turner & Townsend,,,1.0
 Tyazhmash,1.0,,1.0
+Type One Energy,,,1.0
 UCOR,,,2.0
 UDC UGR,,,1.0
 UJV,,,1.0
-UK,3.0,,42.0
-UK’s Nuclear Waste Services (NWS),,,7.0
+UK,,,2.0
+"UK Atomic Energy Authority (UKAEA), Nuclear Industry Association (NIA)",,,1.0
+UK Industrial Fusion Solutions Ltd,1.0,,
+UK Space Agency,,,1.0
+UKAEA,,,10.0
+ULC-Energy,3.0,1.0,7.0
+UNC,,,1.0
 URSJN,,,1.0
-US PacifiCorp,1.0,2.0,6.0
-US Steel Košice,2.0,2.0,9.0
+US,,,2.0
+US Department of Energy (DOE),3.0,,17.0
+US Department of Energy (DOE) Office of Environmental Management (EM),,,1.0
+US Environmental Protection Agency,,,2.0
+US Exim Bank,,,2.0
+US Export-Import (Exim) Bank,,1.0,2.0
+US Global Laser Enrichment,2.0,,2.0
+US International Development Finance Corporation,,,2.0
+US NRC,,,1.0
+US Nuclear,,,1.0
+US Nuclear Industry Council,,,1.0
+US Nuclear Regulatory Commission (NRC),2.0,2.0,3.0
+US PacifiCorp,1.0,2.0,5.0
+US Space Nuclear Power Corporation,,,1.0
+US Steel Košice,,,2.0
+US Trade and Development Agency (USTDA),,,1.0
+US-based Clean Core Thorium Energy,,,1.0
+US-based Global Nuclear Fuel-Americas,1.0,,
+US-based Westinghouse Electric,,,1.0
+USACE,,,1.0
 USEC,,,1.0
-USNC,3.0,1.0,16.0
-USTDA,,,5.0
-UVC Partners,,,4.0
+USTDA,,,4.0
+UVC Partners,,,2.0
 UZWIL,,,1.0
 Uamps,,,2.0
 Ulba FA,1.0,,
 Ulba-TVS,,1.0,
-Ultra Safe Nuclear Corporation,6.0,2.0,23.0
+Ultra Safe Nuclear Corporation,7.0,2.0,35.0
 Unimot,,,1.0
-Union Carbide,,,4.0
-Uniper,,1.0,2.0
-United Engineers & Constructors,1.0,,4.0
+Union Carbide,,,1.0
+Union Pacific Railroad,,,1.0
+Union Square Ventures,,,1.0
+Union of Concerned Scientists,,,1.0
+Uniper,,1.0,1.0
+Uniper Nuclear Services GmbH,,,1.0
+United Engineers & Constructors,1.0,,2.0
+United Kingdom Atomic Energy Authority,,,1.0
 United Nuclear Corporation (UNC),,,1.0
+United Shipbuilding Corporation,,,2.0
+United States,,,1.0
+United constructions,,,1.0
+University of Bristol,,,2.0
 University of Cambridge,,,1.0
+University of Florida,,,1.0
 University of Leicester,1.0,,1.0
+University of New South Wales,,,1.0
 University of Sheffield,,,2.0
+Uppsala University,,,1.0
+Uralatomenergoremont,,,1.0
 Uranium Energy Corp,,,1.0
-Urenco,3.0,2.0,28.0
+Urenco,2.0,2.0,25.0
+Urenco Ltd,,,1.0
+Urenco Nederland,,,1.0
+Urenco UK,,,1.0
+Urenco USA,1.0,,
+Utah Associated Municipal Power Systems,1.0,,2.0
 UxC,,,1.0
 Uzatom,,,1.0
-V/O Izotop JSC,4.0,,16.0
+Uzatom Agency,,,1.0
+V/O Izotop JSC,,,1.0
+VNIIAES,,,1.0
 VNIINM,,,4.0
+VNS UK,,,1.0
 VTT,,,2.0
+VTT Technical Research Centre of Finland,,,2.0
 VUJE,,,3.0
 Vaalputs,,,1.0
 Vattenfall,5.0,2.0,9.0
-Veolia,,,4.0
+Veolia,,,2.0
+Veolia Group,,,1.0
+Veolia Nuclear Solutions (VNS),,,1.0
 Vertical Future,,,1.0
 Verve Ventures,,,1.0
 Vessco,,,1.0
 Virial,,,1.0
-Vistra,,,5.0
+Vistra,,,3.0
+Vistra Operations Company,,,1.0
+Vistra Vision,,,1.0
 Vital Energi,,,1.0
 Vogtle,,,1.0
 Vulcain Engineering,,,1.0
 Vulcan Burners,,,2.0
-WANO,,,2.0
-WEC Group,,1.0,1.0
+WANO,,,1.0
+WANO MC,,,1.0
+WEC,,1.0,
+WEC Group,,,1.0
 WESEE,1.0,,
+WPIL Limited,,,1.0
 WSDE,,,1.0
+Walco Industries Ltd.,,,2.0
 Walter Tosto,,,1.0
-Waste Control Specialists,,,4.0
+Waste Control Specialists,,,3.0
 Welsh Government,,,1.0
-Western Gateway,,,2.0
+Western Gateway,,,1.0
+Western Service Corporation,,,1.0
 Westfälische Wilhelms-Universität Münster,,,1.0
-Westinghouse,31.0,23.0,181.0
+Westinghouse,31.0,23.0,173.0
+Westinghouse (BWRX 300),,,1.0
+"Westinghouse (parent company of Westinghouse Electric Company, which developed the AP-1000)",,,1.0
+Westinghouse Government Services,,,2.0
+Westinghouse Nuclear,,,1.0
 Wilbe Group,,,2.0
-Wood Mackenzie,,,2.0
-World Nuclear Association (WNA),,,2.0
+Wolf Creek Nuclear Operating Corporation,,,1.0
+Wolverine Power Cooperative,,,1.0
+Wood,,,1.0
+Wood & Company,,,1.0
+Wood Mackenzie,,,1.0
+World Association of Nuclear Operators (WANO),,,1.0
+World Bank,,,1.0
+World Nuclear Association,,,3.0
 Worldgrid,,,1.0
+X-Energy,18.0,1.0,45.0
+X-Energy Reactor Company,,,2.0
+X-energy (Xe-100),,,1.0
+XCAM Ltd,,,1.0
 Xcel,,,2.0
 Y-12 National Security Complex,,,1.0
 YIT Suomi Oy,,,1.0
 YRYS-Expert-Kurylys,,,1.0
 Yellow Cake,,,2.0
 Yes VC,,,1.0
-ZE PAK,2.0,1.0,5.0
-ZNPP EO JSC,,2.0,2.0
+ZE PAK,2.0,,4.0
+ZEPAK,,1.0,1.0
+ZNPP,,2.0,1.0
+ZNPP EO JSC,,,1.0
 ZRE,,,1.0
+Zap Energy,,,1.0
+Zaporizhia NPP,,1.0,1.0
 Zarmen,,,1.0
+Zespół Elektrowni Pątnów-Adam-Konin SA,,,1.0
 Zhongyuan,,,1.0
-ZiO-Podolsk,,,2.0
+ZiO-Podolsk JSC,,,3.0
 ZionSolutions,,,1.0
 Zodiac Maritime,,,1.0
 Zwilag,,,1.0
+e-Vinci,,,1.0
 newcleo,8.0,1.0,14.0
 partner/supplier,,,1.0
 plant supplier,,,1.0
-Électricité de France (EDF),,,7.0
+redalpine,,,1.0
+terratec geophysical services GmbH & Co,,,1.0
+the Nuclear Advanced Manufacturing Research Centre,1.0,,
+Électricité de France (EDF),,,4.0
 Østfold Energi,2.0,,2.0
-Škoda,1.0,,5.0
+ÚJV Řež,,,2.0
+ČEZ Group,,,1.0
+Škoda,1.0,,
+Škoda JS,,,3.0
+Škoda Praha,,,2.0
