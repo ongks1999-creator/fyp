@@ -8,9 +8,10 @@ from sklearn.cluster import KMeans
 import numpy as np
 from adjustText import adjust_text
 import unicodedata
+import forestplot as fp
 
 # Understanding the distribution of query claim scores to find the thresholds to separate the final verification labels
-results_df = pd.read_csv("/homes/ko25/Desktop/fyp/query_claim_scores.csv")
+results_df = pd.read_csv("/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/query_claim_scores.csv")
 figure = plt.figure()
 axis = figure.add_subplot(1, 1, 1)
 axis.hist(pd.to_numeric(results_df["query_claim_score"]), bins = 100)
@@ -59,8 +60,29 @@ for index, entry in (results_df.iterrows()):
 # standardised company list is a list of these standardised names
 mapping_dict = {}
 standardised_company_list = []
+antimerge_names = {unicodedata.normalize("NFC", "Rosenergoatom"),
+                   unicodedata.normalize("NFC", "Argonne National Laboratory"),
+                   unicodedata.normalize("NFC", "UK Atomic Energy Authority (UKAEA)"),
+                   unicodedata.normalize("NFC", "UK Atomic Energy Authority"),
+                   unicodedata.normalize("NFC", "AEM-Technologies"),
+                   unicodedata.normalize("NFC", "Korea Atomic Energy Research Institute"),
+                   unicodedata.normalize("NFC", "TVO Nuclear Services"),
+                   unicodedata.normalize("NFC", "Xcel Energy"),
+                   unicodedata.normalize("NFC", "BWX Technologies"),
+                   unicodedata.normalize("NFC", "Kyushu Electric Power Co"),
+                   unicodedata.normalize("NFC", "Centrus Energy"),
+                   unicodedata.normalize("NFC", "TC Energy"),
+                   unicodedata.normalize("NFC", "China Power Investment Corporation"),
+                   unicodedata.normalize("NFC", "GS Energy"),
+                   unicodedata.normalize("NFC", "State Power Investment Corporation"),
+                   }
 
 for company in company_dict.keys():
+    # to prevent different companies from merging into one
+    if company in antimerge_names:
+        standardised_company_list.append(company)
+        mapping_dict[company] = company
+        continue
     # for the first entry, when our standardised list is empty
     if not standardised_company_list:
         # we add it to standardised name and map it to itself
@@ -78,6 +100,16 @@ for company in company_dict.keys():
     else:
         standardised_company_list.append(company)
         mapping_dict[company] = company
+
+# checking which companies merged, sorting companies based on the number of claims they have before the merge
+# as merging this companies can cause the overall ranking to change more significantly
+merging_list = []
+for company, standardised_name in mapping_dict.items():
+    if company != standardised_name:
+        merging_list.append({"Company": company, "Merged with": standardised_name, "Number of Claims Belonging to that Company Before Merge": len(company_dict[company])})
+merging_df = pd.DataFrame(merging_list)
+merging_df = merging_df.sort_values("Number of Claims Belonging to that Company Before Merge", ascending = False)
+merging_df.to_csv("merging_companies.csv", index = False)
 
 # alias names identified after obtaining initial results
 alias_names = {unicodedata.normalize("NFC", "Fluor Enterprises"): "Fluor",
@@ -140,26 +172,27 @@ for company, label_list in finalised_company_dict.items():
         entry[label] = count
     company_list.append(entry)
 
+min_claims = 30 # to remove companies with too little claims
 company_df = pd.DataFrame(company_list)
 company_df.sort_values("company").to_csv("company_names.csv", index = False)
 # to catch companies that have NaN on either of the labels, as sum of NaN and int give NaN
 company_df["Total Labels"] = company_df[["SUPPORT", "CONTRADICT", "NEI"]].fillna(0).sum(axis = 1)
-top_50 = company_df.sort_values("Total Labels", ascending = False).head(50)
+top_comp = company_df[company_df["Total Labels"] >= min_claims].sort_values("Total Labels", ascending = False)
 
-# have to fillna for all labels as some have NaN, top50 has the original label values from company df
-# Percentage of Supported Claims, Top 50 Companies
-top_50["Percentage of Supported Claims"] = (top_50["SUPPORT"].fillna(0) / top_50["Total Labels"]) * 100
+# have to fillna for all labels as some have NaN, top comp has the original label values from company df
+# Percentage of Supported Claims
+top_comp["Percentage of Supported Claims"] = (top_comp["SUPPORT"].fillna(0) / top_comp["Total Labels"]) * 100
 # Percentage of Contradicted Claims
-top_50["Percentage of Contradicted Claims"] = (top_50["CONTRADICT"].fillna(0) / top_50["Total Labels"]) * 100
+top_comp["Percentage of Contradicted Claims"] = (top_comp["CONTRADICT"].fillna(0) / top_comp["Total Labels"]) * 100
 # Percentage of NEI Claims
-top_50["Percentage of NEI Claims"] = (top_50["NEI"].fillna(0) / top_50["Total Labels"]) * 100
+top_comp["Percentage of NEI Claims"] = (top_comp["NEI"].fillna(0) / top_comp["Total Labels"]) * 100
 # Verifiability as we define it as Percentage Support - Percentage Contradict
-top_50["Percentage of Verifiability"] = top_50["Percentage of Supported Claims"] - top_50["Percentage of Contradicted Claims"]
+top_comp["Percentage of Verifiability"] = top_comp["Percentage of Supported Claims"] - top_comp["Percentage of Contradicted Claims"]
 
 # K means clustering based on verifiability of claims per company
 kmeans = KMeans(n_clusters = 3, random_state = 45)
-top_50["cluster"] = kmeans.fit_predict(top_50[["Percentage of Verifiability", "Percentage of NEI Claims"]])
-top_50[["company", "Percentage of Verifiability", "Percentage of NEI Claims", "cluster"]].sort_values("cluster").to_csv("top_50_companies_verifiability_clustering.csv", index = False)
+top_comp["cluster"] = kmeans.fit_predict(top_comp[["Percentage of Verifiability", "Percentage of NEI Claims"]])
+top_comp[["company", "Percentage of Verifiability", "Percentage of NEI Claims", "cluster"]].sort_values("cluster").to_csv("top_companies_verifiability_clustering.csv", index = False)
 
 
 scatter_plot = plt.figure(figsize = (20, 10))
@@ -173,8 +206,8 @@ cluster_color = {0: "red", 1: "blue", 2: "green"}
 ver_axis_entries = []
 NEI_axis_entries = []
 
-for index, row in top_50.iterrows(): # label each dot
-    color = cluster_color[row["cluster"]] # top 50 clustering was based on percentage verifiability and NEI features
+for index, row in top_comp.iterrows(): # label each dot
+    color = cluster_color[row["cluster"]] # top companies clustering was based on percentage verifiability and NEI features
     scatter_veri_axis.scatter(row["Total Labels"], row["Percentage of Verifiability"], c = color)
     scatter_NEI_axis.scatter(row["Total Labels"], row["Percentage of NEI Claims"], c = color)
     ver_axis_entries.append(scatter_veri_axis.text(row["Total Labels"], row["Percentage of Verifiability"], row["company"], fontsize = 15))
@@ -182,12 +215,12 @@ for index, row in top_50.iterrows(): # label each dot
 
 adjust_text(ver_axis_entries, ax = scatter_veri_axis)
 adjust_text(NEI_axis_entries, ax = scatter_NEI_axis)
-plt.savefig("top_50_companies_scatter.png")
+plt.savefig("top_companies_scatter.png")
 
 # K means based on publicity and coverage per company
 kmeans = KMeans(n_clusters = 3, random_state = 45)
-top_50["cluster"] = kmeans.fit_predict(top_50[["Total Labels"]])
-top_50[["company", "Total Labels", "cluster"]].sort_values("cluster").to_csv("top_50_companies_publicity_clustering.csv", index = False)
+top_comp["cluster"] = kmeans.fit_predict(top_comp[["Total Labels"]])
+top_comp[["company", "Total Labels", "cluster"]].sort_values("cluster").to_csv("top_companies_publicity_clustering.csv", index = False)
 
 
 # Comparison to Tiril's
@@ -220,23 +253,76 @@ comparison_company_df["Percentage of NEI Claims"] = (comparison_company_df["NEI"
 comparison_company_df["Percentage of Verifiability"] = comparison_company_df["Percentage of Supported Claims"] - comparison_company_df["Percentage of Contradicted Claims"]
 
 comp_colour = {"Mature": "green", "Moderate Maturity": "orange", "Least Mature": "purple"}
+comp_supp_axis_entries = []
+comp_contra_axis_entries = []
 comp_ver_axis_entries = []
 comp_NEI_axis_entries = []
-comp_scatter_plot = plt.figure(figsize = (20, 10))
-comp_scatter_veri_axis = comp_scatter_plot.add_subplot(1, 2, 1)
+comp_scatter_plot = plt.figure(figsize = (25, 20))
+comp_scatter_veri_axis = comp_scatter_plot.add_subplot(2, 2, 1)
 comp_scatter_veri_axis.set_xlabel("Total Labels")
 comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability")
-comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(1, 2, 2)
+comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(2, 2, 2)
 comp_scatter_NEI_axis.set_xlabel("Total Labels")
 comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims")
+comp_scatter_supp_axis = comp_scatter_plot.add_subplot(2, 2, 3)
+comp_scatter_supp_axis.set_xlabel("Total Labels")
+comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims")
+comp_scatter_contra_axis = comp_scatter_plot.add_subplot(2, 2, 4)
+comp_scatter_contra_axis.set_xlabel("Total Labels")
+comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims")
+comp_scatter_veri_axis.set_xscale("log")
+comp_scatter_NEI_axis.set_xscale("log")
+comp_scatter_supp_axis.set_xscale("log")
+comp_scatter_contra_axis.set_xscale("log")
 
 for index, row in comparison_company_df.iterrows(): 
     color = comp_colour[comparison_company[row["company"]][1]]
+    comp_scatter_supp_axis.scatter(row["Total Labels"], row["Percentage of Supported Claims"], c = color)
+    comp_scatter_contra_axis.scatter(row["Total Labels"], row["Percentage of Contradicted Claims"], c = color)
     comp_scatter_veri_axis.scatter(row["Total Labels"], row["Percentage of Verifiability"], c = color)
     comp_scatter_NEI_axis.scatter(row["Total Labels"], row["Percentage of NEI Claims"], c = color)
     comp_ver_axis_entries.append(comp_scatter_veri_axis.text(row["Total Labels"], row["Percentage of Verifiability"], row["company"], fontsize = 15))
     comp_NEI_axis_entries.append(comp_scatter_NEI_axis.text(row["Total Labels"], row["Percentage of NEI Claims"], row["company"], fontsize = 15))
+    comp_supp_axis_entries.append(comp_scatter_supp_axis.text(row["Total Labels"], row["Percentage of Supported Claims"], row["company"], fontsize = 15))
+    comp_contra_axis_entries.append(comp_scatter_contra_axis.text(row["Total Labels"], row["Percentage of Contradicted Claims"], row["company"], fontsize = 15))
 
 adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis)
 adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis)
-plt.savefig("comparison_companies_scatter.png")
+adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis)
+adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis)
+plt.savefig("comparison_companies_scatter_log.png")
+
+# forest plot
+confidence_z = 1.96
+# correction factor required for companies with zero support and contradict rates will have SE of zero
+# leading to a more narrow confidence interval than other companies
+corr_factor = 0.5
+
+forest_df = company_df[company_df["company"].isin(comparison_company.keys())].copy()
+comparison_company = {company: maturity for company, (name, maturity) in comparison_company.items()}
+forest_df["Maturity"] = forest_df["company"].map(comparison_company)
+forest_df["Corrected Total Labels"] = forest_df["Total Labels"] + 3 * corr_factor
+forest_df["Percentage of Corrected Supported Claims"] = ((forest_df["SUPPORT"].fillna(0) + corr_factor ) / forest_df["Corrected Total Labels"]) * 100
+forest_df["Percentage of Corrected Contradicted Claims"] = ((forest_df["CONTRADICT"].fillna(0) + corr_factor ) / forest_df["Corrected Total Labels"]) * 100
+forest_df["Percentage of Corrected NEI Claims"] = ((forest_df["NEI"].fillna(0) + corr_factor ) / forest_df["Corrected Total Labels"]) * 100
+forest_df["Percentage of Corrected Verifiability"] = forest_df["Percentage of Corrected Supported Claims"] - forest_df["Percentage of Corrected Contradicted Claims"]
+# convert variance to SE
+forest_df["Standard Error"] = np.sqrt((forest_df["Percentage of Corrected Supported Claims"] / 100 + forest_df["Percentage of Corrected Contradicted Claims"] / 100 - (forest_df["Percentage of Corrected Supported Claims"] / 100 - forest_df["Percentage of Corrected Contradicted Claims"] / 100) ** 2) / forest_df["Corrected Total Labels"]) * 100
+forest_df["Lower Limit"] = forest_df["Percentage of Corrected Verifiability"] - confidence_z * forest_df["Standard Error"]
+forest_df["Higher Limit"] = forest_df["Percentage of Corrected Verifiability"] + confidence_z * forest_df["Standard Error"]
+forest_df["Claim Count"] = forest_df["Total Labels"].astype(int).astype(str)
+
+
+fp.forestplot(forest_df,  
+              estimate = "Percentage of Corrected Verifiability", 
+              ll = "Lower Limit", hl = "Higher Limit",
+              varlabel = "company",
+              groupvar = "Maturity", 
+              group_order = ["Mature", "Moderate Maturity", "Least Mature"],
+              rightannote = ["Claim Count"],
+              right_annoteheaders = ["N Claims"],
+              xlabel = "Percentage of Verifiability (95% Confidence Interval)",
+              figsize = (6, 10)
+              )
+
+plt.savefig("comparison_companies_forest_plot.png", bbox_inches = "tight")
