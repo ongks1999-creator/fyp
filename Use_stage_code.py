@@ -20,19 +20,19 @@ Script for the Usage Stage:
 
 def main():
     # Initialise and load files
-    top_N = 3 # top N for relevant claims
+    top_N = 15 # top N for relevant chunks
     threshold = 0.3
 
-    query_claim_filepath = "/root/fyp/query_claims.csv"
-    build_claim_filepath = "/root/fyp/build_claims.csv"
-
+    claims_filepath = "/root/fyp/claims.csv"
+    chunks_filepath = "/root/fyp/chunks_final.csv"
     # embeds is a list of embeddings, claims is a list of strings, ids is a list of claim_ids
     # all three rely on the same indexing
-    query_claims_embeds, query_claims, query_claims_ids = embed_csv_files(query_claim_filepath, data_type = "claims")
-    build_claims_embeds, build_claims, build_claims_ids = embed_csv_files(build_claim_filepath, data_type = "claims")
+    claims_embeds, claims, claims_ids = embed_csv_files(claims_filepath, data_type = "claims")
+    chunks_embeds, chunks, chunks_ids = embed_csv_files(chunks_filepath, data_type = "chunks")
 
-    # Build FAISS index for build claims, for semantic retrieval of claims in database to match query claim
-    claims_FAISS_index = build_FAISS_index(build_claims_embeds)
+
+    # Build FAISS index for all chunks, for semantic retrieval of claims in database to match query claim
+    chunks_FAISS_index = build_FAISS_index(chunks_embeds)
 
     # Initialise Scibert to calculate stance score between query claim and relevant chunk
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -41,28 +41,28 @@ def main():
 
     scibert_model.to(device)
 
-    # Use dataframe to retrieve relevant chunks, and its respective sources
-    relationship_link_df = pd.read_csv("/root/fyp/relationshiplink.csv")
     sources_df = pd.read_csv("/root/fyp/sources.csv")
     chunks_df = pd.read_csv("/root/fyp/chunks_final.csv")
-    query_claims_df = pd.read_csv("/root/fyp/query_claims.csv")
+    claims_df = pd.read_csv("/root/fyp/claims.csv")
+    # build a dictionary to map ids to ids, ids to scores, faster than searching through dataframe for each iteration
+    chunk_id_to_source_id = dict(zip(chunks_df["chunk_id"], chunks_df["source_id"]))
+    claim_id_to_chunk_id = dict(zip(claims_df["claim_id"], claims_df["chunk_id"]))
+    source_id_to_recency_score = dict(zip(sources_df["source_id"], sources_df["recency_score"]))
+    source_id_to_provenance_score = dict(zip(sources_df["source_id"], sources_df["provenance_score"]))
+    source_id_to_source_cred_score = dict(zip(sources_df["source_id"], sources_df["source_credibility"]))
 
-
-    claim_relevance_list, claim_relevance_indices = claims_FAISS_index.search(query_claims_embeds, top_N) # search for Top 3 relevant claims 
-    # claim_relevance_indices is 2D array, (num of query claims, the indices of the 3 most relevant claims in build_claims.csv)   
-
-    # for encoding relevant chunks, to calculate relevance score with query claim
-    encoding_model = SentenceTransformer("sentence-transformers/multi-qa-mpnet-base-dot-v1", device = device)
+    chunks_relevance_list, chunks_relevance_indices = chunks_FAISS_index.search(claims_embeds, top_N + 1) # search for Top N +1 relevant chunks as there may be a parent chunk to that claim 
+    # chunks_relevance_indices is 2D array, (num of query claims, the indices of the 15 most relevant chunks in chunks_final.csv)   
 
     query_claim_list = []
 
-    for query_claim_index, entry_indices in enumerate(claim_relevance_indices):
+    for query_claim_index, entry_indices in enumerate(chunks_relevance_indices):
         query_claim_entry = {}
-        # index the build_claims_ids to get the claim_ids of the relevant claims
-        relevant_claim_ids = [build_claims_ids[index] for index in entry_indices]
-        query_claim = query_claims[query_claim_index]
-        # rows of relationshiplink data that contain the claim_ids 
-        relevant_chunks_entries = relationship_link_df[relationship_link_df["claim_id"].isin(relevant_claim_ids)]
+        # single hop search, query claim directly to chunk database
+        query_claim = claims[query_claim_index]
+        query_claim_id = claims_ids[query_claim_index]
+        query_claim_chunk_id = claim_id_to_chunk_id[query_claim_id]
+        query_claim_source_id = chunk_id_to_source_id[query_claim_chunk_id]
 
         # for calculation of query claim score
         sum_chunk_scores = 0
@@ -74,18 +74,27 @@ def main():
         source_credibility_list = []
         relevance_score_list = []
         P_STANCE_list = []
-    
-        for _, relevant_chunk in relevant_chunks_entries.iterrows(): # dataframe iteration
-            # since relationshiplink csv does not contain source_id, we manually obtain it, returns a series
-            source_id = chunks_df[chunks_df["chunk_id"] == relevant_chunk["chunk_id"]]["source_id"].values[0]
-            relevant_chunk_embed = encoding_model.encode(relevant_chunk["chunk"])
+        filtered_chunk_indices = []
+        for chunk_index in entry_indices:
+           if len(filtered_chunk_indices) >= top_N: # if in the scenario no parent chunk, we set limit of selected relevant chunks to be N
+                break
+           if query_claim_chunk_id == chunks_ids[chunk_index]: # skip chunks that are the parent of the claim
+                continue
+           filtered_chunk_indices.append(chunk_index)
+
+        # only iterate through the selected chunk indices, that have been filtered
+        for chunk_index in filtered_chunk_indices:
+            chunk_text = chunks[chunk_index]
+            chunk_id = chunks_ids[chunk_index]
+            source_id = chunk_id_to_source_id[chunk_id]
+            relevant_chunk_embed = chunks_embeds[chunk_index]
             # use L2 norm to calculate relevance score between query claim and relevant chunk
             # closer to zero distance give score closer to 1, further away gives score closer to 0.5
-            relevance_score = 0.5 + 0.5 * (1 / (1 + float(np.linalg.norm(query_claims_embeds[query_claim_index] - relevant_chunk_embed))))
-            P_STANCE, _ = uncertainty_label(query_claim, relevant_chunk["chunk"], scibert_tokenizer, scibert_model, threshold = threshold, device = device)
-            source_credibility = float(sources_df[sources_df["source_id"] == source_id]["source_credibility"].values[0])
-            recency_score = float(sources_df[sources_df["source_id"] == source_id]["recency_score"].values[0])
-            provenance_score = float(sources_df[sources_df["source_id"] == source_id]["provenance_score"].values[0])
+            relevance_score = 0.5 + 0.5 * (1 / (1 + float(np.linalg.norm(claims_embeds[query_claim_index] - relevant_chunk_embed))))
+            P_STANCE, _ = uncertainty_label(query_claim, chunk_text, scibert_tokenizer, scibert_model, threshold = threshold, device = device)
+            source_credibility = source_id_to_source_cred_score[source_id]
+            recency_score = source_id_to_recency_score[source_id]
+            provenance_score = source_id_to_provenance_score[source_id]
             chunk_weight = source_credibility * recency_score * provenance_score * relevance_score
             chunk_score = P_STANCE * chunk_weight
             sum_chunk_scores += chunk_score
@@ -100,23 +109,23 @@ def main():
         
         query_claim_score = sum_chunk_scores / sum_chunk_weights
 
-        query_claim_entry["claim_id"] = query_claims_ids[query_claim_index]
+        query_claim_entry["claim_id"] = query_claim_id
+        query_claim_entry["claim_source_id"] = query_claim_source_id
         query_claim_entry["claim"] = query_claim
         query_claim_entry["query_claim_score"] = query_claim_score
 
         """
-        Retrieving Meta data such as the relevant claim ids, its respective chunks ids, and source ids
+        Retrieving Meta data such as the relevant chunks ids, and source ids
         """
-        query_claim_entry["relevant_claim_ids"] = relevant_claim_ids
-        query_claim_entry["relevant_chunk_ids"] = relevant_chunks_entries["chunk_id"].tolist()
+        query_claim_entry["relevant_chunk_ids"] = [chunks_ids[chunk_index] for chunk_index in filtered_chunk_indices]
         query_claim_entry["relevant_source_ids"] = source_id_list
         query_claim_entry["recency_scores"] = recency_score_list
         query_claim_entry["provenance_scores"] = provenance_score_list
         query_claim_entry["source_credibility_scores"] = source_credibility_list
         query_claim_entry["relevance_scores"] = relevance_score_list
         query_claim_entry["stance_scores"] = P_STANCE_list
-        query_claim_entry["company"] = query_claims_df.iloc[query_claim_index]["company"] # index df based on query claim index
-        query_claim_entry["claims originating magazine"] = query_claims_df.iloc[query_claim_index]["magazine"]
+        query_claim_entry["company"] = claims_df.iloc[query_claim_index]["company"] # index df based on query claim index
+        query_claim_entry["claims originating magazine"] = claims_df.iloc[query_claim_index]["magazine"]
         query_claim_list.append(query_claim_entry)
     
     query_claim_scores_df = pd.DataFrame(query_claim_list)
