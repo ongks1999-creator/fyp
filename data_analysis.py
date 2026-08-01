@@ -17,7 +17,7 @@ axis = figure.add_subplot(1, 1, 1)
 axis.hist(pd.to_numeric(results_df["query_claim_score"]), bins = 100)
 axis.set_xlabel("Query Claim Score")
 axis.set_ylabel("Frequency")
-plt.savefig("query_claim_score_dist.png")
+plt.savefig("query_claim_score_dist_v2.png")
 plt.show()
 print(pd.to_numeric(results_df["query_claim_score"]).describe())
 
@@ -40,6 +40,12 @@ def classification(score, support_threshold, contradict_threshold):
 
 
 results_df["Verdict Label"] = results_df["query_claim_score"].apply(classification, args = (support_threshold, contradict_threshold))
+label_counts = results_df["Verdict Label"].value_counts()
+# Label Statistical Breakdown
+for label in ["SUPPORT", "CONTRADICT", "NEI"]:
+    percentage = (label_counts[label] / len(results_df)) * 100
+    print(f"{label} Percentage: {percentage:.3f}%")
+
 # breakdown into individual companies, since each entry for results df contain a single label for one or more companies
 company_dict = defaultdict(list)
 for index, entry in (results_df.iterrows()):
@@ -74,6 +80,25 @@ antimerge_names = {unicodedata.normalize("NFC", "Rosenergoatom"),
                    unicodedata.normalize("NFC", "TC Energy"),
                    unicodedata.normalize("NFC", "China Power Investment Corporation"),
                    unicodedata.normalize("NFC", "GS Energy"),
+                   unicodedata.normalize("NFC", "IHI Corporation"),
+                   unicodedata.normalize("NFC", "NAC International"),
+                   unicodedata.normalize("NFC", "Department of Energy"),
+                   unicodedata.normalize("NFC", "X-Energy Canada"),
+                   unicodedata.normalize("NFC", "X-energy, LLC"),
+                   unicodedata.normalize("NFC", "X-energy Canada"),
+                   unicodedata.normalize("NFC", "Nuclearelectrica"),
+                   unicodedata.normalize("NFC", "Hitachi"),
+                   unicodedata.normalize("NFC", "Laurentis Energy Partners"),
+                   unicodedata.normalize("NFC", "SHINE Technologies"),
+                   unicodedata.normalize("NFC", "China Nuclear Industry 22 Construction Company"),
+                   unicodedata.normalize("NFC", "China Nuclear Industry 24 Construction Company"),
+                   unicodedata.normalize("NFC", "Natura Resources"),
+                   unicodedata.normalize("NFC", "Onet Technologies"),
+                   unicodedata.normalize("NFC", "Hungarian Atomic Energy Authority"),
+                   unicodedata.normalize("NFC", "Entergy Corporation"),
+                   unicodedata.normalize("NFC", "Cameco Corporation"),
+                   unicodedata.normalize("NFC", "Kepco Engineering & Construction"),
+                   unicodedata.normalize("NFC", "China Nuclear Engineering Corporation"),
                    unicodedata.normalize("NFC", "State Power Investment Corporation"),
                    }
 
@@ -109,7 +134,7 @@ for company, standardised_name in mapping_dict.items():
         merging_list.append({"Company": company, "Merged with": standardised_name, "Number of Claims Belonging to that Company Before Merge": len(company_dict[company])})
 merging_df = pd.DataFrame(merging_list)
 merging_df = merging_df.sort_values("Number of Claims Belonging to that Company Before Merge", ascending = False)
-merging_df.to_csv("merging_companies.csv", index = False)
+merging_df.to_csv("merging_companies_v2.csv", index = False)
 
 # alias names identified after obtaining initial results
 alias_names = {unicodedata.normalize("NFC", "Fluor Enterprises"): "Fluor",
@@ -117,6 +142,7 @@ alias_names = {unicodedata.normalize("NFC", "Fluor Enterprises"): "Fluor",
                unicodedata.normalize("NFC", "GE Hitachi Nuclear Energy"): "GE-Hitachi",
                unicodedata.normalize("NFC", "Westinghouse Electric Company"): "Westinghouse",
                unicodedata.normalize("NFC", "Westinghouse Electric Sweden"): "Westinghouse",
+               unicodedata.normalize("NFC", "Westinghouse Electric Company UK"): "Westinghouse",
                unicodedata.normalize("NFC", "CNNC"): "China National Nuclear Corporation",
                unicodedata.normalize("NFC", "USNC"): "Ultra Safe Nuclear Corporation",
                unicodedata.normalize("NFC", "OPG"): "Ontario Power Generation",
@@ -136,6 +162,9 @@ alias_names = {unicodedata.normalize("NFC", "Fluor Enterprises"): "Fluor",
                unicodedata.normalize("NFC", "Flibe Energy"): "Flibe",
                unicodedata.normalize("NFC", "NANO Nuclear"): "NANO",
                unicodedata.normalize("NFC", "Kairos Power"): "Kairos",
+               unicodedata.normalize("NFC", "X-energy"): "X-Energy",
+               unicodedata.normalize("NFC", "X-Energy Reactor Company"): "X-Energy",
+               unicodedata.normalize("NFC", "X-energy Reactor Company"): "X-Energy",
                unicodedata.normalize("NFC", "BWXT Advanced Technologies LLC"): "BWXT",
                unicodedata.normalize("NFC", "BWX Technologies"): "BWXT",
                unicodedata.normalize("NFC", "BWXT Canada"): "BWXT",
@@ -174,7 +203,7 @@ for company, label_list in finalised_company_dict.items():
 
 min_claims = 30 # to remove companies with too little claims
 company_df = pd.DataFrame(company_list)
-company_df.sort_values("company").to_csv("company_names.csv", index = False)
+company_df.sort_values("company").to_csv("company_names_v2.csv", index = False)
 # to catch companies that have NaN on either of the labels, as sum of NaN and int give NaN
 company_df["Total Labels"] = company_df[["SUPPORT", "CONTRADICT", "NEI"]].fillna(0).sum(axis = 1)
 top_comp = company_df[company_df["Total Labels"] >= min_claims].sort_values("Total Labels", ascending = False)
@@ -192,7 +221,7 @@ top_comp["Percentage of Verifiability"] = top_comp["Percentage of Supported Clai
 # K means clustering based on verifiability of claims per company
 kmeans = KMeans(n_clusters = 3, random_state = 45)
 top_comp["cluster"] = kmeans.fit_predict(top_comp[["Percentage of Verifiability", "Percentage of NEI Claims"]])
-top_comp[["company", "Percentage of Verifiability", "Percentage of NEI Claims", "cluster"]].sort_values("cluster").to_csv("top_companies_verifiability_clustering.csv", index = False)
+top_comp[["company", "Percentage of Verifiability", "Percentage of NEI Claims", "cluster"]].sort_values("cluster").to_csv("top_companies_verifiability_clustering_v2.csv", index = False)
 
 
 scatter_plot = plt.figure(figsize = (20, 10))
@@ -215,12 +244,12 @@ for index, row in top_comp.iterrows(): # label each dot
 
 adjust_text(ver_axis_entries, ax = scatter_veri_axis)
 adjust_text(NEI_axis_entries, ax = scatter_NEI_axis)
-plt.savefig("top_companies_scatter.png")
+plt.savefig("top_companies_scatter_v2.png")
 
 # K means based on publicity and coverage per company
 kmeans = KMeans(n_clusters = 3, random_state = 45)
 top_comp["cluster"] = kmeans.fit_predict(top_comp[["Total Labels"]])
-top_comp[["company", "Total Labels", "cluster"]].sort_values("cluster").to_csv("top_companies_publicity_clustering.csv", index = False)
+top_comp[["company", "Total Labels", "cluster"]].sort_values("cluster").to_csv("top_companies_publicity_clustering_v2.csv", index = False)
 
 
 # Comparison to Tiril's
@@ -290,7 +319,43 @@ adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis)
 adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis)
 adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis)
 adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis)
-plt.savefig("comparison_companies_scatter_log.png")
+plt.savefig("comparison_companies_scatter_log_v2.png")
+
+# No log
+comp_supp_axis_entries = []
+comp_contra_axis_entries = []
+comp_ver_axis_entries = []
+comp_NEI_axis_entries = []
+comp_scatter_plot = plt.figure(figsize = (25, 20))
+comp_scatter_veri_axis = comp_scatter_plot.add_subplot(2, 2, 1)
+comp_scatter_veri_axis.set_xlabel("Total Labels")
+comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability")
+comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(2, 2, 2)
+comp_scatter_NEI_axis.set_xlabel("Total Labels")
+comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims")
+comp_scatter_supp_axis = comp_scatter_plot.add_subplot(2, 2, 3)
+comp_scatter_supp_axis.set_xlabel("Total Labels")
+comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims")
+comp_scatter_contra_axis = comp_scatter_plot.add_subplot(2, 2, 4)
+comp_scatter_contra_axis.set_xlabel("Total Labels")
+comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims")
+
+for index, row in comparison_company_df.iterrows(): 
+    color = comp_colour[comparison_company[row["company"]][1]]
+    comp_scatter_supp_axis.scatter(row["Total Labels"], row["Percentage of Supported Claims"], c = color)
+    comp_scatter_contra_axis.scatter(row["Total Labels"], row["Percentage of Contradicted Claims"], c = color)
+    comp_scatter_veri_axis.scatter(row["Total Labels"], row["Percentage of Verifiability"], c = color)
+    comp_scatter_NEI_axis.scatter(row["Total Labels"], row["Percentage of NEI Claims"], c = color)
+    comp_ver_axis_entries.append(comp_scatter_veri_axis.text(row["Total Labels"], row["Percentage of Verifiability"], row["company"], fontsize = 15))
+    comp_NEI_axis_entries.append(comp_scatter_NEI_axis.text(row["Total Labels"], row["Percentage of NEI Claims"], row["company"], fontsize = 15))
+    comp_supp_axis_entries.append(comp_scatter_supp_axis.text(row["Total Labels"], row["Percentage of Supported Claims"], row["company"], fontsize = 15))
+    comp_contra_axis_entries.append(comp_scatter_contra_axis.text(row["Total Labels"], row["Percentage of Contradicted Claims"], row["company"], fontsize = 15))
+
+adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis)
+adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis)
+adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis)
+adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis)
+plt.savefig("comparison_companies_scatter_v2.png")
 
 # forest plot
 confidence_z = 1.96
@@ -325,4 +390,4 @@ fp.forestplot(forest_df,
               figsize = (6, 10)
               )
 
-plt.savefig("comparison_companies_forest_plot.png", bbox_inches = "tight")
+plt.savefig("comparison_companies_forest_plot_v2.png", bbox_inches = "tight")
