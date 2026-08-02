@@ -13,7 +13,7 @@ TVEL,Group_Nuclear_Publications,7.0,6.0,82.0,95.0,7.368421052631578,6.3157894736
 TerraPower,Group_Nuclear_Publications,8.0,4.0,69.0,81.0,9.876543209876543,4.938271604938271,85.18518518518519,4.938271604938271
 Energoatom,Group_Nuclear_Publications,2.0,10.0,65.0,77.0,2.5974025974025974,12.987012987012985,84.4155844155844,-10.389610389610388
 GE-Hitachi Nuclear Energy,Group_Nuclear_Publications,22.0,5.0,49.0,76.0,28.947368421052634,6.578947368421052,64.47368421052632,22.368421052631582
-Ultra Safe Nuclear Corporation,Group_Nuclear_Publications,8.0,2.0,65.0,75.0,10.666666666666668,2.666666666666667,86.66666666666667,8.0
+USNC,Group_Nuclear_Publications,8.0,2.0,65.0,75.0,10.666666666666668,2.666666666666667,86.66666666666667,8.0
 Rosenergoatom,Group_Nuclear_Publications,9.0,7.0,59.0,75.0,12.0,9.333333333333334,78.66666666666666,2.666666666666666
 China National Nuclear Corporation (CNNC),Group_Nuclear_Publications,4.0,4.0,61.0,69.0,5.797101449275362,5.797101449275362,88.40579710144928,0.0
 Korea Hydro & Nuclear Power,Group_Nuclear_Publications,10.0,3.0,56.0,69.0,14.492753623188406,4.3478260869565215,81.15942028985508,10.144927536231885
@@ -84,69 +84,69 @@ China General Nuclear (CGN),Group_Nuclear_Publications,2.0,0.0,16.0,18.0,11.1111
 Candu Energy,Group_Nuclear_Publications,2.0,0.0,16.0,18.0,11.11111111111111,0.0,88.88888888888889,11.11111111111111
 Nuclear Power Corporation of India Ltd,Group_Nuclear_Publications,0.0,1.0,17.0,18.0,0.0,5.555555555555555,94.44444444444444,-5.555555555555555
 Tokyo Electric Power Company (Tepco),Group_Nuclear_Publications,0.0,2.0,15.0,17.0,0.0,11.76470588235294,88.23529411764706,-11.76470588235294
-NRG,Group_Nuclear_Publications,0.0,0.0,17.0,17.0,0.0,0.0,100.0,0.0
+ORNL,Group_Nuclear_Publications,0.0,0.0,17.0,17.0,0.0,0.0,100.0,0.0
 SCK CEN,Group_Nuclear_Publications,0.0,0.0,17.0,17.0,0.0,0.0,100.0,0.0
-Last Energy,Group_Nuclear_Publications,0.0,0.0,17.0,17.0,0.0,0.0,100.0,0.0
+NRG,Group_Nuclear_Publications,0.0,0.0,17.0,17.0,0.0,0.0,100.0,0.0
 Kansai Electric Power Co,Group_Nuclear_Publications,0.0,0.0,17.0,17.0,0.0,0.0,100.0,0.0
 Deep Isolation,Group_Nuclear_Publications,1.0,1.0,15.0,17.0,5.88235294117647,5.88235294117647,88.23529411764706,0.0
 Idaho National Laboratory (INL),Group_Nuclear_Publications,2.0,0.0,15.0,17.0,11.76470588235294,0.0,88.23529411764706,11.76470588235294
-Cavendish Nuclear,Group_Nuclear_Publications,2.0,2.0,13.0,17.0,11.76470588235294,11.76470588235294,76.47058823529412,0.0
+Last Energy,Group_Nuclear_Publications,0.0,0.0,17.0,17.0,0.0,0.0,100.0,0.0
 Seaborg,Group_Nuclear_Publications,1.0,0.0,16.0,17.0,5.88235294117647,0.0,94.11764705882352,5.88235294117647
+Cavendish Nuclear,Group_Nuclear_Publications,2.0,2.0,13.0,17.0,11.76470588235294,11.76470588235294,76.47058823529412,0.0
 Tokamak Energy,Group_Nuclear_Publications,4.0,0.0,12.0,16.0,25.0,0.0,75.0,25.0
-Polskie Elektrownie Jadrowe (PEJ),Group_Nuclear_Publications,4.0,1.0,11.0,16.0,25.0,6.25,68.75,18.75
 KGHM Polska Miedz,Group_Nuclear_Publications,4.0,0.0,12.0,16.0,25.0,0.0,75.0,25.0
 TVO,Group_Nuclear_Publications,1.0,2.0,13.0,16.0,6.25,12.5,81.25,-6.25
-Nuclear Waste Services,Group_Nuclear_Publications,0.0,1.0,14.0,15.0,0.0,6.666666666666667,93.33333333333333,-6.666666666666667
+Polskie Elektrownie Jadrowe (PEJ),Group_Nuclear_Publications,4.0,1.0,11.0,16.0,25.0,6.25,68.75,18.75
 Energy Northwest,Group_Nuclear_Publications,1.0,2.0,12.0,15.0,6.666666666666667,13.333333333333334,80.0,-6.666666666666667
 Eskom,Group_Nuclear_Publications,0.0,1.0,14.0,15.0,0.0,6.666666666666667,93.33333333333333,-6.666666666666667
 UK Atomic Energy Authority (UKAEA),Group_Nuclear_Publications,0.0,1.0,14.0,15.0,0.0,6.666666666666667,93.33333333333333,-6.666666666666667
-AEM-Technologies,Group_Nuclear_Publications,4.0,0.0,11.0,15.0,26.666666666666668,0.0,73.33333333333333,26.666666666666668
-Canadian Nuclear Laboratories (CNL),Group_Nuclear_Publications,0.0,0.0,15.0,15.0,0.0,0.0,100.0,0.0
 Oglethorpe Power Corp,Group_Nuclear_Publications,2.0,2.0,11.0,15.0,13.333333333333334,13.333333333333334,73.33333333333333,0.0
+Canadian Nuclear Laboratories (CNL),Group_Nuclear_Publications,0.0,0.0,15.0,15.0,0.0,0.0,100.0,0.0
 Steady Energy,Group_Nuclear_Publications,3.0,3.0,9.0,15.0,20.0,20.0,60.0,0.0
+AEM-Technologies,Group_Nuclear_Publications,4.0,0.0,11.0,15.0,26.666666666666668,0.0,73.33333333333333,26.666666666666668
 Duke Energy,Group_Nuclear_Publications,0.0,0.0,15.0,15.0,0.0,0.0,100.0,0.0
-Nucleoelectrica Argentina,Group_Nuclear_Publications,1.0,0.0,13.0,14.0,7.142857142857142,0.0,92.85714285714286,7.142857142857142
+Nuclear Waste Services,Group_Nuclear_Publications,0.0,1.0,14.0,15.0,0.0,6.666666666666667,93.33333333333333,-6.666666666666667
 Hyundai Engineering & Construction,Group_Nuclear_Publications,2.0,0.0,12.0,14.0,14.285714285714285,0.0,85.71428571428571,14.285714285714285
-Enusa,Group_Nuclear_Publications,0.0,3.0,11.0,14.0,0.0,21.428571428571427,78.57142857142857,-21.428571428571427
+Nucleoelectrica Argentina,Group_Nuclear_Publications,1.0,0.0,13.0,14.0,7.142857142857142,0.0,92.85714285714286,7.142857142857142
 ASE JSC,Group_Nuclear_Publications,6.0,1.0,7.0,14.0,42.857142857142854,7.142857142857142,50.0,35.71428571428571
 US Nuclear Regulatory Commission,Group_Nuclear_Publications,0.0,0.0,14.0,14.0,0.0,0.0,100.0,0.0
 CGN,Group_Nuclear_Publications,2.0,0.0,12.0,14.0,14.285714285714285,0.0,85.71428571428571,14.285714285714285
-JAEA,Group_Nuclear_Publications,0.0,1.0,13.0,14.0,0.0,7.142857142857142,92.85714285714286,-7.142857142857142
+Enusa,Group_Nuclear_Publications,0.0,3.0,11.0,14.0,0.0,21.428571428571427,78.57142857142857,-21.428571428571427
 Siemens,Group_Nuclear_Publications,0.0,1.0,13.0,14.0,0.0,7.142857142857142,92.85714285714286,-7.142857142857142
+JAEA,Group_Nuclear_Publications,0.0,1.0,13.0,14.0,0.0,7.142857142857142,92.85714285714286,-7.142857142857142
 Kinectrics Inc,Group_Nuclear_Publications,1.0,0.0,13.0,14.0,7.142857142857142,0.0,92.85714285714286,7.142857142857142
 Balfour Beatty,Group_Nuclear_Publications,1.0,1.0,11.0,13.0,7.6923076923076925,7.6923076923076925,84.61538461538461,0.0
-Rostekhnadzor,Group_Nuclear_Publications,0.0,3.0,10.0,13.0,0.0,23.076923076923077,76.92307692307693,-23.076923076923077
 ENEA,Group_Nuclear_Publications,2.0,0.0,11.0,13.0,15.384615384615385,0.0,84.61538461538461,15.384615384615385
 Entergy,Group_Nuclear_Publications,0.0,1.0,12.0,13.0,0.0,7.6923076923076925,92.3076923076923,-7.6923076923076925
 Naarea,Group_Nuclear_Publications,2.0,0.0,11.0,13.0,15.384615384615385,0.0,84.61538461538461,15.384615384615385
 Nuward,Group_Nuclear_Publications,2.0,0.0,11.0,13.0,15.384615384615385,0.0,84.61538461538461,15.384615384615385
 Nuclear Decommissioning Authority (NDA),Group_Nuclear_Publications,0.0,0.0,13.0,13.0,0.0,0.0,100.0,0.0
-Therizon,Group_Nuclear_Publications,0.0,0.0,13.0,13.0,0.0,0.0,100.0,0.0
 Aecon,Group_Nuclear_Publications,4.0,0.0,9.0,13.0,30.76923076923077,0.0,69.23076923076923,30.76923076923077
-SHINE Technologies,Group_Nuclear_Publications,0.0,1.0,12.0,13.0,0.0,7.6923076923076925,92.3076923076923,-7.6923076923076925
+Rostekhnadzor,Group_Nuclear_Publications,0.0,3.0,10.0,13.0,0.0,23.076923076923077,76.92307692307693,-23.076923076923077
+Therizon,Group_Nuclear_Publications,0.0,0.0,13.0,13.0,0.0,0.0,100.0,0.0
 Tennessee Authority Valley,Group_Nuclear_Publications,2.0,1.0,10.0,13.0,15.384615384615385,7.6923076923076925,76.92307692307693,7.6923076923076925
 Atomic Energy of Canada Limited,Group_Nuclear_Publications,3.0,2.0,8.0,13.0,23.076923076923077,15.384615384615385,61.53846153846154,7.692307692307692
 NB Power,Group_Nuclear_Publications,1.0,1.0,11.0,13.0,7.6923076923076925,7.6923076923076925,84.61538461538461,0.0
-Kärnfull Next,Group_Nuclear_Publications,1.0,0.0,11.0,12.0,8.333333333333332,0.0,91.66666666666666,8.333333333333332
+SHINE Technologies,Group_Nuclear_Publications,0.0,1.0,12.0,13.0,0.0,7.6923076923076925,92.3076923076923,-7.6923076923076925
 CORE POWER,Group_Nuclear_Publications,0.0,0.0,12.0,12.0,0.0,0.0,100.0,0.0
 Électricité de France (EDF),Group_Nuclear_Publications,0.0,0.0,12.0,12.0,0.0,0.0,100.0,0.0
 Tokyo Electric Power Holdings (Tepco),Group_Nuclear_Publications,2.0,1.0,9.0,12.0,16.666666666666664,8.333333333333332,75.0,8.333333333333332
-AECL,Group_Nuclear_Publications,0.0,0.0,12.0,12.0,0.0,0.0,100.0,0.0
-Nova Power & Gas,Group_Nuclear_Publications,1.0,0.0,11.0,12.0,8.333333333333332,0.0,91.66666666666666,8.333333333333332
 CEA,Group_Nuclear_Publications,0.0,0.0,12.0,12.0,0.0,0.0,100.0,0.0
+Nova Power & Gas,Group_Nuclear_Publications,1.0,0.0,11.0,12.0,8.333333333333332,0.0,91.66666666666666,8.333333333333332
+Kärnfull Next,Group_Nuclear_Publications,1.0,0.0,11.0,12.0,8.333333333333332,0.0,91.66666666666666,8.333333333333332
 Ze Pak,Group_Nuclear_Publications,2.0,1.0,9.0,12.0,16.666666666666664,8.333333333333332,75.0,8.333333333333332
+AECL,Group_Nuclear_Publications,0.0,0.0,12.0,12.0,0.0,0.0,100.0,0.0
 Argonne National Laboratory,Group_Nuclear_Publications,0.0,1.0,11.0,12.0,0.0,8.333333333333332,91.66666666666666,-8.333333333333332
-General Fusion,Group_Nuclear_Publications,0.0,0.0,11.0,11.0,0.0,0.0,100.0,0.0
 Municipal Electric Authority of Georgia (MEAG),Group_Nuclear_Publications,0.0,1.0,10.0,11.0,0.0,9.090909090909092,90.9090909090909,-9.090909090909092
 Japan Atomic Energy Agency (JAEA),Group_Nuclear_Publications,0.0,0.0,11.0,11.0,0.0,0.0,100.0,0.0
+General Fusion,Group_Nuclear_Publications,0.0,0.0,11.0,11.0,0.0,0.0,100.0,0.0
 ULC-Energy,Group_Nuclear_Publications,2.0,1.0,8.0,11.0,18.181818181818183,9.090909090909092,72.72727272727273,9.090909090909092
-Lightbridge Corporation,Group_Nuclear_Publications,1.0,0.0,10.0,11.0,9.090909090909092,0.0,90.9090909090909,9.090909090909092
 Fluor Corporation,Group_Nuclear_Publications,1.0,1.0,9.0,11.0,9.090909090909092,9.090909090909092,81.81818181818183,0.0
-GE,Group_Nuclear_Publications,0.0,0.0,11.0,11.0,0.0,0.0,100.0,0.0
-PacifiCorp,Group_Nuclear_Publications,1.0,1.0,9.0,11.0,9.090909090909092,9.090909090909092,81.81818181818183,0.0
-Oak Ridge National Laboratory,Group_Nuclear_Publications,0.0,0.0,11.0,11.0,0.0,0.0,100.0,0.0
-CNEA,Group_Nuclear_Publications,1.0,0.0,10.0,11.0,9.090909090909092,0.0,90.9090909090909,9.090909090909092
 Atkins,Group_Nuclear_Publications,5.0,0.0,6.0,11.0,45.45454545454545,0.0,54.54545454545454,45.45454545454545
+PacifiCorp,Group_Nuclear_Publications,1.0,1.0,9.0,11.0,9.090909090909092,9.090909090909092,81.81818181818183,0.0
+Lightbridge Corporation,Group_Nuclear_Publications,1.0,0.0,10.0,11.0,9.090909090909092,0.0,90.9090909090909,9.090909090909092
+CNEA,Group_Nuclear_Publications,1.0,0.0,10.0,11.0,9.090909090909092,0.0,90.9090909090909,9.090909090909092
+GE,Group_Nuclear_Publications,0.0,0.0,11.0,11.0,0.0,0.0,100.0,0.0
 KEPCO E&C,Group_Nuclear_Publications,0.0,0.0,11.0,11.0,0.0,0.0,100.0,0.0
 First Light Fusion,Group_Nuclear_Publications,0.0,0.0,11.0,11.0,0.0,0.0,100.0,0.0
 INVAP,Group_Nuclear_Publications,0.0,0.0,11.0,11.0,0.0,0.0,100.0,0.0
