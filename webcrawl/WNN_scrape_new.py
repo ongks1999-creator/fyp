@@ -4,7 +4,7 @@ import json
 from bs4 import BeautifulSoup
 import re
 from datetime import datetime
-f = open('urls/WNN_urls.txt', 'r')
+f = open('urls/WNN_urls_2426.txt', 'r')
 urls_raw = f.read()
 urls = urls_raw.split('\n')
 
@@ -13,7 +13,7 @@ headers = {"User-Agent": "Mozilla/5.0 Masters Thesis Research Crawler/1.0"}
 
 
 def scrape_WNN_article(url):
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout = 30) # added timeout
     soup = BeautifulSoup(response.content, 'html.parser')
     ## changed from articlebody to articlebodywrapper
     article_all = soup.find('div', class_= 'article_body_wrapper').get_text(separator="\n", strip=True)
@@ -51,6 +51,24 @@ for url in urls:
         print(url)
 
 #articles = [scrape_WNN_article(url) for url in urls if url]
+
+articles = []
+# modified writing loop to ensure error handling, and saving at checkpoints
+for index, url in enumerate(urls):
+    if not url:
+        continue # to skip empty strings
+    try:
+        article = scrape_WNN_article(url)
+        articles.append(article)
+    except Exception as e:
+        print(f"Error scraping {url}: {e}")
+    if index % 10 == 0:
+        print(f"Scraped {index} out of {len(urls)} articles")
+
+    if index % 100 == 0: # saves every 100 articles
+        with open('WNN_articles_2426.json', 'w', encoding='utf-8') as file:
+            json.dump(articles, file, ensure_ascii=False, indent=4)
+    
 
 with open('WNN_articles_2426.json', 'w', encoding='utf-8') as file:
     json.dump(articles, file, ensure_ascii=False, indent=4)

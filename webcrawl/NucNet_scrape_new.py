@@ -6,7 +6,7 @@ import time
 
 start_time = time.time()
 
-f = open('urls/NucNet_urls.txt', 'r')
+f = open('urls/NucNet_urls_2426.txt', 'r')
 urls_raw = f.read()
 urls = urls_raw.split('\n')
 
@@ -19,7 +19,7 @@ headers = {
 def scrape_NN_article(url, session):
     print(url)
 
-    response = session.get(url, headers=headers)
+    response = session.get(url, headers=headers, timeout = 30) # added timeout
     soup = BeautifulSoup(response.content, 'html.parser')
     
     try:
@@ -86,7 +86,25 @@ else:
     raise Exception('Login failed')
 
 # Scrape
-articles = [scrape_NN_article(url, session) for url in urls if url]
+#articles = [scrape_NN_article(url, session) for url in urls if url]
+
+articles = []
+# modified writing loop to ensure error handling, and saving at checkpoints
+for index, url in enumerate(urls):
+    if not url:
+        continue # to skip empty strings
+    try:
+        article = scrape_NN_article(url, session)
+        articles.append(article)
+    except Exception as e:
+        print(f"Error scraping {url}: {e}")
+    if index % 10 == 0:
+        print(f"Scraped {index} out of {len(urls)} articles")
+
+    if index % 100 == 0: # saves every 100 articles
+        with open('NucNet_articles_2426.json', 'w', encoding='utf-8') as file:
+            json.dump(articles, file, ensure_ascii=False, indent=4)
+    
 
 end_time = time.time()
 
