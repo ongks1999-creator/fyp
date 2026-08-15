@@ -7,6 +7,9 @@ import time
 from http.cookies import SimpleCookie
 from collections import Counter, defaultdict
 import ast
+import requests
+
+session = requests.Session() # create a session for constant connection
 
 def extract_additional_urls_from_url(html, url) -> list[str]:
     soup = BeautifulSoup(html, "html.parser")
@@ -84,8 +87,8 @@ def extract_html(url, cookies = None):
 
     # error handling required in the event url is invalid
     try:
-        # 5 second timeout to raise error if request is too long
-        page_response = requests.get(url, timeout = 5, headers = headers, cookies = cookies_dict)
+        # 10 second timeout to raise error if request is too long
+        page_response = session.get(url, timeout = 10, headers = headers, cookies = cookies_dict)
         html = page_response.text
 
     except Exception as e:
@@ -125,13 +128,18 @@ def main_loop(filepath, cookies = None):
             additional_urls = extract_additional_urls_from_url(html, url)
             new_csv_entry["external_urls"] = additional_urls
             entries.append(new_csv_entry)
-            time.sleep(0.5) # to slow down request to the site, prevent getting blocked
+            #time.sleep(0.5) # to slow down request to the site, prevent getting blocked
 
             if index % 10 == 0: # progress checker
                 print(f"Processed {index} out of {len(paragraphs_csv)} entries")
 
+            if index % 100 == 0: # checkpoint saved every 100 entries
+                df = pd.DataFrame(entries)
+                df.to_csv("extracted_links_2426.csv", index = False)
+
+
     df = pd.DataFrame(entries)
-    df.to_csv("extracted_links.csv", index = False)
+    df.to_csv("extracted_links_2426.csv", index = False)
 
 def find_threshold(external_links_per_article_dict: dict[str, Counter]) -> float:
     """
@@ -226,22 +234,22 @@ def edit_links_file(filepath, noise_domain_links):
         new_entries.append(new_entry)
     
     df = pd.DataFrame(new_entries)
-    df.to_csv("filtered_extracted_links.csv", index = False)
+    df.to_csv("filtered_extracted_links_2426.csv", index = False)
     
     return
 
 
 if __name__ == "__main__":
     
-    filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/paragraphs.csv"
+    filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/paragraphs_2426.csv"
 
 
     with open("nucnet_cookies.txt") as f: # cookies file kept on separate text file
         cookies = f.read().strip()
     #print(test_url(cookies = cookies))
 
-    #main_loop(filepath, cookies = cookies)
+    main_loop(filepath, cookies = cookies)
 
-    external_links_filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/extracted_links.csv"
-    noisy_links = filter_links(external_links_filepath)
-    edit_links_file(external_links_filepath, noisy_links)
+    external_links_filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/extracted_links_2426.csv"
+    #noisy_links = filter_links(external_links_filepath)
+    #edit_links_file(external_links_filepath, noisy_links)
