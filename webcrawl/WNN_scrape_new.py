@@ -4,6 +4,7 @@ import json
 from bs4 import BeautifulSoup
 import re
 from datetime import datetime
+
 f = open('urls/WNN_urls_2426.txt', 'r')
 urls_raw = f.read()
 urls = urls_raw.split('\n')
@@ -15,8 +16,8 @@ headers = {"User-Agent": "Mozilla/5.0 Masters Thesis Research Crawler/1.0"}
 def scrape_WNN_article(url):
     response = requests.get(url, headers=headers, timeout = 30) # added timeout
     soup = BeautifulSoup(response.content, 'html.parser')
-    ## changed from articlebody to articlebodywrapper
-    article_all = soup.find('div', class_= 'article_body_wrapper').get_text(separator="\n", strip=True)
+    ## changed from articlebody to articlebodywrapper, and extract text specifically under "col-12 col-xl-7" as that wrapper also has "Related Stories" sidebar
+    article_all = soup.find('div', class_= 'article_body_wrapper').find("div", class_ = "col-xl-7").get_text(separator="\n", strip=True)
     text_content = article_all.split('\n')
     title = text_content[0]
     try: # prevent crashing if date not retrieved
@@ -25,7 +26,6 @@ def scrape_WNN_article(url):
         date = None
     #if len(date) > len('01 September 2024'):
     #    date = soup.find('div', class_='col-md-8 ArticleBody').find_all('p')[1].text
-
 
     unwanteds = ['related topics']
     text=[]
@@ -43,12 +43,6 @@ def scrape_WNN_article(url):
         'date': date,
         'text': text
     }
-
-articles = []
-for url in urls:
-    if url:
-        articles.append(scrape_WNN_article(url))
-        print(url)
 
 #articles = [scrape_WNN_article(url) for url in urls if url]
 
