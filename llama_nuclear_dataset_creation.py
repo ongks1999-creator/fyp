@@ -4,6 +4,7 @@ import json
 import random
 from collections import defaultdict
 import pandas as pd
+import time
 
 def read_chunk_csv(file_path: str):
 
@@ -19,10 +20,13 @@ def call_llama_api(prompt: str):
     """
 
     while True:
-
-        response = requests.post("http://localhost:11434/api/generate", json = {"model": "llama3.1:8b", "prompt": prompt, "stream": False, "format": "json"})
-
-        result = response.json() # convert llama string output to dict
+        try:
+            response = requests.post("http://localhost:11434/api/generate", json = {"model": "llama3.1:8b", "prompt": prompt, "stream": False, "format": "json"}, timeout = 300)
+            result = response.json() # convert llama string output to dict
+        except requests.exceptions.RequestException as e: # due to llama experiencing connection error, we catch the parent request error
+            print(f"Request error: {e}, retrying after 10 seconds")
+            time.sleep(10)
+            continue
 
         try:
             output = json.loads(result["response"]) # value of response is in string format, convert to dict
