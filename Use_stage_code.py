@@ -23,8 +23,8 @@ def main():
     top_N = 15 # top N for relevant chunks
     threshold = 0.3
 
-    claims_filepath = "/root/fyp/claims.csv"
-    chunks_filepath = "/root/fyp/chunks_final.csv"
+    claims_filepath = "/vol/bitbucket/ko25/fyp/claims_2426.csv"
+    chunks_filepath = "/vol/bitbucket/ko25/fyp/chunks_final_2426.csv"
     # embeds is a list of embeddings, claims is a list of strings, ids is a list of claim_ids
     # all three rely on the same indexing
     claims_embeds, claims, claims_ids = embed_csv_files(claims_filepath, data_type = "claims")
@@ -36,14 +36,14 @@ def main():
 
     # Initialise Scibert to calculate stance score between query claim and relevant chunk
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    scibert_tokenizer = AutoTokenizer.from_pretrained("/root/fyp/scibert_finetuned_model")
-    scibert_model = AutoModelForSequenceClassification.from_pretrained("/root/fyp/scibert_finetuned_model")
+    scibert_tokenizer = AutoTokenizer.from_pretrained("/vol/bitbucket/ko25/fyp/scibert_finetuned_model")
+    scibert_model = AutoModelForSequenceClassification.from_pretrained("/vol/bitbucket/ko25/fyp/scibert_finetuned_model")
 
     scibert_model.to(device)
 
-    sources_df = pd.read_csv("/root/fyp/sources.csv")
-    chunks_df = pd.read_csv("/root/fyp/chunks_final.csv")
-    claims_df = pd.read_csv("/root/fyp/claims.csv")
+    sources_df = pd.read_csv("/vol/bitbucket/ko25/fyp/sources_2426.csv")
+    chunks_df = pd.read_csv("/vol/bitbucket/ko25/fyp/chunks_final_2426.csv")
+    claims_df = pd.read_csv("/vol/bitbucket/ko25/fyp/claims_2426.csv")
     # build a dictionary to map ids to ids, ids to scores, faster than searching through dataframe for each iteration
     chunk_id_to_source_id = dict(zip(chunks_df["chunk_id"], chunks_df["source_id"]))
     claim_id_to_chunk_id = dict(zip(claims_df["claim_id"], claims_df["chunk_id"]))
@@ -129,7 +129,7 @@ def main():
         query_claim_list.append(query_claim_entry)
     
     query_claim_scores_df = pd.DataFrame(query_claim_list)
-    pd.DataFrame.to_csv(query_claim_scores_df, "query_claim_scores.csv", index = False)
+    pd.DataFrame.to_csv(query_claim_scores_df, "query_claim_scores_2426.csv", index = False)
 
 
 if __name__ == "__main__":
