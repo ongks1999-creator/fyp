@@ -128,7 +128,7 @@ def main_loop(filepath, cookies = None):
             additional_urls = extract_additional_urls_from_url(html, url)
             new_csv_entry["external_urls"] = additional_urls
             entries.append(new_csv_entry)
-            #time.sleep(0.5) # to slow down request to the site, prevent getting blocked
+            time.sleep(1.0) # to slow down request to the site, prevent getting blocked
 
             if index % 10 == 0: # progress checker
                 print(f"Processed {index} out of {len(paragraphs_csv)} entries")
@@ -238,18 +238,45 @@ def edit_links_file(filepath, noise_domain_links):
     
     return
 
+def inter_source_citation(filepath):
+    """
+    Check if the four sources (nuclear pubs) cite each other
+    """
+    source_domain = {"Nuclear Engineering International": "neimagazine.com", "NucNet": "nucnet.org", "New Civil Engineer": "newcivilengineer.com", "World Nuclear News": "world-nuclear-news.org"}
+
+    file = pd.read_csv(filepath)
+    cross_ref = {"Nuclear Engineering International": Counter(), "NucNet": Counter(), "New Civil Engineer": Counter(), "World Nuclear News": Counter()}
+
+    for _, entry in file.iterrows():
+        domain = entry["magazine"]
+        other_sources = {}
+        for key, value in source_domain.items(): # construct a new dictionary for the other three sources
+            if key != domain:
+                other_sources[key] = value
+
+        for link in ast.literal_eval(entry["external_urls"]):
+            for source, domain_name in other_sources.items():
+                if domain_name in urlparse(link).netloc:
+                    cross_ref[domain][source] += 1
+
+    return cross_ref
+        
+
 
 if __name__ == "__main__":
     
-    filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/paragraphs_2426.csv"
+    #filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/paragraphs_2426.csv"
 
 
-    with open("nucnet_cookies.txt") as f: # cookies file kept on separate text file
-        cookies = f.read().strip()
+    #with open("nucnet_cookies.txt") as f: # cookies file kept on separate text file
+    #    cookies = f.read().strip()
     #print(test_url(cookies = cookies))
 
-    main_loop(filepath, cookies = cookies)
+    #main_loop(filepath, cookies = cookies)
 
-    external_links_filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/extracted_links_2426.csv"
+    external_links_filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/extracted_links.csv"
     #noisy_links = filter_links(external_links_filepath)
     #edit_links_file(external_links_filepath, noisy_links)
+
+    # prints the number of times each source cites each other
+    print(inter_source_citation(external_links_filepath))
