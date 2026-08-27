@@ -42,19 +42,27 @@ def create_entries_list(x, label):
         entries_dic["claim_id"] = claim_id
         entries_dic["claim_text"] = claim_text
         relevant_chunk_ids = ast.literal_eval(entry["relevant_chunk_ids"])
+        stance_scores = ast.literal_eval(entry["stance_scores"])
+        chunk_df = pd.DataFrame({"chunk_id": relevant_chunk_ids, "stance_score": stance_scores, "stance_score_val": np.abs(stance_scores)})
+
+        chunk_df_sorted = chunk_df.sort_values("stance_score_val", ascending = False).head(3) # sort by top 3 chunks with highest stance, need convert to abs number
+
         counter = 0
         retrieved_chunks = []
         retrieved_chunks_ids = []
-        for id in relevant_chunk_ids:
-            if counter == 3: # examine top 3 retrieved chunks for manual validation
+        stance_scores_list = []
+        for index, row in chunk_df_sorted.iterrows():
+            if counter == 3: # examine top 3 highest stance score chunks for manual validation
                 break
-            chunk_text = chunk_dic[id]
-            retrieved_chunks.append(chunk_text)
-            retrieved_chunks_ids.append(id)
+            chunk_text = chunk_dic[row["chunk_id"]]
+            retrieved_chunks.append(f"[CHUNK {counter + 1}] {chunk_text}")
+            retrieved_chunks_ids.append(row["chunk_id"])
+            stance_scores_list.append(row["stance_score"])
             counter += 1
 
         entries_dic["retrieved_chunks"] = retrieved_chunks
         entries_dic["retrieved_chunks_ids"] = retrieved_chunks_ids
+        entries_dic["stance_scores"] = stance_scores_list
         entries_dic["predicted_label"] = label
         entries_dic["my_prediction"] = ""
         entries.append(entries_dic)
