@@ -1,0 +1,606 @@
+Company,Merged with,Number of Claims Belonging to that Company Before Merge
+Rolls-Royce,Rolls-Royce SMR,287
+X-energy,X-Energy,153
+Ontario Power Generation,Ontario Power Generation (OPG),120
+Newcleo,newcleo,113
+GE Hitachi,GE-Hitachi,94
+Steady Energy,Steady Energy Oy,85
+GE Vernova Hitachi Nuclear Energy,GE Hitachi Nuclear Energy,78
+Korea Hydro & Nuclear Power,Korea Hydro & Nuclear Power Corp,41
+Mott MacDonald,Mott McDonald,33
+Synthos Green Energy,Orlen-Synthos Green Energy,33
+EDF Energy,DL Energy,31
+Rolls Royce,Rolls-Royce SMR,30
+Duke Energy,Blue Energy,26
+Great British Energy - Nuclear,Great British Energy - Nuclear (GBEN),25
+Lloyd's Register,Lloyd’s Register,24
+Hyundai Engineering & Construction,Hyundai Engineering and Construction Co,24
+China National Nuclear Corporation,China National Nuclear Corporation (CNNC),22
+Korea Hydro & Nuclear Power (KHNP),Korea Hydro & Nuclear Power Corp,21
+Great British Energy – Nuclear,Great British Energy - Nuclear (GBEN),21
+Uzatom,UzAtom,21
+Westinghouse Electric Co.,Westinghouse Electric Company,15
+Orlen Synthos Green Energy,Orlen-Synthos Green Energy,14
+International Atomic Energy Agency,International Atomic Energy Agency (IAEA),14
+Orlen,ORLEN,14
+Amazon Web Services,Amazon Web Services (AWS),13
+Nuscale,NuScale,12
+Great British Energy - Nuclear (GBE-N),Great British Energy - Nuclear (GBEN),12
+Vattenfall AB,Vattenfall,12
+Slovenské elektrárne,Slovenské Elektrárne,12
+Tata Power,Tata Power Co,11
+Halden Kjernekraft,Halden Kjernekraft AS,11
+HD Hyundai,Hyundai,11
+Last Energy UK,Last Energy,11
+SCK CEN,SCK-CEN,10
+HD Korea Shipbuilding & Offshore Engineering,HD Korea Shipbuilding & Offshore Engineering (HD KSOE),10
+Great British Energy-Nuclear,Great British Energy - Nuclear (GBEN),9
+Energoatom,Rosenergoatom,9
+AP1000,ACP100,9
+Mitsubishi Electric,Mitsubishi Electric Co,9
+Westinghouse Electric,Westinghouse Electric Company,9
+OKLO,Oklo,9
+Great British Nuclear (GBN),Great British Nuclear,9
+Videberg Kraft AB,Videberg Kraft,8
+Dow Inc,Dow Inc.,8
+Nuclear Power Corporation of India Ltd,Nuclear Power Corporation of India Limited (NPCIL),8
+Great British Energy – Nuclear (GBE-N),Great British Energy - Nuclear (GBEN),8
+Norsk Kärnkraft,Norsk Kjernekraft,8
+Office for Nuclear Regulation (ONR),Office for Nuclear Regulation,8
+VDL Groep,VDL Group,8
+Westinghouse Electric Company UK,Westinghouse Electric Company,8
+GE Vernova Hitachi Nuclear Energy (GVH),GE Hitachi Nuclear Energy,8
+Hitachi Nuclear Energy,GE Hitachi Nuclear Energy,8
+Terrapower,TerraPower,8
+EnergySolutions,US EnergySolutions,7
+KEPCO,Kepco,7
+Demcon,DEMCON,7
+GE-Hitachi Nuclear Energy,GE Hitachi Nuclear Energy,7
+Canadian Nuclear Laboratories,Canadian Nuclear Laboratories (CNL),7
+Atomic Energy of Canada Limited,Atomic Energy of Canada Ltd.,7
+Nuclear Power Corporation of India Ltd (NPCIL),Nuclear Power Corporation of India Limited (NPCIL),7
+ENTRA1 Energy,ENTRA Energy,7
+American Bureau of Shipping (ABS),American Bureau of Shipping,7
+NRG PALLAS,NRG-Pallas,6
+Neso,NESO,6
+Rolls Royce SMR,Rolls-Royce SMR,6
+Areva,AREVA,6
+Laing O’Rourke,Laing O'Rourke,6
+X Energy,X-Energy,6
+VTT Technical Research Centre,VTT Technical Research Centre of Finland,6
+CANDU,Candu,6
+Eagles Consortium,EAGLES Consortium,5
+Emirates Nuclear Energy Company,Emirates Nuclear Energy Company (ENEC),5
+NextEra Energy,ENTRA Energy,5
+Korea Electric Power Corporation,Korea Electric Power Corporation (Kepco),5
+RoPower Nuclear SA,RoPower Nuclear,5
+Nuclear Power Corporation of India Limited,Nuclear Power Corporation of India Limited (NPCIL),5
+NANO Nuclear Energy,NANO Nuclear Energy Inc.,5
+Kuopion Energia,Kuopio Energia,5
+NRG Pallas,NRG-Pallas,5
+GEN energija,GEN Energija,5
+Nuclear Energy Institute,The Nuclear Energy Institute,5
+Korea Atomic Energy Research Institute (KAERI),Korea Atomic Energy Research Institute,5
+Nuclear Regulatory Commission,US Nuclear Regulatory Commission,5
+Nextchem,NextChem,4
+Tennessee Valley Authority (TVA),Tennessee Valley Authority,4
+Rolls-Royce SMR Ltd,Rolls-Royce SMR,4
+ORLEN Synthos Green Energy,Orlen-Synthos Green Energy,4
+Hainan Nuclear Power,Nuclear Power Ghana,4
+Atomic Energy of Canada Limited (AECL),Atomic Energy of Canada Ltd.,4
+Clark Construction Group,Aecon Construction Group,4
+DOW,Dow,4
+Kuopio Energy,Kuopio Energia,4
+European Bank for Reconstruction and Development,European Bank for Reconstruction & Development (EBRD),4
+HD Hyundai Heavy Industries,HD Hyundai Heavy Industries (HHI),4
+Rusatom Service,Rosatom Service JSC,4
+Toyo Tanso,Toyo Tanso Co,4
+Aecom,AECOM,4
+Höganäs AB,Höganäs,4
+ROSATOM,Rosatom,4
+NuCube Energy,Nucleon Energy,3
+Nuclear Waste Services,TVO Nuclear Services,3
+Raten,RATEN,3
+National Thermal Power Corporation,National Thermal Power Corporation (NTPC),3
+Nano Nuclear,NANO Nuclear,3
+Environment Agency (EA),Environment Agency,3
+China Huaneng Group,China Huaneng,3
+Norsk Kjernkraft,Norsk Kjernekraft,3
+Electric Power Research Institute (EPRI),Electric Power Research Institute,3
+TEPCO,Tepco,3
+AtkinsRealis,AtkinsRéalis,3
+China National Nuclear Corporation Overseas,China National Nuclear Corporation (CNNC),3
+US Nuclear Regulatory Commission (NRC),US Nuclear Regulatory Commission,3
+Bharat Heavy Electricals Limited,Bharat Heavy Electricals Limited (BHEL),3
+Atomstroyexport JSC,Atomstroyexport,3
+Westinghouse Electric Co,Westinghouse Electric Company,3
+Department for Energy Security and Net Zero (DESNZ),UK Department for Energy Security and Net Zero,3
+Boccard UK,Boccard,3
+Hitachi-GE UK,GE-Hitachi,3
+Nuclear Decommissioning Authority (NDA),Nuclear Decommissioning Authority,3
+CANDU Energy,Candu Energy,3
+Nuclear Industry Association (NIA),Nuclear Industry Association,3
+ATEC Group,Aecon Group,3
+BLSK Energy,Blue Energy,3
+Great British Energy-Nuclear (GBE-N),Great British Energy - Nuclear (GBEN),3
+IQ Capital,VXI Capital,3
+Atomic Energy Organisation of Iran,Iran’s Atomic Energy Organisation,3
+Centrus Energy Corp,Centrus Energy,3
+Blue Castle,Blue Capsule,3
+Hyundai Engineering and Construction,Hyundai Engineering and Construction Co,3
+Global Nuclear Fuel,Global Nuclear Fuel (GNF),3
+The National Wealth Fund,National Wealth Fund,3
+ZiO-Podolsk,ZIO-Podolsk,3
+BlueCore Energy,Blue Energy,3
+Etara,ETARA,3
+Blue Bird Energy,Blue Energy,3
+Tucson Electric Power,Tucson Electric Power (TEP),3
+OKB Gidropress,OKB Gidropress JSC,3
+SEATOM Technologies,Seaborg Technologies,3
+Javys,JAVYS,3
+Studsvik AB,Studsvik,3
+Cascade Nuclear Partners,Canadian Nuclear Partners SA,3
+Bharatiya Nabhikiya Vidyut Nigam Limited (BHAVINI),Bharatiya Nabhikiya Vidyut Nigam Ltd,3
+Canada Growth Fund,Canada Growth Fund Inc,3
+Russian,Russia,3
+GE Vernova Hitachi (GVH),GE Vernova Hitachi,3
+Ghana Atomic Energy Commission,Jordan Atomic Energy Commission,3
+Nano Nuclear Energy,NANO Nuclear Energy Inc.,3
+Korea Eximbank,Korea's Eximbank,3
+HD Hyundai Mipo,HD Hyundai Samho,3
+Thorium Energy Alliance,Clean Core Thorium Energy,2
+Nuclear Restoration Services (NRS),Nuclear Restoration Services,2
+Ceca,CECA,2
+Community Nuclear Power,Community Nuclear Power Limited,2
+DL Engineering & Construction,Techint Engineering & Construction,2
+Triso-X,TRISO-X,2
+NTTs RYaB,NTTs YaRB,2
+Hyundai Engineering & Construction Company,Hyundai Engineering and Construction Co,2
+UrAmerica,American,2
+Royal Institute of Technology,KTH Royal Institute of Technology,2
+German,Germany,2
+Enea,ENEA,2
+ARC Clean Technology Canada,ARC Clean Technology,2
+China General Nuclear Power Group,China Nuclear Power Engineering Group,2
+Hitachi-GE,GE-Hitachi,2
+Hyundai Engineering & Construction Co Ltd,Hyundai Engineering and Construction Co,2
+US Department of Energy (DOE),US Department of Energy,2
+Samsung C&T Corp,Samsung C&T Corporation,2
+Nuscale Power,NuScale Power,2
+Global Laser Enrichment (GLE),Global Laser Enrichment,2
+Lightbridge Fuel,Lightbridge,2
+Turner & Townsend UK,Turner & Townsend,2
+UK Research and Innovation,UKRI (UK Research and Innovation),2
+Natural Resources Wales (NRW),Natural Resources Wales,2
+Department for Energy Security and Net Zero,UK Department for Energy Security and Net Zero,2
+GB Energy,X-Energy,2
+SNC Lavalin,SNC-Lavalin,2
+NUSCALE,NuScale,2
+US Nuclear Energy Institute,The Nuclear Energy Institute,2
+GE Hitachi Nuclear Energy (GEH),GE Hitachi Nuclear Energy,2
+ORLEN Synthos Green Energy (OSGE),Orlen-Synthos Green Energy,2
+Ge Hitachi,GE-Hitachi,2
+Dalane Kjernekraft AS,Halden Kjernekraft AS,2
+Bulgarian Energy Holding,Bulgaria Energy Holding (BEH),2
+Northern Gas Networks,Northern Gas Networks (NGN),2
+Slovenské elektrárne (SE),Slovenské Elektrárne,2
+Aker Solutions,GSE Solutions,2
+Tractel,Tractebel,2
+Atkins Realis,AtkinsRéalis,2
+ULC-Energy BV,ULC-Energy,2
+Candu Energy Inc,Candu Energy,2
+US Export-Import Bank,US Export-Import (Exim) Bank,2
+Trondheimsleia Kjernekraft AS,Trondheimsleia Kjernkraft,2
+Volvo Group,The Volvo Group,2
+JSC Atomenergoproekt,Atomenergoproekt,2
+Oak Ridge National Laboratory (ORNL),Oak Ridge National Laboratory,2
+The company,Southern Company,2
+Kozloduy NPP-New Build,Kozloduy NPP New Build,2
+HD Hyundai Samho Heavy Industries,HD Hyundai Heavy Industries (HHI),2
+Slovenske Elektrarne,Slovenské Elektrárne,2
+BWXT Canada Ltd,BWX Canada Ltd,2
+BWX Technologies (BWXT),BWX Technologies,2
+Skanska UK,Skanska,2
+Jadrová Energetická Spoločnosť Slovenska (JESS),Jadrová Energetická Spoločnosť Slovenska,2
+Nucleareurope,nucleareurope,2
+BWX Technologies Inc,BWX Technologies,2
+Korea Hydro and Nuclear Power,Korea Hydro & Nuclear Power Corp,2
+GE-Vernova,GE Vernova,2
+Evroc,evroc,2
+Wales & West Utilities,Wales & West Utilities (WWU),2
+Eagles,EAGLES,2
+Ministry of Climate and Environment,Norwegian Ministry of Climate and Environment,2
+General Director for Environmental Protection,General Director for Environmental Protection (GDOŚ),2
+Atomenergoproject,Atomenergoproekt,2
+Emirates Nuclear Energy Corporation,Emirates Nuclear Energy Company (ENEC),2
+MAIRE,Maire,2
+SAIPEM,Saipem,2
+Asian Development Bank,Asian Development Bank (ADB),2
+Salt River Project,Salt River Project (SRP),2
+KEPCO International Nuclear Graduate School,KEPCO International Nuclear Graduate School (KINGS),2
+Louisiana Energy Services LLC,UUSA's Louisiana Energy Services,2
+Uranium Energy Corporation,UNS Energy Corporation,2
+Grenland Kjernekraft AS,Grenland Kärnkraft,2
+"Holtec Palisades, LLC",Holtec Palisades,2
+"Holtec Decommissioning International, LLC",Holtec Decommissioning International,2
+Genusa,Enusa,2
+Reliance Industries,Reliance Industries Limited,2
+African Development Bank,Asian Development Bank (ADB),2
+Flibe Energy Inc,Flibe Energy,2
+ENUSA,Enusa,2
+Gifen,GIFEN,2
+US International Development Finance Corporation (DFC),US Financial Corporation for International Development (DFC),2
+CSTI Groupe,CSTI GROUPE,2
+Doosan Škoda Power,Doosan Skoda Power,2
+GENUSA,Enusa,2
+Department of Energy (DOE),Department of Energy,2
+Bhabha Atomic Research Centre (BARC),Bhabha Atomic Research Centre,2
+U.S. Nuclear Regulatory Commission,US Nuclear Regulatory Commission,2
+Energy Market Authority,Energy Market Authority (EMA),2
+Rwanda Atomic Energy Board,Rwanda Atomic Energy Board (RAEB),2
+Atomic Energy of Canada Ltd,Atomic Energy of Canada Ltd.,2
+UK's Office for Nuclear Regulation,Office for Nuclear Regulation,2
+Manila Electric Company,Manila Electric Company (Meralco),2
+Export-Import Bank of Korea,Export-Import Bank of Korea (Eximbank),2
+Aecon Group Inc,Aecon Group,2
+International Maritime Organization,International Maritime Organisation,2
+Øygarden Kjernekraft AS,Øygarden Kärnkraft,2
+Hokkaido Electric Power Co,Kansai Electric Power Co,2
+GEH (General Electric Hitachi),General Electric Hitachi,2
+Slovak Power Holding BV,Slovak Power Holding (SPH),2
+X - Energy,X-Energy,1
+Ontario Power Group (OPG),Ontario Power Generation (OPG),1
+Norsk Kjernekraf,Norsk Kjernekraft,1
+US Dominion Energy Virginia,Dominion Energy Virginia,1
+Westinghouse (implied by AP1000),Westinghouse (implied by AP1000s and ESBWR),1
+Idaho National Laboratories,Idaho National Laboratory,1
+NANO NUCLEAR,NANO Nuclear,1
+HOLTEC,Holtec,1
+CAP1400,APR1400,1
+Edf,EDF,1
+American Electric Power (AEP),American Electric Power,1
+Rystad Energy,Steady Energy Oy,1
+NexEra,NextEra,1
+U.S. Department of Energy,US Department of Energy,1
+Korea Atomic Industrial Forum,Japan Atomic Industrial Forum,1
+US X-Energy,X-Energy,1
+Sargent and Lundy,Sargent & Lundy,1
+Korea Overseas Infrastructure & Urban Development (KIND) Corporation,Korea Overseas Infrastructure & Urban Development (KIND),1
+World Nuclear Association (WNA),World Nuclear Association,1
+Chemetics,Chemetics Inc,1
+Akkuyu Nuclear,Akkuyu Nuclear JSC,1
+Massachusetts Institute of Technology (MIT),Massachusetts Institute of Technology,1
+Hyundai Heavy Industries,HD Hyundai Heavy Industries (HHI),1
+National Nuclear Laboratory,UK National Nuclear Laboratory,1
+Norway's Institute for Energy Technology,Institute for Energy Technology,1
+GE Vernova HItachi Nuclear Energy,GE Hitachi Nuclear Energy,1
+Atomic Energy Regulatory Board,India’s Atomic Energy Regulatory Board (AERB),1
+Nuclear Regulatory Authority of the Slovak Republic,Slovak Republic's Nuclear Regulatory Authority,1
+UK's National Wealth Fund,National Wealth Fund,1
+Acr-300,ACR-300,1
+First American Nuclear Company,First American Nuclear Company (FANCO),1
+Slovak Power Holding BV (SPH),Slovak Power Holding (SPH),1
+Virginia Electric and Power Company,Virginia Electric and Power Co,1
+European Union,European Union (EU),1
+Framatome Inc,Framatome,1
+European Bank for Reconstruction & Development,European Bank for Reconstruction & Development (EBRD),1
+Hyundai Engineering & Construction (Hyundai E&C),Hyundai Engineering and Construction Co,1
+Jindal Nuclear Power Private Limited,Jindal Nuclear Power Pvt Ltd,1
+Orlen Synthos Green Energy (OSGE),Orlen-Synthos Green Energy,1
+National Power Corporation,NuScale Power Corporation,1
+US General Atomics,General Atomics,1
+Akkuyu Nuclear Inc,Akkuyu Nuclear JSC,1
+Global Nuclear Fuel Americas LLC,Global Nuclear Fuel (GNF)-Americas (GNF-A),1
+Framatome US Government Solutions LLC,Framatome US Government Solutions,1
+Container Technologies Industries LLC,Container Technologies Industries,1
+BWXT Nuclear Energy Inc,BWXT Nuclear Energy,1
+Constellation SMR Development LLC,Constellation SMR Development,1
+Alva-yhtiöt Oy,Alva-yhtiöt,1
+Long Mott Energy LLC,Long Mott Energy,1
+CORE POWER,Core Power,1
+International Maritime Organization (IMO),International Maritime Organisation,1
+X-energy LLC,ULC-Energy,1
+French regulatory bodies,Finnish regulatory bodies,1
+Government,HM Government,1
+Radiana,Radiant,1
+Nuclear Regulatory Agency,Bulgarian Nuclear Regulatory Agency,1
+State Enterprise for Radioactive Waste,State Enterprise Radioactive Waste,1
+"X-Energy, LLC",ULC-Energy,1
+"Kairos Power, LLC",Kairos Power,1
+"Antares Nuclear, Inc",Antares Nuclear,1
+GNF Enusa Nuclear Fuel SA,GNF ENUSA Nuclear Fuel (GENUSA),1
+Enusa Industrias Avanzadas SA,ENUSA Industrias Avanzadas,1
+First American Nuclear Co (FANCO),First American Nuclear Company (FANCO),1
+Fensfjorden Kjernekraft AS,Fensfjorden Kärnkraft,1
+Terra Innovatum Global,Terra Innovatum,1
+Conuar,CONUAR,1
+Bluecore Energy,Blue Energy,1
+EIB (European Investment Bank),European Investment Bank,1
+Shine Technologies,SHINE Technologies,1
+Alpha Nur Inc,Alpha Nur,1
+CORE Energy,Core Synergy,1
+King's College London,King’s College London,1
+Meralco PowerGen,Meralco PowerGen Corp,1
+Armada Investment AG,Armada Investment,1
+E.ON SE,EOn SE,1
+Kansai Electric Power,Kansai Electric Power Co,1
+Talen Energy Corporation,UNS Energy Corporation,1
+Atomic Energy Commission (AEC),Jordan Atomic Energy Commission,1
+Mirion Technologies,Onet Technologies,1
+Ultra Safe Nuclear Corporation (USNC),Ultra Safe Nuclear Corporation,1
+Department for Energy Security & Net Zero (DESNZ),Department of Energy Security & Net Zero (DESNZ),1
+SN Nuclearelectrica,Nuclearelectrica,1
+Adani Power Ltd,Adani Power,1
+JSW Energy Ltd,JSW Energy,1
+SGL Carbon LLC,SGL Carbon,1
+Tetra Tech Inc,Tetra Tech,1
+Lloyd's Register,Lloyd’s Register,1
+Paks,PAKS,1
+Atkins Réalis,AtkinsRéalis,1
+The Canadian Nuclear Association,Canadian Nuclear Association,1
+Terminus Energia,Fermi Energia,1
+Jindal Steel & Power Ltd,Jindal Steel and Power,1
+Hindalco Industries Ltd,Hindalco Industries,1
+Nuclear Power Corporation of India (NPCIL),Nuclear Power Corporation of India Limited (NPCIL),1
+Global Nuclear Fuel America,Global Nuclear Fuel (GNF)-Americas (GNF-A),1
+The Nuclear Company (TNC),The Nuclear Company,1
+"Barnard Construction Company, Inc.",Barnard Construction Company,1
+Nuclear Energy Institute (NEI),The Nuclear Energy Institute,1
+Canadian Nuclear Safety Commission (CNSC),Canadian Nuclear Safety Commission,1
+Diamante Energia,Dalane Energi,1
+Groupement des Industriels Français de l'Energie Nucléaire (Gifen),Groupement des Industriels Français de l’Energie Nucléaire (Gifen),1
+Radiation and Nuclear Safety Authority,Norwegian Radiation and Nuclear Safety Authority,1
+Nuclearis Energy,Energonuclear,1
+"Dow, Inc",Dow Inc.,1
+Norway's Ministry of Climate and Environment,Norwegian Ministry of Climate and Environment,1
+Norway's Ministry of Justice and Public Security,Norwegian Ministry of Justice and Public Security,1
+Norway's Ministry of Health and Care Services,Norwegian Ministry of Health and Care Services,1
+Norway's Ministry of Energy,Norwegian Ministry of Energy,1
+Omaha Public Power District,Nebraska Public Power District,1
+Surfside Acquisition Inc,Surfside Acquisition,1
+Korea District Heating Corporation,Korea District Heating Corp,1
+Korea Hydro & Nuclear Power Corporation (KHNP),Korea Hydro & Nuclear Power Corp,1
+Fermi Energia AS,Fermi Energia,1
+Silex Sytems Ltd,Silex Systems,1
+Nukem Technologies Engineering Services GmbH,NUKEM Technologies Engineering Services,1
+International Science and Technology Center,International Science & Technology Centre,1
+Aecon Nuclear,ARC Nuclear,1
+Korean Atomic Industrial Forum,Japan Atomic Industrial Forum,1
+Kozloduy NPP-New Builds,Kozloduy NPP New Build,1
+Atomic Energy Organisation,Iran’s Atomic Energy Organisation,1
+Ethiopian Electric Power Corporation,Indonesian Electric Power Corporation,1
+Ansaldo Energia SpA,Ansaldo Energia,1
+Kiewit Nuclear Solutions Co,Kiewit Nuclear Solutions,1
+Nuclear Energy,Energonuclear,1
+Korea Electric Power Corp (Kepco),Korea Electric Power Corporation (Kepco),1
+Exail Technologies,LIS Technologies,1
+ADEME Investissement,CEA Investissement,1
+Eren Groupe SA,Eren Groupe,1
+ROBATEL,Robatel,1
+Helionix,Helion,1
+KEPCO E&C,Kepco E&C,1
+SN Nuclearelectrica SA,Nuclearelectrica,1
+Industrias Nucleares do Brasil (INB),Indústrias Nucleares do Brasil,1
+NVIDIA,Nvidia,1
+Uzatom Atomic Energy Agency,Japan Atomic Energy Agency,1
+The World Bank Group,World Bank Group,1
+Atucha 2,Atucha 1,1
+World Bank group,World Bank Group,1
+Rolls-Royce Submarines,Rolls-Royce SMR,1
+US SMR Pan-European Regional Interest Nuclear Group or SPRING,US SMR Pan-European Regional Interest Nuclear Group (SPRING),1
+"Hitachi, Ltd",Hitachi Ltd,1
+CORE Energy Systems,Core Energy Systems,1
+TerraPower LLC,TerraPower,1
+Futurum AS,Futurum,1
+Narvik Kjernekraft AS,Narvik Kärnkraft AS,1
+"Korea Hydro & Nuclear Power Co., Ltd.",Korea Hydro & Nuclear Power Corp,1
+World Nuclear Transport Institute,World Nuclear Transport Institute (WNTI),1
+International Institute for Nuclear Energy,GE-Hitachi Nuclear Energy International,1
+U.S. Nuclear Regulatory Commission (NRC),US Nuclear Regulatory Commission,1
+Nukem Technologies,Onet Technologies,1
+Huaneng Hainan Changjiang Nuclear Power,Huaneng Hainan Changjiang Nuclear Power Company Ltd,1
+Last Energy Inc,Last Energy,1
+AP Moller - Maersk,AP Moller-Maersk,1
+No company names mentioned in the claim,no company names mentioned in the claim,1
+GE Hitachi Nuclear,GE Hitachi Nuclear Energy,1
+Institute of Energy Technology (IFE),Institute for Energy Technology,1
+Utah Associated Municipal Power Systems (UAMPS),Utah Associated Municipal Power Systems,1
+Russia's state corporation,Russia's state nuclear corporation,1
+Tenex,TENEX,1
+Department of Energy Security and Net Zero (DESNZ),Department of Energy Security & Net Zero (DESNZ),1
+Rolls-Royce Ltd,PSECC Ltd/Rolls-Royce,1
+The World Bank,World Bank,1
+Kazakhstan Nuclear Power Plants LLP,Kazakhstan Nuclear Power Plant (KNPP),1
+Atomic Energy Agency,Japan Atomic Energy Agency,1
+Commissariat à l’Energie Atomique et aux Energies Alternatives,CEA - Commissariat à l’énergie Atomique et aux énergies Alternatives,1
+Battelle Energy Alliance LLC,Battelle Energy Alliance,1
+Tennessee Valley Authority’s (TVA),Tennessee Valley Authority,1
+Export-Import Bank,US Export-Import (Exim) Bank,1
+Liberty Energy,Flibe Energy,1
+Texas Tech University,Texas Tech University System,1
+Saskatchewan Industrial and Mining Suppliers Association,Saskatchewan Industrial & Mining Suppliers Association,1
+BWXT Tecnhologies Inc,BWX Technologies,1
+China Nuclear Power Research Institute,China Nuclear Power Research Institute CNPRI,1
+DeepGeo,DeepGEO,1
+Larsen & Tubro,Larsen & Toubro,1
+Amentum Energy & Environment International,Energy and Environment International,1
+Savannah River Site,Savannah River Site Watch,1
+Danieli & C,Danieli,1
+New Brunswick,Brunswick,1
+Aalo's,Aalo-X,1
+Industria,Industrikraft,1
+Kinetrics,Kinectrics,1
+University of Bristol,University of Alberta,1
+Moltex Energy Canada Inc,Moltex Energy Canada,1
+Korea Electric Power Cooperation,Korea Electric Power Company,1
+Hrvatska elektroprivreda,Hrvatska Elektroprivreda,1
+Royal Institute of Technology (KTH),KTH Royal Institute of Technology,1
+Electricity of Vietnam,Vietnam Electricity (EVN),1
+Rolls Royce SMR Limited,Rolls-Royce SMR Limited,1
+Polskie Elektrownie Jądrowe (PEJ),Polskie Elektrownie Jądrowe,1
+Nuclear Safety and Security Commission,Canadian Nuclear Safety Commission,1
+Slovenské Elektrárne (SE),Slovenské Elektrárne,1
+Synthos Green Energy (SGE),Orlen-Synthos Green Energy,1
+Nuclearelectrica SA,Nuclearelectrica,1
+National Power Company of India Ltd,National Power Company of India Ltd (NPCIL),1
+Arizona Public Service,Arizona Public Service (APS),1
+Bharatiya Nabhikiya Vidyut Nigam Limited (Bhavini),Bharatiya Nabhikiya Vidyut Nigam Ltd,1
+King Abdullah City for Atomic and Renewable Energy (KA-CARE),King Abdullah City for Atomic & Renewable Energy (KA-CARE),1
+GE Hitachi Nuclear Energy International,GE-Hitachi Nuclear Energy International,1
+Nuclear and RoPower,RoPower Nuclear,1
+International Development Finance Corporation (DFC),US Financial Corporation for International Development (DFC),1
+General Atomics Electromagnetic Systems (GA-EMS),General Atomics Electromagnetic Systems,1
+Slovenské elektrární,Slovenské Elektrárne,1
+Canadian Nuclear Laboratories Limited,Canadian Nuclear Laboratories (CNL),1
+Global Nuclear Fuel–Americas,Global Nuclear Fuel (GNF)-Americas (GNF-A),1
+Quantum Leap Energy LLC,Quantum Leap Energy,1
+Texas A&M University System,Texas A&M University,1
+Hungary's Paks,Hungary's Paks NPP,1
+Global Laser Enrichment LLC,Global Laser Enrichment,1
+General Matter Inc,General Matter,1
+ASP Isotopes Inc,ASP Isotopes,1
+Invap,INVAP,1
+Atomic Energy Organization of Iran,Iran’s Atomic Energy Organisation,1
+Vietnam Electricity Group (EVN),Vietnam Electricity (EVN),1
+UK National Nuclear Laboratory (UKNNL),UK National Nuclear Laboratory,1
+Point72 Ventures,Snowpoint Ventures,1
+Harlette Capital,Harlem Capital,1
+PPL Corporation,Fluor Corporation,1
+Elektromreza Srbije,Elektroprivreda Srbije,1
+Ansaldo Energia Group,Ansaldo Energia,1
+National Atomic Energy Agency,International Atomic Energy Agency (IAEA),1
+"Barnard Construction Company, Inc",Barnard Construction Company,1
+HALEU Energy Fuel Inc,HALEU Energy Fuel,1
+Advanced Fuel Transportation Inc,Advanced Fuel Transportation,1
+Kazakhstan Nuclear Power Plants JSC (KNPP),Kazakhstan Nuclear Power Plant (KNPP),1
+South Koreans,South Korea,1
+Nuclear Power Institute of China,Nuclear Power Institute,1
+ENSASA,ENARSA,1
+United Kingdom National Nuclear Laboratory,UK National Nuclear Laboratory,1
+UK Nuclear Decommissioning Authority,Nuclear Decommissioning Authority,1
+US Steel Corporation,UNS Energy Corporation,1
+London-based Nuclear Industry Association,Nuclear Industry Association,1
+US Trade and Development Agency (USTDA),US Trade and Development Agency,1
+Fanc,FANC,1
+Alternative Energies and Atomic Energy Commission,French Alternative Energies and Atomic Energy Commission,1
+The Rodel Foundation,The Rockefeller Foundation,1
+New York Power Authority (NYPA),New York Power Authority,1
+Lloyds Register,Lloyd’s Register,1
+CEA - Commissariat à l'énergie Atomique et aux énergies Alternatives,CEA - Commissariat à l’énergie Atomique et aux énergies Alternatives,1
+Larsen & Toubro (L&T),Larsen & Toubro,1
+Korea Research Institute of Ships & Ocean Engineering (KRISO),Korean Research Institute of Ship & Ocean Engineering (KRISO),1
+US Fluor Corporation,Fluor Corporation,1
+Societatea Nationala Nuclearelectrica,Societatea Nationala Nuclearelectrica (SNN),1
+Sidley Austin LLP,Sidley Austin,1
+Kuopion Energiav,Kuopio Energia,1
+Enec,ENEC,1
+Ostfold Energi,Østfold Energi,1
+Multiconsult Norge,Multiconsult Norge AS,1
+Westinghouse EC,Westinghouse,1
+Nuclear Power Corporation of India Ltd.,Nuclear Power Corporation of India Limited (NPCIL),1
+Assarel-Medet,Asarel-Medet JSC,1
+"Energy, Safety and Risk Consultants","Energy, Safety and Risk Consultants (UK)",1
+Afry,AFRY,1
+Frazer Nash,Frazer-Nash,1
+Korea Electric Power Corporation (KEPCO),Korea Electric Power Corporation (Kepco),1
+Électricité de France SA (EDF),Électricité de France (EDF),1
+Samsung Heavy Industries (SHI),Samsung Heavy Industries,1
+Polskie Elektrownie Jadrowe (PEJ),Polskie Elektrownie Jądrowe,1
+Quantum Energy,Quantum Leap Energy,1
+GE Verona,GE Vernova,1
+JPMorgan,JP Morgan,1
+GE Vernona,GE Vernova,1
+Indian Department of Atomic Energy,Department of Atomic Energy,1
+Sellafield,Sellafield Ltd,1
+Holtce,Holtec,1
+Westinghouse Electric Company UK Limited,Westinghouse Electric Company,1
+South Korean,South Korea,1
+International Energy Agency,International Atomic Energy Agency (IAEA),1
+UK government,HM Government,1
+LG Energy Solutions,US EnergySolutions,1
+Great British Energy – Nuclear (GBEN),Great British Energy - Nuclear (GBEN),1
+Idaho National Laboratory (INL),Idaho National Laboratory,1
+Korea Electric Power Company (Kepco),Korea Electric Power Corporation (Kepco),1
+Luleå University of Technology,Delft University of Technology,1
+Move Energy,Moltex Energy,1
+SNC-Lavalin Group,SNC-Lavalin Group Inc,1
+DESZNZ,DESNZ,1
+Octopus Energy Group,Octopus Energy,1
+National Grid Electricity Distribution (NGED),National Grid Electricity Distribution,1
+Rolls-Royce UK,Rolls-Royce SMR,1
+National Grid Electricity Transmission,National Grid Electricity Transmission (NGET),1
+BWXTechologies,BWX Technologies,1
+Amercian,American,1
+Sizewell C Ltd,Sizewell C,1
+Nato,NATO,1
+Great British Energy (GBE),Great British Energy,1
+The National Nuclear Laboratory,UK National Nuclear Laboratory,1
+Electricity Generating Authority of Thailand (EGAT),Electricity Generating Authority of Thailand (Egat),1
+ENRATA1 Energy,ENTRA Energy,1
+Electricité de France,Electricité de France (EDF),1
+US NuScale,NuScale,1
+Bam Nuttall,BAM Nuttall,1
+"Department for Energy, Security and Net Zero",UK Department for Energy Security and Net Zero,1
+Great British Energy–Nuclear (GBE-N),Great British Energy - Nuclear (GBEN),1
+Office for Nuclear Regulation’s,Office for Nuclear Regulation,1
+Nuclear Restoration Services Ltd,Nuclear Restoration Services,1
+EDF power solutions,EDF power solutions UK,1
+Rolls Royce UK,Rolls-Royce SMR,1
+Great British Nuclear/GBN,Great British Nuclear,1
+Defra,DEFRA,1
+Nuclear AMRC,ARC Nuclear,1
+University of Sheffield’s Advanced Manufacturing Research Centre,University of Sheffield’s Advanced Manufacturing Research Centre (AMRC),1
+GE Hitachi (GEH),GE-Hitachi,1
+Larsen & Toubro Ltd,Larsen & Toubro,1
+Tata Consulting Engineers Ltd,Tata Consulting Engineers,1
+Fermi Energy,Fermi Energia,1
+Rusatom Overseas JSC,Rusatom Overseas,1
+Jindal Nuclear Power,Jindal Nuclear Power Pvt Ltd,1
+Xenergy,Entergy,1
+X energy,X-Energy,1
+Russia's,Russia,1
+Duke energy,Blue Energy,1
+Westingshouse,Westinghouse,1
+EdF,EDF,1
+UK Government,HM Government,1
+GE-Vernona,GE Vernova,1
+Platom,PhilATOM,1
+Orlen Synthos Green Energy (OGSE),Orlen-Synthos Green Energy,1
+US Southern Company,Southern Company,1
+Lund municipality,Halden municipality,1
+Østfold Energy,Østfold Energi,1
+Dalane Energy,Dalane Energi,1
+HCL Technologies,LIS Technologies,1
+Nuclear Power Ghana (NPG),Nuclear Power Ghana,1
+China Institute of Nuclear Energy,The Nuclear Energy Institute,1
+Department of Atomic Energy (DAE),Department of Atomic Energy,1
+Energatom,Rosenergoatom,1
+EGIS,Egis,1
+Oklo/Atomic Alchemy,Atomic Alchemy,1
+Oak Ridge National Lab,Oak Ridge National Laboratory,1
+"TRISO-X, LLC",TRISO-X LLC,1
+Giant Ventures,Engine Ventures,1
+GE/Hitachi,GE-Hitachi,1
+NOIT Bruce Power,Bruce Power,1
+General Electric (GE),General Electric,1
+Lazard,Lazards,1
+GEH (GE Hitachi),GE-Hitachi,1
+Atomic Energy Organisation of Iran (AEOI),Iran’s Atomic Energy Organisation,1
+BWX technologies,BWX Technologies,1
+Exxon/Mobil,ExxonMobil,1
+Los Alamos National Laboratory (LANL),Los Alamos National Laboratory,1
+V C Summer,VC Summer,1
+DLA Energy,DL Energy,1
+Canadian BWRX,BWXT Canada,1
+Copenhagen atomics,Copenhagen Atomics,1
+us,US,1
+Ge-Hitachi,GE-Hitachi,1
+Candu Energy Inc.,Candu Energy,1
+NECSA,Necsa,1
+Terapower,TerraPower,1
+Koreans,Korean,1
+U.S. Department of Energy (DOE),US Department of Energy,1
+Holtech,Holtec,1
+United States Trade and Development Agency,US Trade and Development Agency,1
+Terra-Power,Terra Power,1
+Rolls-Royce (RR),Rolls-Royce SMR,1
