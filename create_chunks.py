@@ -2,7 +2,7 @@ import csv
 import pandas as pd
 from transformers import AutoTokenizer
 
-tokenizer = AutoTokenizer.from_pretrained("/homes/ko25/Desktop/fyp/scibert_finetuned_model")
+tokenizer = AutoTokenizer.from_pretrained("/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/scibert_finetuned_model")
 chunk_token_limit = 400
 
 def create_chunk_from_paragraph(paragraphs_csv_file_path) -> None:
@@ -102,7 +102,7 @@ def create_chunk_from_paragraph(paragraphs_csv_file_path) -> None:
 
         chunk_df = pd.DataFrame(chunk_list)
         #pd.DataFrame.to_csv(chunk_df, "chunks.csv", index = False)
-        pd.DataFrame.to_csv(chunk_df, "chunks_extra.csv", index = False)
+        pd.DataFrame.to_csv(chunk_df, "chunks_extra_2426.csv", index = False)
     
     return
 
@@ -124,9 +124,9 @@ def verify_chunk_token_limit(chunk_csv_file_path, limit = chunk_token_limit) -> 
     return oversized_chunks
             
 if __name__ == "__main__":
-    filepath = "/homes/ko25/Desktop/fyp/paragraphs_extra.csv"
+    filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/paragraphs_extra_2426.csv"
     create_chunk_from_paragraph(filepath)
-    oversized_chunks = verify_chunk_token_limit("/homes/ko25/Desktop/fyp/chunks_extra.csv")
+    oversized_chunks = verify_chunk_token_limit("/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/chunks_extra_2426.csv")
     print(f"Number of oversized chunks: {len(oversized_chunks)}")
     print(f"Token size: {[chunk['token_count'] for chunk in oversized_chunks]}")
 

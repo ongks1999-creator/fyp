@@ -40,10 +40,10 @@ def claim_extraction_from_chunk(chunk: list):
 
 
 if __name__ == "__main__":
-    chunks_final_file_path = "/vol/bitbucket/ko25/fyp/chunks_final_2426.csv"
+    chunks_final_file_path = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/chunks_final_2426.csv"
     chunks = read_chunk_csv(chunks_final_file_path)
 
-    articles_filepath = "/vol/bitbucket/ko25/fyp/webcrawl/filtered_articles_2426.json"
+    articles_filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/finalcode/articles/filtered_articles_2426.json"
     # keep only chunks from smr related articles, only extract claims from smr related chunks
     with open(articles_filepath, "r") as file:
         articles = json.load(file)

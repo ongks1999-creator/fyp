@@ -4,7 +4,7 @@ import pandas as pd
 import json
 
 # Since we using Scibert model, we use the same model for our tokenizer
-tokenizer = AutoTokenizer.from_pretrained("/homes/ko25/Desktop/fyp/scibert_finetuned_model")
+tokenizer = AutoTokenizer.from_pretrained("/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/scibert_finetuned_model")
 
 def extract_paragraphs_from_article(article: dict) -> list[dict]:
     """
@@ -58,11 +58,11 @@ def create_paragraphs_csv(articles_filepath) -> None:
     
     df = pd.DataFrame(dataframe_list)
     #df.to_csv("paragraphs.csv", index = False) # write dataframe to csv
-    df.to_csv("paragraphs_extra.csv", index = False)
+    df.to_csv("paragraphs_extra_2426.csv", index = False)
     return
 
 if __name__ == "__main__":
-    file_path = "/homes/ko25/Desktop/fyp/filtered_reddit_articles.json" #"/Users/ongkaisheng/Desktop/ImperialCollege/FYP/finalcode/articles/filtered_articles.json"
+    file_path = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/filtered_reddit_articles_2426.json" #"/Users/ongkaisheng/Desktop/ImperialCollege/FYP/finalcode/articles/filtered_articles.json"
     invalid_entries = entry_check(file_path)
     print(invalid_entries)
     print([invalid["magasine"] for invalid in invalid_entries])
