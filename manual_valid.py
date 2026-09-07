@@ -25,9 +25,9 @@ query_claim_predictions = query_claim_scores["query_claim_score"].apply(predict,
 query_claim_scores["predicted_label"] = query_claim_predictions
 
 # sample 10 for each predicted label
-support_samples = query_claim_scores[query_claim_scores["predicted_label"] == "SUPPORT"].sample(n = 10, random_state = 45)
-contradict_samples = query_claim_scores[query_claim_scores["predicted_label"] == "CONTRADICT"].sample(n = 10, random_state = 45)
-NEI_samples = query_claim_scores[query_claim_scores["predicted_label"] == "NEI"].sample(n = 10, random_state = 45)
+support_samples = query_claim_scores[query_claim_scores["predicted_label"] == "SUPPORT"].sample(n = 10, random_state = 50)
+contradict_samples = query_claim_scores[query_claim_scores["predicted_label"] == "CONTRADICT"].sample(n = 10, random_state = 50)
+NEI_samples = query_claim_scores[query_claim_scores["predicted_label"] == "NEI"].sample(n = 10, random_state = 50)
 
 def create_entries_list(x, label):
     """
