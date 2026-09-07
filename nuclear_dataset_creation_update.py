@@ -4,7 +4,6 @@ import re
 from collections import defaultdict
 from collections import Counter
 from RAG_uncertainty_label import embed_csv_files, build_FAISS_index, uncertainty_label
-import faiss
 
 nuclear_dataset = pd.read_csv("/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/finalised_finetune_dataset.csv")
 
@@ -194,9 +193,3 @@ for sample_count, (claim_index, claim) in enumerate(claims_sampled.iterrows()):
 
 extra_dataset = NEI_list + SUPP_list + CONTRA_list
 pd.DataFrame(extra_dataset).to_csv("/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/additional_nuclear_dataset.csv", index = False)
-
-
-
-
-
-  
