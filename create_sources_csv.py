@@ -86,12 +86,14 @@ def provenance_scoring(filtered_extracted_links_csv_file_path: str, filtered_red
 
 
 def main():
-    filtered_extracted_links_csv_file_path = "/homes/ko25/Desktop/fyp/filtered_extracted_links.csv"
-    filtered_reddit_articles_json_file_path = "/homes/ko25/Desktop/fyp/filtered_reddit_articles.json"
+    filtered_extracted_links_csv_file_path = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/filtered_extracted_links_2426.csv"
+    filtered_reddit_articles_json_file_path = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/filtered_reddit_articles_2426.json"
 
-    chunks_final_csv_file_path = "/homes/ko25/Desktop/fyp/chunks_final.csv"
+    chunks_final_csv_file_path = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/chunks_final_2426.csv"
 
-    recency_dict = recency_scoring(chunks_final_csv_file_path)
+    #recency_dict = recency_scoring(chunks_final_csv_file_path)
+    # freezing recency scores for 24/26 data
+    recency_dict = {"Nuclear Engineering International": 1.0, "NucNet": 0.9060278201577280, "Reddit": 0.8839794498904370, "World Nuclear News": 0.7499772938021270, "New Civil Engineer": 0.5}
     provenance_dict = provenance_scoring(filtered_extracted_links_csv_file_path, filtered_reddit_articles_json_file_path)
     # iterate through the final chunk list that contain all source ids
     with open(chunks_final_csv_file_path, newline = '') as csvfile:
@@ -136,7 +138,7 @@ def main():
         sources.append(source_entry)
     
     sources_df = pd.DataFrame(sources)
-    pd.DataFrame.to_csv(sources_df, "sources.csv", index = False)
+    pd.DataFrame.to_csv(sources_df, "sources_2426.csv", index = False)
 
 
 
