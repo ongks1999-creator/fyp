@@ -14,6 +14,7 @@ AECL,1.0,,6.0
 AECOM,,,2.0
 AEM,,,1.0
 AEM-Spetsstal,,,1.0
+AEM-Technologies,2.0,,7.0
 AFCEN,,,1.0
 AFCONE,,,1.0
 AFV Beltrame Group,,,2.0
@@ -85,7 +86,7 @@ Argentine Neutron Beam Laboratory (LAHN),,,1.0
 Argentinian Nuclear Regulatory Authority (ARN),,,1.0
 Argo Engineering,,,1.0
 Argonne,,,2.0
-Argonne National Laboratory (ANL),,,1.0
+Argonne National Laboratory,,1.0,6.0
 Ariane Group,,,1.0
 Armenian NPP,,,1.0
 Arthur D. Little,,,1.0
@@ -246,7 +247,7 @@ Case Western Reserve University,,,1.0
 Cavendish,,,1.0
 Cavendish Nuclear,4.0,,1.0
 Cenovus,,,2.0
-Cenovus Energy,2.0,,3.0
+Cenovus Energy,,,1.0
 Central Design & Technological Institute,,,1.0
 Central Enterprise for the Management of Radioactive Waste,,,1.0
 Central Plateau Clean-up Company (CPC Co),,,1.0
@@ -254,6 +255,7 @@ Centralna Energoremontna Baza EAD,,,1.0
 Centrica,,,2.0
 Centrum výzkumu Řež (CVŘ),,,1.0
 Centrus,3.0,1.0,10.0
+Centrus Energy,2.0,,2.0
 Centrus Energy Corp,1.0,,6.0
 Century,,,1.0
 Cerberus Nuclear,,,2.0
@@ -263,7 +265,7 @@ Chiba Institute of Technology (CIT),,,1.0
 Chiltern Vital Group,,,1.0
 China,,,4.0
 China Datang Group,,,1.0
-China Energy Investment Corporation,,,4.0
+China Energy Investment Corporation,,,1.0
 China First Heavy Machinery Co Ltd,,,1.0
 China General Nuclear,4.0,,7.0
 China General Nuclear Power Group,1.0,,2.0
@@ -275,6 +277,7 @@ China National Nuclear Power (CNNP),1.0,,3.0
 China Nuclear Industry 24 Construction Company,2.0,,4.0
 China Nuclear Power Engineering,,,3.0
 China Nuclear Power Research and Design Institute,,,2.0
+China Power Investment Corporation,,,3.0
 Chinese,1.0,,
 Chugoku Electric,,,1.0
 Chugoku Electric Power Company,,,1.0
@@ -410,7 +413,6 @@ Ed. Züblin AG,,,1.0
 Edison,,,4.0
 Edvance UK,,,2.0
 Efinor,,,2.0
-Egypt Atomic Energy Authority,,,1.0
 Egypt's Nuclear Power Plants Authority (NPPA),1.0,,1.0
 Eiffage,,,1.0
 Electrabel,,1.0,3.0
@@ -428,7 +430,7 @@ EnBW,,,2.0
 Enel,1.0,,4.0
 Enel Group,1.0,,
 Enel Produzione SpA,,,1.0
-Energoatom,8.0,11.0,68.0
+Energoatom,5.0,5.0,30.0
 Energoholding,,,1.0
 Energoremont-Galabovo AD,,,1.0
 Energy Exploration,,,1.0
@@ -542,6 +544,7 @@ GMB,1.0,,
 GMET,,,1.0
 GNS,,,2.0
 GNS Gesellschaft für Nuklear-Service mbH,,,3.0
+GS Energy,,,3.0
 GS Energy Corporation,,1.0,1.0
 GSE Solutions,2.0,,
 GSPI,1.0,,2.0
@@ -628,7 +631,7 @@ Hualong,,,3.0
 Huaneng Company,,,1.0
 Hugh Simpson Contractors,,,1.0
 Huisman,,,1.0
-Hungarian Atomic Energy Authority,4.0,,15.0
+Hungarian Atomic Energy Authority,3.0,,2.0
 Hydromine Nuclear Energy,1.0,,
 Hynamics,,,1.0
 Hyundai E&C,1.0,,3.0
@@ -667,7 +670,7 @@ ITM,2.0,,1.0
 ITM Isotope Technologies Munich,1.0,,1.0
 Iberdrola,,,1.0
 Idaho Environmental Coalition (IEC),,,1.0
-Idaho National Laboratory,3.0,1.0,19.0
+Idaho National Laboratory,3.0,,14.0
 Imabari Shipbuilding,,,1.0
 Impact Innovations,,,1.0
 Imperial College London,,1.0,1.0
@@ -703,7 +706,6 @@ JGC Corporation,,,4.0
 JGC Engineering,,,1.0
 JGC Holdings,,,1.0
 JIC Venture Growth Investments,,,1.0
-JSC AEM-Technologies,2.0,,2.0
 JSC Akkuyu Nuclear,2.0,,5.0
 JSC Atomenergoremont,,,5.0
 JSC Atomstroyexport (ASE),1.0,,2.0
@@ -759,7 +761,7 @@ KZNPP-NM,,,1.0
 Kairos,3.0,1.0,10.0
 Kamilla,,,1.0
 Kansai Electric,,1.0,2.0
-Kansai Electric Power Co,2.0,1.0,12.0
+Kansai Electric Power Co,1.0,,10.0
 Karlsruhe Institute of Technology,,,1.0
 Karpov Institute,,,1.0
 Kazakhstan Nuclear Power Plants,,,1.0
@@ -779,6 +781,7 @@ Kinectrics,5.0,,5.0
 Korad,,,1.0
 Korea,,,1.0
 Korea Atomic Energy,,1.0,
+Korea Atomic Energy Research Institute,,,3.0
 Korea Electric Power Company (Kepco),1.0,,6.0
 Korea Electric Power Corporation,,1.0,
 Korea Gas Corp (KOGAS),,,1.0
@@ -797,6 +800,7 @@ Kuopion Energia,,,3.0
 Kurchatov Institute,,,1.0
 Kursk NPP,,,2.0
 Kyoto Fusioneering,,,10.0
+Kyushu Electric Power Co,1.0,1.0,2.0
 Kärnfull Future AB,,,1.0
 Kärnfull Next,,,5.0
 LANL,,,2.0
@@ -930,13 +934,13 @@ NPPA,,,2.0
 NRA,,,1.0
 NRC,,1.0,6.0
 NRG,,,9.0
-NRG Energy,,,4.0
+NRG Energy,,,1.0
 NRG|Pallas,1.0,,2.0
 NSERC,,,1.0
 NTP Radioisotopes,,,1.0
 NTS,,,2.0
 NUKEM,,,2.0
-NUKEM Technologies,,,14.0
+NUKEM Technologies,,,9.0
 NUVIA,,,1.0
 NWMO,,,3.0
 NYSERDA,,,1.0
@@ -1012,7 +1016,7 @@ Nuclear Restoration Services,,,2.0
 Nuclear Transport Solutions,,,5.0
 Nuclear Waste Management Organisation of Japan,,,2.0
 Nuclear Waste Partnership,,,1.0
-Nuclear Waste Services,3.0,,11.0
+Nuclear Waste Services,,,10.0
 Nuclear and Decommissioning Company (JAVYS),,,1.0
 Nuclearelectrica,3.0,,13.0
 Nuclearelectrica Romania,,,1.0
@@ -1154,7 +1158,7 @@ Recumo,,,1.0
 Regardie,,,1.0
 Regnum Technology Group,,,4.0
 Renaissance Fusion,,,2.0
-Research Institute for Atomic Reactors,,,5.0
+Research Institute for Atomic Reactors,,,2.0
 Ringhals,,,1.0
 Ritm,,,1.0
 RoPower,1.0,1.0,3.0
@@ -1178,6 +1182,7 @@ Rosatomflot,,,2.0
 Rosatom’s Fuel Company TVEL,,,3.0
 "Rosatom”, “TVEL”, ",,1.0,1.0
 Roselectronics,,,1.0
+Rosenergoatom,3.0,6.0,38.0
 Rosenergoatom Concern,,,1.0
 Rosgvardiya,,,3.0
 Rostechnadzor,1.0,2.0,6.0
@@ -1309,6 +1314,7 @@ Synthos,,1.0,3.0
 Synthos Group,,,1.0
 TANICS,,,1.0
 TAU Systems,,,1.0
+TC Energy,1.0,,2.0
 TEPCO,1.0,,13.0
 TINT,,,1.0
 TITAN-2 (part of Rosatom),1.0,,
@@ -1330,6 +1336,7 @@ TVA,,,3.0
 TVEL,6.0,2.0,45.0
 TVEL Fuel Company,,,2.0
 TVO,1.0,1.0,6.0
+TVO Nuclear Services,3.0,,1.0
 TVONS,,,1.0
 TWI,2.0,,1.0
 Talen,,,1.0
@@ -1397,11 +1404,13 @@ UCOR,,,2.0
 UDC UGR,,,1.0
 UJV,,,1.0
 UK,,,2.0
+UK Atomic Energy Authority,,,6.0
+UK Atomic Energy Authority (UKAEA),1.0,,8.0
 "UK Atomic Energy Authority (UKAEA), Nuclear Industry Association (NIA)",,,1.0
 UK Industrial Fusion Solutions Ltd,1.0,,
 UK Space Agency,,,1.0
 UKAEA,,,10.0
-ULC-Energy,3.0,1.0,7.0
+ULC-Energy,2.0,1.0,5.0
 UNC,,,1.0
 URSJN,,,1.0
 US,,,2.0
@@ -1515,11 +1524,12 @@ World Association of Nuclear Operators (WANO),,,1.0
 World Bank,,,1.0
 World Nuclear Association,,,3.0
 Worldgrid,,,1.0
-X-Energy,18.0,1.0,45.0
+X-Energy,18.0,1.0,41.0
 X-Energy Reactor Company,,,2.0
 X-energy (Xe-100),,,1.0
 XCAM Ltd,,,1.0
 Xcel,,,2.0
+Xcel Energy,,,4.0
 Y-12 National Security Complex,,,1.0
 YIT Suomi Oy,,,1.0
 YRYS-Expert-Kurylys,,,1.0
