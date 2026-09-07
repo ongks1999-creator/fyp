@@ -12,6 +12,9 @@ import forestplot as fp
 from scipy import stats
 from statsmodels.stats.contingency_tables import Table
 from statsmodels.stats.multitest import multipletests
+import os
+import json
+from chunk_index import create_source_id
 
 # Understanding the distribution of query claim scores to find the thresholds to separate the final verification labels
 results_df = pd.read_csv("/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/query_claim_scores.csv")
@@ -21,7 +24,6 @@ axis.hist(pd.to_numeric(results_df["query_claim_score"]), bins = 100)
 axis.set_xlabel("Query Claim Score")
 axis.set_ylabel("Frequency")
 plt.savefig("query_claim_score_dist_v2.png")
-plt.show()
 print(pd.to_numeric(results_df["query_claim_score"]).describe())
 
 lower_quartile = pd.to_numeric(results_df["query_claim_score"]).quantile(0.25)
@@ -39,7 +41,121 @@ def threshold_calculation(dataframe, threshold = 1.5):
 
     return support_threshold, contradict_threshold
 
-support_threshold, contradict_threshold = threshold_calculation(results_df["query_claim_score"])
+#support_threshold, contradict_threshold = threshold_calculation(results_df["query_claim_score"])
+support_threshold, contradict_threshold = 0.508338, -0.33487 # fixed threshold from 22/24 results
+# Data analysis, comparing the importance of each attribute in the chunk weight
+query_claim_scores = pd.read_csv("query_claim_scores.csv")
+
+# convert entire row which is a string, into a list of floats
+relevance_scores = query_claim_scores["relevance_scores"].apply(ast.literal_eval)
+stance_scores = query_claim_scores["stance_scores"].apply(ast.literal_eval)
+provenance_scores = query_claim_scores["provenance_scores"].apply(ast.literal_eval)
+recency_scores = query_claim_scores["recency_scores"].apply(ast.literal_eval)
+source_cred_scores = query_claim_scores["source_credibility_scores"].apply(ast.literal_eval)
+source_ids = query_claim_scores["relevant_source_ids"].apply(ast.literal_eval)
+
+def change_floor_score(old_score, new_floor):
+    """
+    Change the floor of the attribute score, based on the specificied value
+    old floor is 0.5
+    """
+    new_score = new_floor + (1 - new_floor) * ((old_score - 0.5) / 0.5)
+
+    return new_score
+
+def calculate_score(entry_index, attribute_out = None, top_N = None, floor = None):
+    """
+    Calculate query claim score, leave attribute out in calculation if specified, else calculated as per normal
+    Have the option to vary the top N chunks retrieved and study its impact on query claim score
+    Has the option to change floor values and see its impact on query claim score
+    """
+    total_weight = 0
+    total_score = 0
+
+    if floor is not None:
+        for i in range(len(stance_scores[entry_index])): # entry_index is the index of row in dataframe
+
+            provenance_score = change_floor_score(provenance_scores[entry_index][i], floor)
+            relevance_score = change_floor_score(relevance_scores[entry_index][i], floor)
+            source_cred_score = change_floor_score(source_cred_scores[entry_index][i], floor)
+            recency_score = change_floor_score(recency_scores[entry_index][i], floor)
+            chunk_weight = provenance_score * relevance_score * source_cred_score * recency_score
+            chunk_score = stance_scores[entry_index][i] * chunk_weight
+            total_weight += chunk_weight
+            total_score += chunk_score
+
+                                              
+    elif attribute_out == "recency":
+        for i in range(len(stance_scores[entry_index])):
+            provenance_score = provenance_scores[entry_index][i]
+            relevance_score = relevance_scores[entry_index][i]
+            source_cred_score = source_cred_scores[entry_index][i]
+            chunk_weight = provenance_score * relevance_score * source_cred_score
+            chunk_score = stance_scores[entry_index][i] * chunk_weight
+            total_weight += chunk_weight
+            total_score += chunk_score
+
+    elif attribute_out == "relevance":
+        for i in range(len(stance_scores[entry_index])):
+            provenance_score = provenance_scores[entry_index][i]
+            recency_score = recency_scores[entry_index][i]
+            source_cred_score = source_cred_scores[entry_index][i]
+            chunk_weight = provenance_score * recency_score * source_cred_score
+            chunk_score = stance_scores[entry_index][i] * chunk_weight
+            total_weight += chunk_weight
+            total_score += chunk_score
+
+    elif attribute_out == "source credibility":
+        for i in range(len(stance_scores[entry_index])):
+            provenance_score = provenance_scores[entry_index][i]
+            recency_score = recency_scores[entry_index][i]
+            relevance_score = relevance_scores[entry_index][i]
+            chunk_weight = provenance_score * recency_score * relevance_score
+            chunk_score = stance_scores[entry_index][i] * chunk_weight
+            total_weight += chunk_weight
+            total_score += chunk_score
+        
+    elif attribute_out == "provenance":
+        for i in range(len(stance_scores[entry_index])):
+            source_cred_score = source_cred_scores[entry_index][i]
+            recency_score = recency_scores[entry_index][i]
+            relevance_score = relevance_scores[entry_index][i]
+            chunk_weight = source_cred_score * recency_score * relevance_score
+            chunk_score = stance_scores[entry_index][i] * chunk_weight
+            total_weight += chunk_weight
+            total_score += chunk_score
+
+    elif attribute_out == "all":
+        # if all attributes are not included and chunk score based on stance score only
+        for i in range(len(stance_scores[entry_index])):
+            chunk_score = stance_scores[entry_index][i]
+            chunk_weight = 1
+            total_weight += chunk_weight
+            total_score += chunk_score
+    
+    elif attribute_out == None and top_N is not None:
+        top_N_chunks = 0
+        existing_source_ids = set()
+
+        # this is to consider chunks of different sources for top N
+        for i in range(len(stance_scores[entry_index])):
+            if top_N_chunks >= top_N:
+                break # retrieved list of chunks is complete
+            source_id = source_ids[entry_index][i]
+            if source_id not in existing_source_ids: # for chunks of a diff source_id
+                existing_source_ids.add(source_id)
+                source_cred_score = source_cred_scores[entry_index][i]
+                recency_score = recency_scores[entry_index][i]
+                relevance_score = relevance_scores[entry_index][i]
+                provenance_score = provenance_scores[entry_index][i]
+                chunk_weight = source_cred_score * recency_score * relevance_score * provenance_score
+                chunk_score = stance_scores[entry_index][i] * chunk_weight
+                total_weight += chunk_weight
+                total_score += chunk_score
+                top_N_chunks += 1
+
+
+    return total_score / total_weight if total_weight != 0 else 0
 
 def classification(score, support_threshold, contradict_threshold):
     if score >= support_threshold:
@@ -49,9 +165,60 @@ def classification(score, support_threshold, contradict_threshold):
     else:
         return "NEI"
 
+def company_label(row):
+    """
+    Annotate company name along its claim count (N) for visual effect in plots
+    """
+    if "Total Claims" in row:
+        claim_count = row["Total Claims"]
+    else: # to catch keyerror
+        claim_count = row["Total Claims (Total)"]
 
+    company_label = f"{row["company"]}\n(N = {int(claim_count)})"
 
-results_df["Verdict Label"] = results_df["query_claim_score"].apply(classification, args = (support_threshold, contradict_threshold))
+    return company_label
+
+def group_same_entries(df, y, axis, fontsize = 12):
+    """
+    Group companies that have same x and y value into the same point on the plot
+    """
+    entries = []
+
+    for (x_val, y_val), group in df.groupby(["Total Claims", y]): # group based on same x and y val
+        names = "\n".join(group["company"]) # add all companies sharing same point into one single str
+        entries.append(axis.text(x_val, y_val, f"{names}\n(N = {int(x_val)})", fontsize = fontsize))
+    
+    return entries
+
+CONFIG = dict(floor = 0.5) # change to config of choice (config ablation)
+CONFIG_NAME = "baseline"
+# change to output directory of choice
+os.makedirs(f"/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/diff_configs/{CONFIG_NAME}", exist_ok = True)
+os.chdir(f"/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/diff_configs/{CONFIG_NAME}")
+
+## Ablation study filtering SMR related articles are discovering crawling flaw (under corpus ablation)
+smr_filter = False
+articles_filepath = "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/finalcode/articles/filtered_articles.json"
+
+with open(articles_filepath, "r") as file:
+    articles = json.load(file)
+
+smr_articles = set()
+for article in articles:
+    # combine title and body paragraph text into a single string to search
+    overall_text = (article.get("title") or "").lower() + " " + " ".join(article.get("text") or []).lower()
+
+    if "small modular reactor" in overall_text or "smr" in overall_text:
+        smr_articles.add(create_source_id(article["url"]))
+
+results_df["Config Scores"] = pd.Series([calculate_score(i, **CONFIG) for i in range(len(results_df))])
+results_df["Verdict Label"] = results_df["Config Scores"].apply(classification, args = (support_threshold, contradict_threshold))
+
+if smr_filter is True:
+    # keeps the entries if it is either from Reddit (reddit alr has smr filter applied), or within the smr article source id set (for nuclear pubs)
+    results_df = results_df[results_df["claim_source_id"].isin(smr_articles) | (results_df["claims originating magazine"] == "Reddit")]
+    print(f"Total Number of SMR Related Claims Left After SMR Article Filter: {len(results_df)}")
+
 # grouping labels within nuclear publications group vs reddit group
 results_df["Publication Group"] = np.where(results_df["claims originating magazine"] == "Reddit", "Group_Reddit", "Group_Nuclear_Publications")
 
@@ -228,19 +395,19 @@ for (company, group), label_list in finalised_company_dict_by_group.items():
 min_claims = 10 # only used to filer top comp by group, as reddit group likely has lower general claims per comp
 company_df_by_group = pd.DataFrame(company_list_by_group)
 # Total Claims for that company under that group, one company can have two entries as it is covered by the two publication
-company_df_by_group["Total Labels"] = company_df_by_group[["SUPPORT", "CONTRADICT", "NEI"]].fillna(0).sum(axis = 1)
-top_comp_by_group = company_df_by_group[company_df_by_group["Total Labels"] >= min_claims].sort_values("Total Labels", ascending = False)
+company_df_by_group["Total Claims"] = company_df_by_group[["SUPPORT", "CONTRADICT", "NEI"]].fillna(0).sum(axis = 1)
+top_comp_by_group = company_df_by_group[company_df_by_group["Total Claims"] >= min_claims].sort_values("Total Claims", ascending = False)
 company_df_by_group.sort_values("company").to_csv("company_names_by_group_v2.csv", index = False)
 
 # have to fillna for all labels as some have NaN
 top_comp_by_group["SUPPORT"] = top_comp_by_group["SUPPORT"].fillna(0)
 top_comp_by_group["CONTRADICT"] = top_comp_by_group["CONTRADICT"].fillna(0)
 top_comp_by_group["NEI"] = top_comp_by_group["NEI"].fillna(0)
-top_comp_by_group["Percentage of Supported Claims"] = (top_comp_by_group["SUPPORT"] / top_comp_by_group["Total Labels"]) * 100
-top_comp_by_group["Percentage of Contradicted Claims"] = (top_comp_by_group["CONTRADICT"] / top_comp_by_group["Total Labels"]) * 100
-top_comp_by_group["Percentage of NEI Claims"] = (top_comp_by_group["NEI"] / top_comp_by_group["Total Labels"]) * 100
+top_comp_by_group["Percentage of Supported Claims"] = (top_comp_by_group["SUPPORT"] / top_comp_by_group["Total Claims"]) * 100
+top_comp_by_group["Percentage of Contradicted Claims"] = (top_comp_by_group["CONTRADICT"] / top_comp_by_group["Total Claims"]) * 100
+top_comp_by_group["Percentage of NEI Claims"] = (top_comp_by_group["NEI"] / top_comp_by_group["Total Claims"]) * 100
 top_comp_by_group["Percentage of Verifiability"] = top_comp_by_group["Percentage of Supported Claims"] - top_comp_by_group["Percentage of Contradicted Claims"]
-top_comp_by_group[["company", "Publication Group", "SUPPORT", "CONTRADICT", "NEI", "Total Labels", "Percentage of Supported Claims", "Percentage of Contradicted Claims", "Percentage of NEI Claims", "Percentage of Verifiability"]].sort_values("Publication Group").to_csv("top_companies_verifiability_clustering_by_group_v2.csv", index = False)
+top_comp_by_group[["company", "Publication Group", "SUPPORT", "CONTRADICT", "NEI", "Total Claims", "Percentage of Supported Claims", "Percentage of Contradicted Claims", "Percentage of NEI Claims", "Percentage of Verifiability"]].sort_values("Publication Group").to_csv("top_companies_verifiability_clustering_by_group_v2.csv", index = False)
 
 
 # extending label list for all unstandardised company names to that one standardised company name, for the overall database
@@ -264,16 +431,16 @@ min_claims = 30 # to remove companies with too little claims
 company_df = pd.DataFrame(company_list)
 company_df.sort_values("company").to_csv("company_names_v2.csv", index = False)
 # to catch companies that have NaN on either of the labels, as sum of NaN and int give NaN
-company_df["Total Labels"] = company_df[["SUPPORT", "CONTRADICT", "NEI"]].fillna(0).sum(axis = 1)
-top_comp = company_df[company_df["Total Labels"] >= min_claims].sort_values("Total Labels", ascending = False)
+company_df["Total Claims"] = company_df[["SUPPORT", "CONTRADICT", "NEI"]].fillna(0).sum(axis = 1)
+top_comp = company_df[company_df["Total Claims"] >= min_claims].sort_values("Total Claims", ascending = False)
 
 # have to fillna for all labels as some have NaN, top comp has the original label values from company df
 # Percentage of Supported Claims
-top_comp["Percentage of Supported Claims"] = (top_comp["SUPPORT"].fillna(0) / top_comp["Total Labels"]) * 100
+top_comp["Percentage of Supported Claims"] = (top_comp["SUPPORT"].fillna(0) / top_comp["Total Claims"]) * 100
 # Percentage of Contradicted Claims
-top_comp["Percentage of Contradicted Claims"] = (top_comp["CONTRADICT"].fillna(0) / top_comp["Total Labels"]) * 100
+top_comp["Percentage of Contradicted Claims"] = (top_comp["CONTRADICT"].fillna(0) / top_comp["Total Claims"]) * 100
 # Percentage of NEI Claims
-top_comp["Percentage of NEI Claims"] = (top_comp["NEI"].fillna(0) / top_comp["Total Labels"]) * 100
+top_comp["Percentage of NEI Claims"] = (top_comp["NEI"].fillna(0) / top_comp["Total Claims"]) * 100
 # Verifiability as we define it as Percentage Support - Percentage Contradict
 top_comp["Percentage of Verifiability"] = top_comp["Percentage of Supported Claims"] - top_comp["Percentage of Contradicted Claims"]
 
@@ -285,30 +452,32 @@ top_comp[["company", "Percentage of Verifiability", "Percentage of NEI Claims", 
 
 scatter_plot = plt.figure(figsize = (20, 10))
 scatter_veri_axis = scatter_plot.add_subplot(1, 2, 1)
-scatter_veri_axis.set_xlabel("Total Labels")
-scatter_veri_axis.set_ylabel("Percentage of Verifiability")
+scatter_veri_axis.set_xlabel("Total Claims", fontsize = 17)
+scatter_veri_axis.set_ylabel("Percentage of Verifiability", fontsize = 17)
 scatter_NEI_axis = scatter_plot.add_subplot(1, 2, 2)
-scatter_NEI_axis.set_xlabel("Total Labels")
-scatter_NEI_axis.set_ylabel("Percentage of NEI Claims")
+scatter_NEI_axis.set_xlabel("Total Claims", fontsize = 17)
+scatter_NEI_axis.set_ylabel("Percentage of NEI Claims", fontsize = 17)
 cluster_color = {0: "red", 1: "blue", 2: "green"}
 ver_axis_entries = []
 NEI_axis_entries = []
 
 for index, row in top_comp.iterrows(): # label each dot
     color = cluster_color[row["cluster"]] # top companies clustering was based on percentage verifiability and NEI features
-    scatter_veri_axis.scatter(row["Total Labels"], row["Percentage of Verifiability"], c = color)
-    scatter_NEI_axis.scatter(row["Total Labels"], row["Percentage of NEI Claims"], c = color)
-    ver_axis_entries.append(scatter_veri_axis.text(row["Total Labels"], row["Percentage of Verifiability"], row["company"], fontsize = 15))
-    NEI_axis_entries.append(scatter_NEI_axis.text(row["Total Labels"], row["Percentage of NEI Claims"], row["company"], fontsize = 15))
+    scatter_veri_axis.scatter(row["Total Claims"], row["Percentage of Verifiability"], c = color)
+    scatter_NEI_axis.scatter(row["Total Claims"], row["Percentage of NEI Claims"], c = color)
+    ver_axis_entries.append(scatter_veri_axis.text(row["Total Claims"], row["Percentage of Verifiability"], company_label(row), fontsize = 12))
+    NEI_axis_entries.append(scatter_NEI_axis.text(row["Total Claims"], row["Percentage of NEI Claims"], company_label(row), fontsize = 12))
 
-adjust_text(ver_axis_entries, ax = scatter_veri_axis)
-adjust_text(NEI_axis_entries, ax = scatter_NEI_axis)
-plt.savefig("top_companies_scatter_v2.png")
+scatter_veri_axis.margins(0.1)
+scatter_NEI_axis.margins(0.1)
+adjust_text(ver_axis_entries, ax = scatter_veri_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+adjust_text(NEI_axis_entries, ax = scatter_NEI_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+plt.savefig(f"top_companies_scatter_v2_{CONFIG_NAME}.png")
 
 # K means based on publicity and coverage per company
 kmeans = KMeans(n_clusters = 3, random_state = 45)
-top_comp["cluster"] = kmeans.fit_predict(top_comp[["Total Labels"]])
-top_comp[["company", "Total Labels", "cluster"]].sort_values("cluster").to_csv("top_companies_publicity_clustering_v2.csv", index = False)
+top_comp["cluster"] = kmeans.fit_predict(top_comp[["Total Claims"]])
+top_comp[["company", "Total Claims", "cluster"]].sort_values("cluster").to_csv(f"top_companies_publicity_clustering_v2_{CONFIG_NAME}.csv", index = False)
 
 
 # Comparison to Tiril's
@@ -335,9 +504,9 @@ comparison_company = {"Framatome": "Mature",
                      }
 
 comparison_company_df = company_df[company_df["company"].isin(comparison_company.keys())]
-comparison_company_df["Percentage of Supported Claims"] = (comparison_company_df["SUPPORT"].fillna(0) / comparison_company_df["Total Labels"]) * 100
-comparison_company_df["Percentage of Contradicted Claims"] = (comparison_company_df["CONTRADICT"].fillna(0) / comparison_company_df["Total Labels"]) * 100
-comparison_company_df["Percentage of NEI Claims"] = (comparison_company_df["NEI"].fillna(0) / comparison_company_df["Total Labels"]) * 100
+comparison_company_df["Percentage of Supported Claims"] = (comparison_company_df["SUPPORT"].fillna(0) / comparison_company_df["Total Claims"]) * 100
+comparison_company_df["Percentage of Contradicted Claims"] = (comparison_company_df["CONTRADICT"].fillna(0) / comparison_company_df["Total Claims"]) * 100
+comparison_company_df["Percentage of NEI Claims"] = (comparison_company_df["NEI"].fillna(0) / comparison_company_df["Total Claims"]) * 100
 comparison_company_df["Percentage of Verifiability"] = comparison_company_df["Percentage of Supported Claims"] - comparison_company_df["Percentage of Contradicted Claims"]
 
 comp_colour = {"Mature": "green", "Moderate Maturity": "orange", "Least Mature": "purple"}
@@ -345,19 +514,20 @@ comp_supp_axis_entries = []
 comp_contra_axis_entries = []
 comp_ver_axis_entries = []
 comp_NEI_axis_entries = []
-comp_scatter_plot = plt.figure(figsize = (25, 20))
-comp_scatter_veri_axis = comp_scatter_plot.add_subplot(2, 2, 1)
-comp_scatter_veri_axis.set_xlabel("Total Labels")
-comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability")
-comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(2, 2, 2)
-comp_scatter_NEI_axis.set_xlabel("Total Labels")
-comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims")
-comp_scatter_supp_axis = comp_scatter_plot.add_subplot(2, 2, 3)
-comp_scatter_supp_axis.set_xlabel("Total Labels")
-comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims")
-comp_scatter_contra_axis = comp_scatter_plot.add_subplot(2, 2, 4)
-comp_scatter_contra_axis.set_xlabel("Total Labels")
-comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims")
+comp_scatter_plot = plt.figure(figsize = (12, 18))
+comp_scatter_plot2 = plt.figure(figsize = (12, 18))
+comp_scatter_veri_axis = comp_scatter_plot.add_subplot(2, 1, 1)
+comp_scatter_veri_axis.set_xlabel("Total Claims", fontsize = 17)
+comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability", fontsize = 17)
+comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(2, 1, 2)
+comp_scatter_NEI_axis.set_xlabel("Total Claims", fontsize = 17)
+comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims", fontsize = 17)
+comp_scatter_supp_axis = comp_scatter_plot2.add_subplot(2, 1, 1)
+comp_scatter_supp_axis.set_xlabel("Total Claims", fontsize = 17)
+comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims", fontsize = 17)
+comp_scatter_contra_axis = comp_scatter_plot2.add_subplot(2, 1, 2)
+comp_scatter_contra_axis.set_xlabel("Total Claims", fontsize = 17)
+comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims", fontsize = 17)
 comp_scatter_veri_axis.set_xscale("log")
 comp_scatter_NEI_axis.set_xscale("log")
 comp_scatter_supp_axis.set_xscale("log")
@@ -369,40 +539,49 @@ comp_scatter_contra_axis.axhline(y = 0, color = "red", lw = 1)
 
 for index, row in comparison_company_df.iterrows(): 
     color = comp_colour[comparison_company[row["company"]]]
-    comp_scatter_supp_axis.scatter(row["Total Labels"], row["Percentage of Supported Claims"], c = color)
-    comp_scatter_contra_axis.scatter(row["Total Labels"], row["Percentage of Contradicted Claims"], c = color)
-    comp_scatter_veri_axis.scatter(row["Total Labels"], row["Percentage of Verifiability"], c = color)
-    comp_scatter_NEI_axis.scatter(row["Total Labels"], row["Percentage of NEI Claims"], c = color)
-    # turning the three data points x, y, company name into text obj, to add to list for adjust text to work
-    comp_ver_axis_entries.append(comp_scatter_veri_axis.text(row["Total Labels"], row["Percentage of Verifiability"], row["company"], fontsize = 15))
-    comp_NEI_axis_entries.append(comp_scatter_NEI_axis.text(row["Total Labels"], row["Percentage of NEI Claims"], row["company"], fontsize = 15))
-    comp_supp_axis_entries.append(comp_scatter_supp_axis.text(row["Total Labels"], row["Percentage of Supported Claims"], row["company"], fontsize = 15))
-    comp_contra_axis_entries.append(comp_scatter_contra_axis.text(row["Total Labels"], row["Percentage of Contradicted Claims"], row["company"], fontsize = 15))
+    comp_scatter_supp_axis.scatter(row["Total Claims"], row["Percentage of Supported Claims"], c = color)
+    comp_scatter_contra_axis.scatter(row["Total Claims"], row["Percentage of Contradicted Claims"], c = color)
+    comp_scatter_veri_axis.scatter(row["Total Claims"], row["Percentage of Verifiability"], c = color)
+    comp_scatter_NEI_axis.scatter(row["Total Claims"], row["Percentage of NEI Claims"], c = color)
+    # turning the three data points x, y, company name into text obj, to add to list for adjust text to work, group companies with same datapoint tgt
+comp_ver_axis_entries = group_same_entries(comparison_company_df, "Percentage of Verifiability", comp_scatter_veri_axis, fontsize = 12)
+comp_NEI_axis_entries = group_same_entries(comparison_company_df, "Percentage of NEI Claims", comp_scatter_NEI_axis, fontsize = 12)
+comp_supp_axis_entries = group_same_entries(comparison_company_df, "Percentage of Supported Claims", comp_scatter_supp_axis, fontsize = 12)
+comp_contra_axis_entries = group_same_entries(comparison_company_df, "Percentage of Contradicted Claims", comp_scatter_contra_axis, fontsize = 12)
 
-adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-plt.savefig("comparison_companies_scatter_log_v2.png")
+comp_scatter_veri_axis.margins(0.1)
+comp_scatter_supp_axis.margins(0.1)
+comp_scatter_contra_axis.margins(0.1)
+comp_scatter_NEI_axis.margins(0.15)
+
+adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+comp_scatter_plot.savefig(f"comparison_companies_scatter_log_veri_nei_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
+comp_scatter_plot2.savefig(f"comparison_companies_scatter_log_supp_contra_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
+plt.close(comp_scatter_plot)
+plt.close(comp_scatter_plot2)
 
 # No log
 comp_supp_axis_entries = []
 comp_contra_axis_entries = []
 comp_ver_axis_entries = []
 comp_NEI_axis_entries = []
-comp_scatter_plot = plt.figure(figsize = (25, 20))
-comp_scatter_veri_axis = comp_scatter_plot.add_subplot(2, 2, 1)
-comp_scatter_veri_axis.set_xlabel("Total Labels")
-comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability")
-comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(2, 2, 2)
-comp_scatter_NEI_axis.set_xlabel("Total Labels")
-comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims")
-comp_scatter_supp_axis = comp_scatter_plot.add_subplot(2, 2, 3)
-comp_scatter_supp_axis.set_xlabel("Total Labels")
-comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims")
-comp_scatter_contra_axis = comp_scatter_plot.add_subplot(2, 2, 4)
-comp_scatter_contra_axis.set_xlabel("Total Labels")
-comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims")
+comp_scatter_plot = plt.figure(figsize = (12, 18))
+comp_scatter_plot2 = plt.figure(figsize = (12, 18))
+comp_scatter_veri_axis = comp_scatter_plot.add_subplot(2, 1, 1)
+comp_scatter_veri_axis.set_xlabel("Total Claims", fontsize = 17)
+comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability", fontsize = 17)
+comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(2, 1, 2)
+comp_scatter_NEI_axis.set_xlabel("Total Claims", fontsize = 17)
+comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims", fontsize = 17)
+comp_scatter_supp_axis = comp_scatter_plot2.add_subplot(2, 1, 1)
+comp_scatter_supp_axis.set_xlabel("Total Claims", fontsize = 17)
+comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims", fontsize = 17)
+comp_scatter_contra_axis = comp_scatter_plot2.add_subplot(2, 1, 2)
+comp_scatter_contra_axis.set_xlabel("Total Claims", fontsize = 17)
+comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims", fontsize = 17)
 comp_scatter_veri_axis.axhline(y = 0, color = "red", lw = 1)
 comp_scatter_NEI_axis.axhline(y = 0, color = "red", lw = 1)
 comp_scatter_supp_axis.axhline(y = 0, color = "red", lw = 1)
@@ -410,26 +589,34 @@ comp_scatter_contra_axis.axhline(y = 0, color = "red", lw = 1)
 
 for index, row in comparison_company_df.iterrows(): 
     color = comp_colour[comparison_company[row["company"]]]
-    comp_scatter_supp_axis.scatter(row["Total Labels"], row["Percentage of Supported Claims"], c = color)
-    comp_scatter_contra_axis.scatter(row["Total Labels"], row["Percentage of Contradicted Claims"], c = color)
-    comp_scatter_veri_axis.scatter(row["Total Labels"], row["Percentage of Verifiability"], c = color)
-    comp_scatter_NEI_axis.scatter(row["Total Labels"], row["Percentage of NEI Claims"], c = color)
-    comp_ver_axis_entries.append(comp_scatter_veri_axis.text(row["Total Labels"], row["Percentage of Verifiability"], row["company"], fontsize = 10))
-    comp_NEI_axis_entries.append(comp_scatter_NEI_axis.text(row["Total Labels"], row["Percentage of NEI Claims"], row["company"], fontsize = 10))
-    comp_supp_axis_entries.append(comp_scatter_supp_axis.text(row["Total Labels"], row["Percentage of Supported Claims"], row["company"], fontsize = 10))
-    comp_contra_axis_entries.append(comp_scatter_contra_axis.text(row["Total Labels"], row["Percentage of Contradicted Claims"], row["company"], fontsize = 10))
+    comp_scatter_supp_axis.scatter(row["Total Claims"], row["Percentage of Supported Claims"], c = color)
+    comp_scatter_contra_axis.scatter(row["Total Claims"], row["Percentage of Contradicted Claims"], c = color)
+    comp_scatter_veri_axis.scatter(row["Total Claims"], row["Percentage of Verifiability"], c = color)
+    comp_scatter_NEI_axis.scatter(row["Total Claims"], row["Percentage of NEI Claims"], c = color)
+comp_ver_axis_entries = group_same_entries(comparison_company_df, "Percentage of Verifiability", comp_scatter_veri_axis, fontsize = 12)
+comp_NEI_axis_entries = group_same_entries(comparison_company_df, "Percentage of NEI Claims", comp_scatter_NEI_axis, fontsize = 12)
+comp_supp_axis_entries = group_same_entries(comparison_company_df, "Percentage of Supported Claims", comp_scatter_supp_axis, fontsize = 12)
+comp_contra_axis_entries = group_same_entries(comparison_company_df, "Percentage of Contradicted Claims", comp_scatter_contra_axis, fontsize = 12)
 
-adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-plt.savefig("comparison_companies_scatter_v2.png")
+comp_scatter_veri_axis.margins(0.1)
+comp_scatter_supp_axis.margins(0.1)
+comp_scatter_contra_axis.margins(0.1)
+comp_scatter_NEI_axis.margins(0.15)
+
+adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis, expand = (2, 3), max_move = (40, 40), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis, expand = (2, 3), max_move = (40, 40), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis, expand = (2, 3), max_move = (40, 40), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis, expand = (2, 3), max_move = (40, 40), force_explode = (1.5, 2),force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+comp_scatter_plot.savefig(f"comparison_companies_scatter_veri_nei_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
+comp_scatter_plot2.savefig(f"comparison_companies_scatter_supp_contra_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
+plt.close(comp_scatter_plot)
+plt.close(comp_scatter_plot2)
 
 ## This is for the comparison companies separated based on publication groups
 comparison_company_df_by_group = company_df_by_group[company_df_by_group["company"].isin(comparison_company.keys())]
-comparison_company_df_by_group["Percentage of Supported Claims"] = (comparison_company_df_by_group["SUPPORT"].fillna(0) / comparison_company_df_by_group["Total Labels"]) * 100
-comparison_company_df_by_group["Percentage of Contradicted Claims"] = (comparison_company_df_by_group["CONTRADICT"].fillna(0) / comparison_company_df_by_group["Total Labels"]) * 100
-comparison_company_df_by_group["Percentage of NEI Claims"] = (comparison_company_df_by_group["NEI"].fillna(0) / comparison_company_df_by_group["Total Labels"]) * 100
+comparison_company_df_by_group["Percentage of Supported Claims"] = (comparison_company_df_by_group["SUPPORT"].fillna(0) / comparison_company_df_by_group["Total Claims"]) * 100
+comparison_company_df_by_group["Percentage of Contradicted Claims"] = (comparison_company_df_by_group["CONTRADICT"].fillna(0) / comparison_company_df_by_group["Total Claims"]) * 100
+comparison_company_df_by_group["Percentage of NEI Claims"] = (comparison_company_df_by_group["NEI"].fillna(0) / comparison_company_df_by_group["Total Claims"]) * 100
 comparison_company_df_by_group["Percentage of Verifiability"] = comparison_company_df_by_group["Percentage of Supported Claims"] - comparison_company_df_by_group["Percentage of Contradicted Claims"]
 
 # This dataframe to compare total percentage of supp/contra/nei for all comparison companies for both groups
@@ -456,19 +643,21 @@ for group in ["Group_Nuclear_Publications", "Group_Reddit"]:
     comp_contra_axis_entries = []
     comp_ver_axis_entries = []
     comp_NEI_axis_entries = []
-    comp_scatter_plot = plt.figure(figsize = (25, 20))
-    comp_scatter_veri_axis = comp_scatter_plot.add_subplot(2, 2, 1)
-    comp_scatter_veri_axis.set_xlabel("Total Labels")
-    comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability")
-    comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(2, 2, 2)
-    comp_scatter_NEI_axis.set_xlabel("Total Labels")
-    comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims")
-    comp_scatter_supp_axis = comp_scatter_plot.add_subplot(2, 2, 3)
-    comp_scatter_supp_axis.set_xlabel("Total Labels")
-    comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims")
-    comp_scatter_contra_axis = comp_scatter_plot.add_subplot(2, 2, 4)
-    comp_scatter_contra_axis.set_xlabel("Total Labels")
-    comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims")
+    comp_scatter_plot = plt.figure(figsize = (12, 18))
+    comp_scatter_plot2 = plt.figure(figsize = (12, 18))
+
+    comp_scatter_veri_axis = comp_scatter_plot.add_subplot(2, 1, 1)
+    comp_scatter_veri_axis.set_xlabel("Total Claims", fontsize = 17)
+    comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability", fontsize = 17)
+    comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(2, 1, 2)
+    comp_scatter_NEI_axis.set_xlabel("Total Claims", fontsize = 17)
+    comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims", fontsize = 17)
+    comp_scatter_supp_axis = comp_scatter_plot2.add_subplot(2, 1, 1)
+    comp_scatter_supp_axis.set_xlabel("Total Claims", fontsize = 17)
+    comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims", fontsize = 17)
+    comp_scatter_contra_axis = comp_scatter_plot2.add_subplot(2, 1, 2)
+    comp_scatter_contra_axis.set_xlabel("Total Claims", fontsize = 17)
+    comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims", fontsize = 17)
     comp_scatter_veri_axis.set_xscale("log")
     comp_scatter_NEI_axis.set_xscale("log")
     comp_scatter_supp_axis.set_xscale("log")
@@ -480,39 +669,48 @@ for group in ["Group_Nuclear_Publications", "Group_Reddit"]:
 
     for index, row in group_df.iterrows(): # plotting percentage of supp/contra/nei/veri for each company against its log(No of claims) for each pub group
         color = comp_colour[comparison_company[row["company"]]]
-        comp_scatter_supp_axis.scatter(row["Total Labels"], row["Percentage of Supported Claims"], c = color)
-        comp_scatter_contra_axis.scatter(row["Total Labels"], row["Percentage of Contradicted Claims"], c = color)
-        comp_scatter_veri_axis.scatter(row["Total Labels"], row["Percentage of Verifiability"], c = color)
-        comp_scatter_NEI_axis.scatter(row["Total Labels"], row["Percentage of NEI Claims"], c = color)
-        comp_ver_axis_entries.append(comp_scatter_veri_axis.text(row["Total Labels"], row["Percentage of Verifiability"], row["company"], fontsize = 15))
-        comp_NEI_axis_entries.append(comp_scatter_NEI_axis.text(row["Total Labels"], row["Percentage of NEI Claims"], row["company"], fontsize = 15))
-        comp_supp_axis_entries.append(comp_scatter_supp_axis.text(row["Total Labels"], row["Percentage of Supported Claims"], row["company"], fontsize = 15))
-        comp_contra_axis_entries.append(comp_scatter_contra_axis.text(row["Total Labels"], row["Percentage of Contradicted Claims"], row["company"], fontsize = 15))
+        comp_scatter_supp_axis.scatter(row["Total Claims"], row["Percentage of Supported Claims"], c = color)
+        comp_scatter_contra_axis.scatter(row["Total Claims"], row["Percentage of Contradicted Claims"], c = color)
+        comp_scatter_veri_axis.scatter(row["Total Claims"], row["Percentage of Verifiability"], c = color)
+        comp_scatter_NEI_axis.scatter(row["Total Claims"], row["Percentage of NEI Claims"], c = color)
 
-    adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-    adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-    adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-    adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-    plt.savefig(f"comparison_companies_scatter_log_by_{group}_v2.png")
+    comp_ver_axis_entries = group_same_entries(group_df, "Percentage of Verifiability", comp_scatter_veri_axis, fontsize = 12)
+    comp_NEI_axis_entries = group_same_entries(group_df, "Percentage of NEI Claims", comp_scatter_NEI_axis, fontsize = 12)
+    comp_supp_axis_entries = group_same_entries(group_df, "Percentage of Supported Claims", comp_scatter_supp_axis, fontsize = 12)
+    comp_contra_axis_entries = group_same_entries(group_df, "Percentage of Contradicted Claims", comp_scatter_contra_axis, fontsize = 12)
+    comp_scatter_veri_axis.margins(0.1)
+    comp_scatter_supp_axis.margins(0.1)
+    comp_scatter_contra_axis.margins(0.1)
+    comp_scatter_NEI_axis.margins(0.1)
+
+    adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+    adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+    adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+    adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+    comp_scatter_plot.savefig(f"comparison_companies_scatter_log_veri_nei_by_{group}_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
+    comp_scatter_plot2.savefig(f"comparison_companies_scatter_log_supp_contra_by_{group}_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
+    plt.close(comp_scatter_plot)
+    plt.close(comp_scatter_plot2)
 
     # No log plot
     comp_supp_axis_entries = []
     comp_contra_axis_entries = []
     comp_ver_axis_entries = []
     comp_NEI_axis_entries = []
-    comp_scatter_plot = plt.figure(figsize = (25, 20))
-    comp_scatter_veri_axis = comp_scatter_plot.add_subplot(2, 2, 1)
-    comp_scatter_veri_axis.set_xlabel("Total Labels")
-    comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability")
-    comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(2, 2, 2)
-    comp_scatter_NEI_axis.set_xlabel("Total Labels")
-    comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims")
-    comp_scatter_supp_axis = comp_scatter_plot.add_subplot(2, 2, 3)
-    comp_scatter_supp_axis.set_xlabel("Total Labels")
-    comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims")
-    comp_scatter_contra_axis = comp_scatter_plot.add_subplot(2, 2, 4)
-    comp_scatter_contra_axis.set_xlabel("Total Labels")
-    comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims")
+    comp_scatter_plot = plt.figure(figsize = (12, 18))
+    comp_scatter_plot2 = plt.figure(figsize = (12, 18))
+    comp_scatter_veri_axis = comp_scatter_plot.add_subplot(2, 1, 1)
+    comp_scatter_veri_axis.set_xlabel("Total Claims", fontsize = 17)
+    comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability", fontsize = 17)
+    comp_scatter_NEI_axis = comp_scatter_plot.add_subplot(2, 1, 2)
+    comp_scatter_NEI_axis.set_xlabel("Total Claims", fontsize = 17)
+    comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims", fontsize = 17)
+    comp_scatter_supp_axis = comp_scatter_plot2.add_subplot(2, 1, 1)
+    comp_scatter_supp_axis.set_xlabel("Total Claims", fontsize = 17)
+    comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims", fontsize = 17)
+    comp_scatter_contra_axis = comp_scatter_plot2.add_subplot(2, 1, 2)
+    comp_scatter_contra_axis.set_xlabel("Total Claims", fontsize = 17)
+    comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims", fontsize = 17)
     comp_scatter_veri_axis.axhline(y = 0, color = "red", lw = 1)
     comp_scatter_NEI_axis.axhline(y = 0, color = "red", lw = 1)
     comp_scatter_supp_axis.axhline(y = 0, color = "red", lw = 1)
@@ -520,20 +718,31 @@ for group in ["Group_Nuclear_Publications", "Group_Reddit"]:
 
     for index, row in group_df.iterrows(): # plotting percentage of supp/contra/nei/veri for each company against its No of claims for each pub group
         color = comp_colour[comparison_company[row["company"]]]
-        comp_scatter_supp_axis.scatter(row["Total Labels"], row["Percentage of Supported Claims"], c = color)
-        comp_scatter_contra_axis.scatter(row["Total Labels"], row["Percentage of Contradicted Claims"], c = color)
-        comp_scatter_veri_axis.scatter(row["Total Labels"], row["Percentage of Verifiability"], c = color)
-        comp_scatter_NEI_axis.scatter(row["Total Labels"], row["Percentage of NEI Claims"], c = color)
-        comp_ver_axis_entries.append(comp_scatter_veri_axis.text(row["Total Labels"], row["Percentage of Verifiability"], row["company"], fontsize = 15))
-        comp_NEI_axis_entries.append(comp_scatter_NEI_axis.text(row["Total Labels"], row["Percentage of NEI Claims"], row["company"], fontsize = 15))
-        comp_supp_axis_entries.append(comp_scatter_supp_axis.text(row["Total Labels"], row["Percentage of Supported Claims"], row["company"], fontsize = 15))
-        comp_contra_axis_entries.append(comp_scatter_contra_axis.text(row["Total Labels"], row["Percentage of Contradicted Claims"], row["company"], fontsize = 15))
+        comp_scatter_supp_axis.scatter(row["Total Claims"], row["Percentage of Supported Claims"], c = color)
+        comp_scatter_contra_axis.scatter(row["Total Claims"], row["Percentage of Contradicted Claims"], c = color)
+        comp_scatter_veri_axis.scatter(row["Total Claims"], row["Percentage of Verifiability"], c = color)
+        comp_scatter_NEI_axis.scatter(row["Total Claims"], row["Percentage of NEI Claims"], c = color)
+    comp_ver_axis_entries = group_same_entries(group_df, "Percentage of Verifiability", comp_scatter_veri_axis, fontsize = 12)
+    comp_NEI_axis_entries = group_same_entries(group_df, "Percentage of NEI Claims", comp_scatter_NEI_axis, fontsize = 12)
+    comp_supp_axis_entries = group_same_entries(group_df, "Percentage of Supported Claims", comp_scatter_supp_axis, fontsize = 12)
+    comp_contra_axis_entries = group_same_entries(group_df, "Percentage of Contradicted Claims", comp_scatter_contra_axis, fontsize = 12)
 
-    adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-    adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-    adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-    adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis, arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-    plt.savefig(f"comparison_companies_scatter_by_{group}_v2.png")
+    comp_scatter_veri_axis.margins(0.1)
+    comp_scatter_supp_axis.margins(0.1)
+    comp_scatter_contra_axis.margins(0.1)
+    comp_scatter_NEI_axis.margins(0.1)
+    comp_scatter_supp_axis.set_ylim(bottom = -10)
+    comp_scatter_contra_axis.set_ylim(bottom = -20)
+    comp_scatter_NEI_axis.set_ylim(top = 135)
+
+    adjust_text(comp_ver_axis_entries, ax = comp_scatter_veri_axis, expand = (2, 3), max_move = (60, 60), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+    adjust_text(comp_NEI_axis_entries, ax = comp_scatter_NEI_axis, expand = (2, 3), max_move = (60, 60), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+    adjust_text(comp_supp_axis_entries, ax = comp_scatter_supp_axis, expand = (2, 3), max_move = (60, 60), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+    adjust_text(comp_contra_axis_entries, ax = comp_scatter_contra_axis, expand = (2, 3), max_move = (60, 60), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+    comp_scatter_plot.savefig(f"comparison_companies_scatter_veri_nei_by_{group}_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
+    comp_scatter_plot2.savefig(f"comparison_companies_scatter_supp_contra_by_{group}_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
+    plt.close(comp_scatter_plot)
+    plt.close(comp_scatter_plot2)
 
     # 1.96 for 95% confidence interval
     confidence_z = 1.96 # for turning sigma into confidence interval, standardised for all companies
@@ -542,16 +751,16 @@ for group in ["Group_Nuclear_Publications", "Group_Reddit"]:
     # forest plot based on publication group
     forest_df_by_group = company_df_by_group[(company_df_by_group["company"].isin(comparison_company.keys())) & (company_df_by_group["Publication Group"] == group)]
     forest_df_by_group["Maturity"] = forest_df_by_group["company"].map(comparison_company)
-    forest_df_by_group["Corrected Total Labels"] = forest_df_by_group["Total Labels"] + 3 * corr_factor
-    forest_df_by_group["Percentage of Corrected Supported Claims"] = ((forest_df_by_group["SUPPORT"].fillna(0) + corr_factor) / forest_df_by_group["Corrected Total Labels"]) * 100
-    forest_df_by_group["Percentage of Corrected Contradicted Claims"] = ((forest_df_by_group["CONTRADICT"].fillna(0) + corr_factor) / forest_df_by_group["Corrected Total Labels"]) * 100
-    forest_df_by_group["Percentage of Corrected NEI Claims"] = ((forest_df_by_group["NEI"].fillna(0) + corr_factor) / forest_df_by_group["Corrected Total Labels"]) * 100
+    forest_df_by_group["Corrected Total Claims"] = forest_df_by_group["Total Claims"] + 3 * corr_factor
+    forest_df_by_group["Percentage of Corrected Supported Claims"] = ((forest_df_by_group["SUPPORT"].fillna(0) + corr_factor) / forest_df_by_group["Corrected Total Claims"]) * 100
+    forest_df_by_group["Percentage of Corrected Contradicted Claims"] = ((forest_df_by_group["CONTRADICT"].fillna(0) + corr_factor) / forest_df_by_group["Corrected Total Claims"]) * 100
+    forest_df_by_group["Percentage of Corrected NEI Claims"] = ((forest_df_by_group["NEI"].fillna(0) + corr_factor) / forest_df_by_group["Corrected Total Claims"]) * 100
     forest_df_by_group["Percentage of Corrected Verifiability"] = forest_df_by_group["Percentage of Corrected Supported Claims"] - forest_df_by_group["Percentage of Corrected Contradicted Claims"]
     # convert variance to SE
-    forest_df_by_group["Standard Error"] = np.sqrt((forest_df_by_group["Percentage of Corrected Supported Claims"] / 100 + forest_df_by_group["Percentage of Corrected Contradicted Claims"] / 100 - (forest_df_by_group["Percentage of Corrected Supported Claims"] / 100 - forest_df_by_group["Percentage of Corrected Contradicted Claims"] / 100) ** 2) / forest_df_by_group["Corrected Total Labels"]) * 100
+    forest_df_by_group["Standard Error"] = np.sqrt((forest_df_by_group["Percentage of Corrected Supported Claims"] / 100 + forest_df_by_group["Percentage of Corrected Contradicted Claims"] / 100 - (forest_df_by_group["Percentage of Corrected Supported Claims"] / 100 - forest_df_by_group["Percentage of Corrected Contradicted Claims"] / 100) ** 2) / forest_df_by_group["Corrected Total Claims"]) * 100
     forest_df_by_group["Lower Limit"] = forest_df_by_group["Percentage of Corrected Verifiability"] - confidence_z * forest_df_by_group["Standard Error"]
     forest_df_by_group["Higher Limit"] = forest_df_by_group["Percentage of Corrected Verifiability"] + confidence_z * forest_df_by_group["Standard Error"]
-    forest_df_by_group["Claim Count"] = forest_df_by_group["Total Labels"].astype(int).astype(str) # float to int to str, to remove trailing zeros
+    forest_df_by_group["Claim Count"] = forest_df_by_group["Total Claims"].astype(int).astype(str) # float to int to str, to remove trailing zeros
     
     ## Checking whether the verifiability results for each company is statistically significant
     # calculate for each company what is their own z score for BC test
@@ -580,35 +789,41 @@ for group in ["Group_Nuclear_Publications", "Group_Reddit"]:
         print(f"{company} is significant after Bonferroni Correction, with p value of {corrected_p:.4f} (less than 0.05)")
 
     ## Spearman test to check relationship between number of labels and verifiability,
-    correlation = stats.spearmanr(forest_df_by_group["Total Labels"], forest_df_by_group["Percentage of Corrected Verifiability"])
+    correlation = stats.spearmanr(forest_df_by_group["Total Claims"], forest_df_by_group["Percentage of Corrected Verifiability"])
     corr_group = forest_df_by_group[forest_df_by_group["SUPPORT"].fillna(0) + forest_df_by_group["CONTRADICT"].fillna(0) > 0] # filter out companies with no support or contradict claims
-    corr_correlation = stats.spearmanr(corr_group["Total Labels"], corr_group["Percentage of Corrected Verifiability"])
+    corr_correlation = stats.spearmanr(corr_group["Total Claims"], corr_group["Percentage of Corrected Verifiability"])
 
-    print(f"(Including companies without Support or Contradict Labels) Spearman Correlation between Total Labels and Percentage of Corrected Verifiability: {correlation[0]:.4f}, p value is {correlation[1]:.4f}")
-    print(f"(Excluding companies without Support or Contradict Labels) Spearman Correlation between Total Labels and Percentage of Corrected Verifiability: {corr_correlation[0]:.4f}, p value is {corr_correlation[1]:.4f}")
+    print(f"(Including companies without Support or Contradict Labels) Spearman Correlation between Total Claims and Percentage of Corrected Verifiability: {correlation[0]:.4f}, p value is {correlation[1]:.4f}")
+    print(f"(Excluding companies without Support or Contradict Labels) Spearman Correlation between Total Claims and Percentage of Corrected Verifiability: {corr_correlation[0]:.4f}, p value is {corr_correlation[1]:.4f}")
 
+    ## forest plot based on publication group
     fp.forestplot(forest_df_by_group,  
                 estimate = "Percentage of Corrected Verifiability", 
                 ll = "Lower Limit", hl = "Higher Limit",
                 varlabel = "company",
                 groupvar = "Maturity", 
                 group_order = ["Mature", "Moderate Maturity", "Least Mature"],
+                grouplab_size = 17,
                 rightannote = ["Claim Count"],
                 right_annoteheaders = ["N Claims"],
                 xlabel = f"Percentage of Verifiability (95% Confidence Interval) for {group}",
-                figsize = (6, 10)
+                xlabel_size = 17,
+                xtick_size = 17,
+                fontsize = 17,
+                figsize = (6, 12),
+                ci_report = False
                 )
 
-    plt.savefig(f"comparison_companies_forest_plot_by_{group}_v2.png", bbox_inches = "tight")
+    plt.savefig(f"comparison_companies_forest_plot_by_{group}_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
 
     # adding up all claims for each maturity group at company level, to find the average CI and % for each maturity group
     forest_df_by_group["Average CI Interval by Maturity"] = forest_df_by_group["Higher Limit"] - forest_df_by_group["Lower Limit"]
     mean_CI_by_maturity = forest_df_by_group.groupby("Maturity")["Average CI Interval by Maturity"].mean()
-    total_labels_by_maturity = forest_df_by_group.groupby("Maturity")["Total Labels"].sum()
+    total_claims_by_maturity = forest_df_by_group.groupby("Maturity")["Total Claims"].sum()
     # reindex it into wanted sequence: Mature, Moderate Maturity, Least Mature, previously auto sort by groupby, affected the sequence of maturity and the p score
     labels_by_maturity = forest_df_by_group.groupby("Maturity")[["SUPPORT", "CONTRADICT", "NEI"]].sum().reindex(["Mature", "Moderate Maturity", "Least Mature"])
     # div by matching based on row names
-    percentage_by_maturity = (labels_by_maturity.div(total_labels_by_maturity, axis = 0)) * 100
+    percentage_by_maturity = (labels_by_maturity.div(total_claims_by_maturity, axis = 0)) * 100
     percentage_verifiability_maturity = percentage_by_maturity["SUPPORT"] - percentage_by_maturity["CONTRADICT"]
 
     # cochran armitage test for trend
@@ -627,31 +842,54 @@ for group in ["Group_Nuclear_Publications", "Group_Reddit"]:
         print(f"Average Percentage Verifiability is {percentage_verifiability_maturity.loc[maturity]:.2f}%")
         print("\n")
 
-    # For sorting underclaimed or overclaimed companies
+    ## For sorting underclaimed or overclaimed companies
     if group == "Group_Nuclear_Publications":
         filtered_group = forest_df_by_group[forest_df_by_group["SUPPORT"].fillna(0) + forest_df_by_group["CONTRADICT"].fillna(0) > 0] # filter out companies with no support and contra labels
-        median_labels = filtered_group["Total Labels"].median()
+        median_labels = filtered_group["Total Claims"].median()
         median_verifiability = filtered_group["Percentage of Corrected Verifiability"].median()
+        median_support = filtered_group["Percentage of Corrected Supported Claims"].median()
+        standard_dev = filtered_group["Percentage of Corrected Verifiability"].std()
+        standard_dev_supp = filtered_group["Percentage of Corrected Supported Claims"].std()
+        print(f"Median Labels: {median_labels}, Median Corrected Verifiability: {median_verifiability:.2f}%, Standard Deviation of Corrected Verifiability: {standard_dev:.2f}%")
+        print(f"Median Labels: {median_labels}, Median Corrected Supported Claims: {median_support:.2f}%, Standard Deviation of Corrected Supported Claims: {standard_dev_supp:.2f}%")
+
         # overclaim: above or equal to median label count with less than median corrected verifiability
         # underclaim: below median label count but more than or equal to median corrected verifiability
-        overclaimed_companies = filtered_group[(filtered_group["Total Labels"] >= median_labels) & (filtered_group["Percentage of Corrected Verifiability"] < median_verifiability)]
-        underclaimed_companies = filtered_group[(filtered_group["Total Labels"] < median_labels) & (filtered_group["Percentage of Corrected Verifiability"] >= median_verifiability)]
+        overclaimed_companies = filtered_group[(filtered_group["Total Claims"] >= median_labels) & (filtered_group["Percentage of Corrected Verifiability"] < median_verifiability)]
+        underclaimed_companies = filtered_group[(filtered_group["Total Claims"] < median_labels) & (filtered_group["Percentage of Corrected Verifiability"] >= median_verifiability)]
+
+        # robustness check, determine overclaim and underclaim using only percentage support
+        overclaimed_companies_supp = filtered_group[(filtered_group["Total Claims"] >= median_labels) & (filtered_group["Percentage of Corrected Supported Claims"] < median_support)]
+        underclaimed_companies_supp = filtered_group[(filtered_group["Total Claims"] < median_labels) & (filtered_group["Percentage of Corrected Supported Claims"] >= median_support)]
 
         print("Overclaimed Companies under Nuclear Publications Group include:")
         for _, entry in overclaimed_companies.iterrows():
             company = entry["company"]
             corrected_veri = entry["Percentage of Corrected Verifiability"]
-            label = entry["Total Labels"]
-            print(f"{company} is overclaimed with corrected verifiability of {corrected_veri:.2f}% and total labels of {label}")
+            label = entry["Total Claims"]
+            print(f"{company} is overclaimed with corrected verifiability of {corrected_veri:.2f}% and total Claims of {label}")
 
         print("Underclaimed Companies under Nuclear Publications Group include:")
         for _, entry in underclaimed_companies.iterrows():
             company = entry["company"]
             corrected_veri = entry["Percentage of Corrected Verifiability"]
-            label = entry["Total Labels"]
-            print(f"{company} is underclaimed with corrected verifiability of {corrected_veri:.2f}% and total labels of {label}")
+            label = entry["Total Claims"]
+            print(f"{company} is underclaimed with corrected verifiability of {corrected_veri:.2f}% and total Claims of {label}")
 
+        print("Using Percentage support - Overclaimed Companies under Nuclear Publications Group include:")
+        for _, entry in overclaimed_companies_supp.iterrows():
+            company = entry["company"]
+            corrected_supp = entry["Percentage of Corrected Supported Claims"]
+            label = entry["Total Claims"]
+            print(f"{company} is overclaimed with corrected supported percentage of {corrected_supp:.2f}% and total Claims of {label}")
         
+        print("Using Percentage support - Underclaimed Companies under Nuclear Publications Group include:")
+        for _, entry in underclaimed_companies_supp.iterrows():
+            company = entry["company"]
+            corrected_supp = entry["Percentage of Corrected Supported Claims"]
+            label = entry["Total Claims"]
+            print(f"{company} is underclaimed with corrected supported percentage of {corrected_supp:.2f}% and total Claims of {label}")
+
 # forest plot
 confidence_z = 1.96
 # correction factor required for companies with zero support and contradict rates will have SE of zero
@@ -660,16 +898,16 @@ corr_factor = 0.5
 
 forest_df = company_df[company_df["company"].isin(comparison_company.keys())]
 forest_df["Maturity"] = forest_df["company"].map(comparison_company)
-forest_df["Corrected Total Labels"] = forest_df["Total Labels"] + 3 * corr_factor
-forest_df["Percentage of Corrected Supported Claims"] = ((forest_df["SUPPORT"].fillna(0) + corr_factor ) / forest_df["Corrected Total Labels"]) * 100
-forest_df["Percentage of Corrected Contradicted Claims"] = ((forest_df["CONTRADICT"].fillna(0) + corr_factor ) / forest_df["Corrected Total Labels"]) * 100
-forest_df["Percentage of Corrected NEI Claims"] = ((forest_df["NEI"].fillna(0) + corr_factor ) / forest_df["Corrected Total Labels"]) * 100
+forest_df["Corrected Total Claims"] = forest_df["Total Claims"] + 3 * corr_factor
+forest_df["Percentage of Corrected Supported Claims"] = ((forest_df["SUPPORT"].fillna(0) + corr_factor ) / forest_df["Corrected Total Claims"]) * 100
+forest_df["Percentage of Corrected Contradicted Claims"] = ((forest_df["CONTRADICT"].fillna(0) + corr_factor ) / forest_df["Corrected Total Claims"]) * 100
+forest_df["Percentage of Corrected NEI Claims"] = ((forest_df["NEI"].fillna(0) + corr_factor ) / forest_df["Corrected Total Claims"]) * 100
 forest_df["Percentage of Corrected Verifiability"] = forest_df["Percentage of Corrected Supported Claims"] - forest_df["Percentage of Corrected Contradicted Claims"]
 # convert variance to SE
-forest_df["Standard Error"] = np.sqrt((forest_df["Percentage of Corrected Supported Claims"] / 100 + forest_df["Percentage of Corrected Contradicted Claims"] / 100 - (forest_df["Percentage of Corrected Supported Claims"] / 100 - forest_df["Percentage of Corrected Contradicted Claims"] / 100) ** 2) / forest_df["Corrected Total Labels"]) * 100
+forest_df["Standard Error"] = np.sqrt((forest_df["Percentage of Corrected Supported Claims"] / 100 + forest_df["Percentage of Corrected Contradicted Claims"] / 100 - (forest_df["Percentage of Corrected Supported Claims"] / 100 - forest_df["Percentage of Corrected Contradicted Claims"] / 100) ** 2) / forest_df["Corrected Total Claims"]) * 100
 forest_df["Lower Limit"] = forest_df["Percentage of Corrected Verifiability"] - confidence_z * forest_df["Standard Error"]
 forest_df["Higher Limit"] = forest_df["Percentage of Corrected Verifiability"] + confidence_z * forest_df["Standard Error"]
-forest_df["Claim Count"] = forest_df["Total Labels"].astype(int).astype(str)
+forest_df["Claim Count"] = forest_df["Total Claims"].astype(int).astype(str)
 
 
 fp.forestplot(forest_df,  
@@ -678,35 +916,41 @@ fp.forestplot(forest_df,
               varlabel = "company",
               groupvar = "Maturity", 
               group_order = ["Mature", "Moderate Maturity", "Least Mature"],
+              grouplab_size = 17,
               rightannote = ["Claim Count"],
               right_annoteheaders = ["N Claims"],
               xlabel = "Percentage of Verifiability (95% Confidence Interval)",
-              figsize = (6, 10)
+              xlabel_size = 17,
+              xtick_size = 17,
+              fontsize = 17,
+              figsize = (6, 12),
+              ci_report = False
               )
 
-plt.savefig("comparison_companies_forest_plot_v2.png", bbox_inches = "tight")
+plt.savefig(f"comparison_companies_forest_plot_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
 
 # comparison plot with and without reddit
 grp_comp_supp_axis_entries = []
 grp_comp_contra_axis_entries = []
 grp_comp_ver_axis_entries = []
 grp_comp_NEI_axis_entries = []
-grp_comp_scatter_plot = plt.figure(figsize = (25, 20))
-grp_comp_scatter_veri_axis = grp_comp_scatter_plot.add_subplot(2, 2, 1)
-grp_comp_scatter_veri_axis.set_xlabel("Percentage of Verifiability (Total)")
-grp_comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability (Without Reddit)")
-grp_comp_scatter_NEI_axis = grp_comp_scatter_plot.add_subplot(2, 2, 2)
-grp_comp_scatter_NEI_axis.set_xlabel("Percentage of NEI Claims (Total)")
-grp_comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims (Without Reddit)")
+grp_comp_scatter_plot = plt.figure(figsize = (12, 18))
+grp_comp_scatter_plot2 = plt.figure(figsize = (12, 18))
+grp_comp_scatter_veri_axis = grp_comp_scatter_plot.add_subplot(2, 1, 1)
+grp_comp_scatter_veri_axis.set_xlabel("Percentage of Verifiability (Total)", fontsize = 17)
+grp_comp_scatter_veri_axis.set_ylabel("Percentage of Verifiability (Without Reddit)", fontsize = 17)
+grp_comp_scatter_NEI_axis = grp_comp_scatter_plot.add_subplot(2, 1, 2)
+grp_comp_scatter_NEI_axis.set_xlabel("Percentage of NEI Claims (Total)", fontsize = 17)
+grp_comp_scatter_NEI_axis.set_ylabel("Percentage of NEI Claims (Without Reddit)", fontsize = 17)
 # NEI plot start at around 70, points are too clustered togther, redefine starting axis limits
-grp_comp_scatter_NEI_axis.set_ylim(70, 120)
-grp_comp_scatter_NEI_axis.set_xlim(70, 120)
-grp_comp_scatter_supp_axis = grp_comp_scatter_plot.add_subplot(2, 2, 3)
-grp_comp_scatter_supp_axis.set_xlabel("Percentage of Supported Claims (Total)")
-grp_comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims (Without Reddit)")
-grp_comp_scatter_contra_axis = grp_comp_scatter_plot.add_subplot(2, 2, 4)
-grp_comp_scatter_contra_axis.set_xlabel("Percentage of Contradicted Claims (Total)")
-grp_comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims (Without Reddit)")
+grp_comp_scatter_NEI_axis.set_ylim(50, 120)
+grp_comp_scatter_NEI_axis.set_xlim(50, 120)
+grp_comp_scatter_supp_axis = grp_comp_scatter_plot2.add_subplot(2, 1, 1)
+grp_comp_scatter_supp_axis.set_xlabel("Percentage of Supported Claims (Total)", fontsize = 17)
+grp_comp_scatter_supp_axis.set_ylabel("Percentage of Supported Claims (Without Reddit)", fontsize = 17)
+grp_comp_scatter_contra_axis = grp_comp_scatter_plot2.add_subplot(2, 1, 2)
+grp_comp_scatter_contra_axis.set_xlabel("Percentage of Contradicted Claims (Total)", fontsize = 17)
+grp_comp_scatter_contra_axis.set_ylabel("Percentage of Contradicted Claims (Without Reddit)", fontsize = 17)
 comparison_company_df_nuclear_pub = comparison_company_df_by_group[comparison_company_df_by_group["Publication Group"] == "Group_Nuclear_Publications"]
 # merging with left df for companies that exist between both df, renaming conflicting header name by adding suffix for left and right df
 comparison_company_df_merged = comparison_company_df_nuclear_pub.merge(comparison_company_df, on = "company", suffixes = (" (without Reddit)", " (Total)"))
@@ -716,134 +960,108 @@ for index, row in comparison_company_df_merged.iterrows():
     grp_comp_scatter_contra_axis.scatter(row["Percentage of Contradicted Claims (Total)"], row["Percentage of Contradicted Claims (without Reddit)"], c = color)
     grp_comp_scatter_veri_axis.scatter(row["Percentage of Verifiability (Total)"], row["Percentage of Verifiability (without Reddit)"], c = color)
     grp_comp_scatter_NEI_axis.scatter(row["Percentage of NEI Claims (Total)"], row["Percentage of NEI Claims (without Reddit)"], c = color)
-    grp_comp_ver_axis_entries.append(grp_comp_scatter_veri_axis.text(row["Percentage of Verifiability (Total)"], row["Percentage of Verifiability (without Reddit)"], row["company"], fontsize = 15))
-    grp_comp_NEI_axis_entries.append(grp_comp_scatter_NEI_axis.text(row["Percentage of NEI Claims (Total)"], row["Percentage of NEI Claims (without Reddit)"], row["company"], fontsize = 15))
-    grp_comp_supp_axis_entries.append(grp_comp_scatter_supp_axis.text(row["Percentage of Supported Claims (Total)"], row["Percentage of Supported Claims (without Reddit)"], row["company"], fontsize = 15))
-    grp_comp_contra_axis_entries.append(grp_comp_scatter_contra_axis.text(row["Percentage of Contradicted Claims (Total)"], row["Percentage of Contradicted Claims (without Reddit)"], row["company"], fontsize = 15))
+    grp_comp_ver_axis_entries.append(grp_comp_scatter_veri_axis.text(row["Percentage of Verifiability (Total)"], row["Percentage of Verifiability (without Reddit)"], company_label(row), fontsize = 12))
+    grp_comp_NEI_axis_entries.append(grp_comp_scatter_NEI_axis.text(row["Percentage of NEI Claims (Total)"], row["Percentage of NEI Claims (without Reddit)"], company_label(row), fontsize = 12))
+    grp_comp_supp_axis_entries.append(grp_comp_scatter_supp_axis.text(row["Percentage of Supported Claims (Total)"], row["Percentage of Supported Claims (without Reddit)"], company_label(row), fontsize = 12))
+    grp_comp_contra_axis_entries.append(grp_comp_scatter_contra_axis.text(row["Percentage of Contradicted Claims (Total)"], row["Percentage of Contradicted Claims (without Reddit)"], company_label(row), fontsize = 12))
 
 # add a 45 deg line cutting origin, if value is above line means that removing reddit increased the percentage
 for axis in [grp_comp_scatter_veri_axis, grp_comp_scatter_NEI_axis, grp_comp_scatter_supp_axis, grp_comp_scatter_contra_axis]:
     axis.axline((0, 0), slope = 1, color = "red", lw = 1)
-adjust_text(grp_comp_ver_axis_entries, ax = grp_comp_scatter_veri_axis, expand = (2, 3), force_text = (2, 3), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-adjust_text(grp_comp_NEI_axis_entries, ax = grp_comp_scatter_NEI_axis, expand = (2, 3), force_text = (2, 3), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-adjust_text(grp_comp_supp_axis_entries, ax = grp_comp_scatter_supp_axis, expand = (2, 3), force_text = (2, 3), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-adjust_text(grp_comp_contra_axis_entries, ax = grp_comp_scatter_contra_axis, expand = (2, 3), force_text = (2, 3), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
-plt.savefig("comparison_companies_scatter_with_without_reddit_v2.png")
 
-# Data analysis, comparing the importance of each attribute in the chunk weight
-query_claim_scores = pd.read_csv("query_claim_scores.csv")
+grp_comp_scatter_veri_axis.margins(0.1)
+grp_comp_scatter_supp_axis.margins(0.1)
+grp_comp_scatter_contra_axis.margins(0.1)
+grp_comp_scatter_NEI_axis.margins(0.15)
 
-# convert entire row which is a string, into a list of floats
-relevance_scores = query_claim_scores["relevance_scores"].apply(ast.literal_eval)
-stance_scores = query_claim_scores["stance_scores"].apply(ast.literal_eval)
-provenance_scores = query_claim_scores["provenance_scores"].apply(ast.literal_eval)
-recency_scores = query_claim_scores["recency_scores"].apply(ast.literal_eval)
-source_cred_scores = query_claim_scores["source_credibility_scores"].apply(ast.literal_eval)
-source_ids = query_claim_scores["relevant_source_ids"].apply(ast.literal_eval)
+adjust_text(grp_comp_ver_axis_entries, ax = grp_comp_scatter_veri_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2),force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+adjust_text(grp_comp_NEI_axis_entries, ax = grp_comp_scatter_NEI_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+adjust_text(grp_comp_supp_axis_entries, ax = grp_comp_scatter_supp_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+adjust_text(grp_comp_contra_axis_entries, ax = grp_comp_scatter_contra_axis, expand = (2, 3), max_move = (20, 20), force_explode = (1.5, 2), force_text = (1, 2), arrowprops = dict(arrowstyle = "-", color = "grey", lw = 0.5))
+grp_comp_scatter_plot.savefig(f"comparison_companies_scatter_with_without_reddit_veri_nei_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
+grp_comp_scatter_plot2.savefig(f"comparison_companies_scatter_with_without_reddit_supp_contra_v2_{CONFIG_NAME}.png", bbox_inches = "tight")
+plt.close(grp_comp_scatter_plot)
+plt.close(grp_comp_scatter_plot2)
 
-def calculate_score(entry_index, attribute_out = None, top_N = None):
+if CONFIG_NAME != "baseline": # the bottom code and comparison is only for baseline results
+    raise SystemExit
+
+def cal_percentage_change(new_query_claim_scores):
+
     """
-    Calculate query claim score, leave attribute out in calculation if specified, else calculated as per normal
-    Have the option to vary the top N chunks retrieved and study its impact on query claim score
+    Check the percentages of claim labels that change in final stance when compared to baseline results
     """
-    total_weight = 0
-    total_score = 0
-    if attribute_out == "recency":
-        for i in range(len(stance_scores[entry_index])):
-            provenance_score = provenance_scores[entry_index][i]
-            relevance_score = relevance_scores[entry_index][i]
-            source_cred_score = source_cred_scores[entry_index][i]
-            chunk_weight = provenance_score * relevance_score * source_cred_score
-            chunk_score = stance_scores[entry_index][i] * chunk_weight
-            total_weight += chunk_weight
-            total_score += chunk_score
 
-    elif attribute_out == "relevance":
-        for i in range(len(stance_scores[entry_index])):
-            provenance_score = provenance_scores[entry_index][i]
-            recency_score = recency_scores[entry_index][i]
-            source_cred_score = source_cred_scores[entry_index][i]
-            chunk_weight = provenance_score * recency_score * source_cred_score
-            chunk_score = stance_scores[entry_index][i] * chunk_weight
-            total_weight += chunk_weight
-            total_score += chunk_score
+    changed_labels_array = (results_df["Verdict Label"].values != new_query_claim_scores.values) # convert series into array for boolean comparison
+    percentage_changed = (changed_labels_array.mean()) * 100 # True values count as 1, mean only counts number of changed labels and divide by total
 
-    if attribute_out == "source credibility":
-        for i in range(len(stance_scores[entry_index])):
-            provenance_score = provenance_scores[entry_index][i]
-            recency_score = recency_scores[entry_index][i]
-            relevance_score = relevance_scores[entry_index][i]
-            chunk_weight = provenance_score * recency_score * relevance_score
-            chunk_score = stance_scores[entry_index][i] * chunk_weight
-            total_weight += chunk_weight
-            total_score += chunk_score
-        
-    if attribute_out == "provenance":
-        for i in range(len(stance_scores[entry_index])):
-            source_cred_score = source_cred_scores[entry_index][i]
-            recency_score = recency_scores[entry_index][i]
-            relevance_score = relevance_scores[entry_index][i]
-            chunk_weight = source_cred_score * recency_score * relevance_score
-            chunk_score = stance_scores[entry_index][i] * chunk_weight
-            total_weight += chunk_weight
-            total_score += chunk_score
-    
-    elif attribute_out == None and top_N is not None:
-        top_N_chunks = 0
-        existing_source_ids = set()
+    return percentage_changed
 
-        # this is to consider chunks of different sources for top N
-        for i in range(len(stance_scores[entry_index])):
-            if top_N_chunks >= top_N:
-                break # retrieved list of chunks is complete
-            source_id = source_ids[entry_index][i]
-            if source_id not in existing_source_ids: # for chunks of a diff source
-                existing_source_ids.add(source_id)
-                source_cred_score = source_cred_scores[entry_index][i]
-                recency_score = recency_scores[entry_index][i]
-                relevance_score = relevance_scores[entry_index][i]
-                provenance_score = provenance_scores[entry_index][i]
-                chunk_weight = source_cred_score * recency_score * relevance_score * provenance_score
-                chunk_score = stance_scores[entry_index][i] * chunk_weight
-                total_weight += chunk_weight
-                total_score += chunk_score
-                top_N_chunks += 1
-
-
-    return total_score / total_weight if total_weight != 0 else 0
-
-for attribute_out in ["relevance", "provenance", "recency", "source credibility"]:
+print("\n")
+for attribute_out in ["relevance", "provenance", "recency", "source credibility", "all"]:
     query_claim_score = []
     for entry_index in range(len(query_claim_scores)):
         query_claim_score.append(calculate_score(entry_index, attribute_out = attribute_out))
 
     query_claim_score_varying = pd.Series(query_claim_score).apply(classification, args = (support_threshold, contradict_threshold))
     label_counts = query_claim_score_varying.value_counts()
-    print(f"For excluding {attribute_out} from query claim score calculation, the query claim label distribution as follows:")
+    percentage_changed = cal_percentage_change(query_claim_score_varying)
+
+    print(f"For excluding {attribute_out} attribute from query claim score calculation, the query claim label distribution when compared to baseline as follows:")
     for label in ["SUPPORT", "CONTRADICT", "NEI"]:
-        percentage = (label_counts[label] / len(query_claim_score)) * 100
+        percentage = (label_counts.get(label, 0) / len(query_claim_score)) * 100
         print(f"{label} Percentage: {percentage:.3f}%")
+        print("\n")
+
+    print(f"Percentage of changed labels compared to claim labels from baseline v2: {percentage_changed:.3f}%")
+
 
 # for this run we try out different top N chunks retrieved and its impact on query claim scores
 # we exclude chunks from the same source id in the top N
 # we varied the IQR ranges using that from v2 and from its own data distribution
+print("\n")
 for top_N in [1, 3, 5, 7]:
     query_claim_score = []
     for entry_index in range(len(query_claim_scores)):
         query_claim_score.append(calculate_score(entry_index, attribute_out = None, top_N = top_N))
     # Classification with fixed threshold limits from v2 run vs using its own distribution IQR limits
     query_claim_score_varying = pd.Series(query_claim_score).apply(classification, args = (support_threshold, contradict_threshold)) # old fixed thresholds
+    percentage_changed = cal_percentage_change(query_claim_score_varying)
     # with its own distribution IQR limits
     own_support_threshold, own_contradict_threshold = threshold_calculation(pd.Series(query_claim_score))
     query_claim_score_varying_own = pd.Series(query_claim_score).apply(classification, args = (own_support_threshold, own_contradict_threshold))
     label_counts = query_claim_score_varying.value_counts() # old IQR thresholds from v2 run
     label_counts_own = query_claim_score_varying_own.value_counts() # with own IQR thresholds
-    print(f"For excluding chunks of the same source id in top {top_N}, the query claim label distribution as follows:")
+    print(f"For excluding chunks of the same source id in top {top_N}, the query claim label distribution when compared to baseline as follows:")
     print("Using fixed thresholds from the earlier v2 run:")
     for label in ["SUPPORT", "CONTRADICT", "NEI"]:
         percentage = (label_counts.get(label, 0) / len(query_claim_score)) * 100
         print(f"{label} Percentage: {percentage:.3f}%")
+        print("\n")
+
+    print(f"Percentage of claim labels changed in verdict compared to baseline using baseline thresholds: {percentage_changed:.3f}%")
     print("Using IQR thresholds from its own distribution:")
     for label in ["SUPPORT", "CONTRADICT", "NEI"]:
-        percentage = (label_counts_own.get(label, 0) / len(query_claim_score)) * 100
+        percentage = (label_counts_own.get(label, 0) / len(query_claim_score)) * 100 # use get(), incase claim type doesnt exist
         print(f"{label} Percentage: {percentage:.3f}%")
+        print("\n")
+
+
+print("\n")
+for new_floor in [0.1, 0.2, 0.3, 0.4, 0.5]:
+    query_claim_score = []
+    for entry_index in range(len(query_claim_scores)):
+        query_claim_score.append(calculate_score(entry_index, floor = new_floor))
+
+    query_claim_score_varying = pd.Series(query_claim_score).apply(classification, args = (support_threshold, contradict_threshold)) # using baseline v2 threshold
+    label_counts = query_claim_score_varying.value_counts()
+    percentage_changed = cal_percentage_change(query_claim_score_varying)
+
+    print(f"When changing floor values of all attributes to {new_floor}, the query claim label distribution when compared to baseline as follows:")
+    for label in ["SUPPORT", "CONTRADICT", "NEI"]:
+        percentage = (label_counts.get(label, 0) / len(query_claim_score)) * 100
+        print(f"{label} Percentage: {percentage:.3f}%")
+        print("\n")
+
+    print(f"Percentage of changed labels compared to claim labels from baseline v2: {percentage_changed:.3f}%")
+
