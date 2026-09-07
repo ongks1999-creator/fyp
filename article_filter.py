@@ -62,15 +62,15 @@ def filter_articles(post_data, comments_data):
 
 
 def main():
-    post_filepaths = ["/vol/bitbucket/ko25/reddit/r_energy_posts.jsonl", "/vol/bitbucket/ko25/reddit/r_nuclear_posts.jsonl", "/vol/bitbucket/ko25/reddit/r_NuclearPower_posts.jsonl"]
-    comments_filepaths = ["/vol/bitbucket/ko25/reddit/r_energy_comments.jsonl", "/vol/bitbucket/ko25/reddit/r_nuclear_comments.jsonl", "/vol/bitbucket/ko25/reddit/r_NuclearPower_comments.jsonl"]
+    post_filepaths = ["/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/reddit/2426/r_energy_posts.jsonl", "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/reddit/2426/r_nuclear_posts.jsonl", "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/reddit/2426/r_NuclearPower_posts.jsonl", "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/reddit/2426/r_SMRs_posts.jsonl"]
+    comments_filepaths = ["/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/reddit/2426/r_energy_comments.jsonl", "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/reddit/2426/r_nuclear_comments.jsonl", "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/reddit/2426/r_NuclearPower_comments.jsonl", "/Users/ongkaisheng/Desktop/ImperialCollege/FYP/fyp/reddit/2426/r_SMRs_comments.jsonl"]
     filtered_articles = []
     for post_filepath, comments_filepath in zip(post_filepaths, comments_filepaths):
         post_data = read_json_file(post_filepath)
         comments_data = read_json_file(comments_filepath)
         filtered_articles.extend(filter_articles(post_data, comments_data))
 
-    with open("filtered_reddit_articles.json", "w") as file:
+    with open("filtered_reddit_articles_2426.json", "w") as file:
         json.dump(filtered_articles, file, indent = 1)
 
 if __name__ == "__main__":
